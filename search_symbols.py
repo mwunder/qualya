@@ -27,7 +27,7 @@ def record_statuses(results):
     stocks = {}
     stock_count = 1
     for result in results:
-            # try: 
+        try: 
             for sym  in result['entities']['symbols']:
                 symbol = sym['text']
                 if symbol not in (symbols + map(rep_str('$'),symbols)): continue            
@@ -60,8 +60,8 @@ def record_statuses(results):
                     favorite_count = result['favorite_count'])
                 stock_status.save()
                 stock_count += 1
-        # except: 
-        #     continue
+        except: 
+            continue
     return stock_count
 
 twitter_api = oauth_login()
