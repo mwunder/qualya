@@ -45,13 +45,14 @@ def record_statuses(results):
 
                 if Stock_status.objects.filter(status_id=result['id'],stock=stock):
                     continue
-                print 'constructing status for ', stock
+                # print 'constructing status for ', stock
                 text = result['text']
                 for rep in replace_strings:
                     text = text.replace(rep,' ')
                 stock_status = Stock_status(stock=stock,
                     symbol=symbol, 
-                    status_id=result['status_id'],
+                    status_id=result['id'],
+                    analyst_id = result['user']['id'],
                     created_at = date_record_to_hour(result['created_at']),
                     tracked_at = id_to_datetime(datetime_id_hour(datetime.now())),
                     status_text=text,
@@ -63,11 +64,10 @@ def record_statuses(results):
         #     continue
     return stock_count
 
-
-
 twitter_api = oauth_login()
 
-results = twitter_search(twitter_api,
+if 'results' not in locals():
+    results = twitter_search(twitter_api,
                 q= ' OR '.join(symbols), max_results=1000)
 
 record_statuses(results)
