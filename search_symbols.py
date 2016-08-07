@@ -5,7 +5,7 @@ from twitter_refs import *
 from sentiment.models import *
 from twitter_data_interface import *
 
-symbols = ['$AAPL', '$GOOG','$AMZN', '$MSFT', '$FB','$NFLX' ,'$TSLA','$GS','$SPY','$QQQ']
+symbols = ['$AAPL', '$GOOG','$AMZN', '$MSFT', '$FB','$NFLX' ,'$TSLA','$GS','$TWTR','$XOM']
 replace_strings = ['\n','amp;','&gt;']
 def rep_str(p): return lambda s: s.replace(p,'')
 
@@ -28,6 +28,7 @@ def record_statuses(results):
     stock_count = 1
     for result in results:
         try: 
+            if len(result['entities']['symbols'])>3: continue
             for sym  in result['entities']['symbols']:
                 symbol = sym['text']
                 if symbol not in (symbols + map(rep_str('$'),symbols)): continue            
