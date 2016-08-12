@@ -6,6 +6,10 @@ from sentiment.models import *
 from twitter_data_interface import *
 
 symbols = ['$AAPL', '$GOOG','$AMZN', '$MSFT', '$FB','$NFLX' ,'$TSLA','$GS','$TWTR','$XOM']
+symbol_dict = {'$AAPL':'apple', '$GOOG':'google','$AMZN':'amazon', 
+'$MSFT':'microsoft', '$FB':'facebook','$NFLX':'netflix' ,'$TSLA':'tesla',
+'$GS':'goldman','$TWTR':'twitter','$XOM':'exxon'}
+symbol_index = dict((v,k) for k,v in symbol_dict.items())
 replace_strings = ['\n','amp;','&gt;']
 def rep_str(p): return lambda s: s.replace(p,'')
 
@@ -46,8 +50,12 @@ def record_statuses(results):
 
                 if Stock_status.objects.filter(status_id=result['id'],stock=stock):
                     continue
-                # print 'constructing status for ', stock
                 text = result['text']
+                if text[:2] == 'RT':
+                    if Stock_status.objects.filter(status_text=text,stock=stock,
+                        tracked_at__gte=datetime.now()-timedelta(minutes=360)):
+                        continue
+                # print 'constructing status for ', stock
                 for rep in replace_strings:
                     text = text.replace(rep,' ')
                 stock_status = Stock_status(stock=stock,
