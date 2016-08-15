@@ -33,7 +33,7 @@ def record_statuses(results):
     min_length = 30 
     for result in results:
         try: 
-            if len(result['entities']['symbols'])>3 or len(result['text'])<min_length: continue
+            if len(result['entities']['symbols'])>1 or len(result['text'])<min_length: continue
             for sym  in result['entities']['symbols']:
                 symbol = sym['text']
                 if symbol not in (symbols + map(rep_str('$'),symbols)): continue            
