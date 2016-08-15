@@ -5,10 +5,10 @@ from twitter_refs import *
 from sentiment.models import *
 from twitter_data_interface import *
 
-symbols = ['$AAPL', '$GOOG','$AMZN', '$MSFT', '$FB','$NFLX' ,'$TSLA','$GS','$TWTR','$XOM']
+symbols = ['$AAPL', '$GOOG','$AMZN', '$MSFT', '$FB','$NFLX' ,'$TSLA','$GS','$TWTR','$GDX']
 symbol_dict = {'$AAPL':'apple', '$GOOG':'google','$AMZN':'amazon', 
 '$MSFT':'microsoft', '$FB':'facebook','$NFLX':'netflix' ,'$TSLA':'tesla',
-'$GS':'goldman','$TWTR':'twitter','$XOM':'exxon'}
+'$GS':'goldman','$TWTR':'twitter','$GDX':'gdx'}
 symbol_index = dict((v,k) for k,v in symbol_dict.items())
 replace_strings = ['\n','amp;','&gt;']
 def rep_str(p): return lambda s: s.replace(p,'')
@@ -30,9 +30,10 @@ def construct_stock_sentiment(results):
 def record_statuses(results):
     stocks = {}
     stock_count = 1
+    min_length = 30 
     for result in results:
         try: 
-            if len(result['entities']['symbols'])>3: continue
+            if len(result['entities']['symbols'])>3 or len(result['text'])<min_length: continue
             for sym  in result['entities']['symbols']:
                 symbol = sym['text']
                 if symbol not in (symbols + map(rep_str('$'),symbols)): continue            
@@ -49,7 +50,7 @@ def record_statuses(results):
                         stocks[symbol] = stock
 
                 if Stock_status.objects.filter(status_id=result['id'],stock=stock):
-                    continue
+                    continue  
                 text = result['text']
                 if text[:2] == 'RT':
                     if Stock_status.objects.filter(status_text=text,stock=stock,
