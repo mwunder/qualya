@@ -5,13 +5,14 @@ from twitter_refs import *
 from sentiment.models import *
 from twitter_data_interface import *
 
-symbols = ['$AAPL', '$GOOG','$AMZN', '$MSFT', '$FB','$NFLX' ,'$TSLA','$GS','$TWTR','$GDX']
-symbol_dict = {'$AAPL':'apple', '$GOOG':'google','$AMZN':'amazon', 
+symbols = ['$AAPL', '$GOOG','$AMZN', '$MSFT', '$FB','$NFLX' ,'$TSLA','$GS','$TWTR','$GDX','$QQQ','$SPY']
+symbol_dict = {'$AAPL':'apple', '$GOOG':'google','$AMZN':'amazon', '$QQQ':'qqq','$SPY':'spy',
 '$MSFT':'microsoft', '$FB':'facebook','$NFLX':'netflix' ,'$TSLA':'tesla',
 '$GS':'goldman','$TWTR':'twitter','$GDX':'gdx'}
 symbol_index = dict((v,k) for k,v in symbol_dict.items())
 replace_strings = ['\n','amp;','&gt;']
 def rep_str(p): return lambda s: s.replace(p,'')
+def sign (t,x): 1*(x>t) - 1*(x<-t)
 
 def construct_stock_sentiment(results):
     output = pd.DataFrame()
@@ -26,6 +27,9 @@ def construct_stock_sentiment(results):
                 'symbol':[symbol['text']],
                 'status_text':[text]}))
     return output
+
+
+
 
 def record_statuses(results):
     stocks = {}
@@ -78,7 +82,8 @@ twitter_api = oauth_login()
 
 if 'results' not in locals():
     results = twitter_search(twitter_api,
-                q= ' OR '.join(symbols), max_results=1000)
+                q= ' OR '.join([s for i,s in enumerate(symbols) if (i%len(symbols))!=datetime.now().hour]), 
+                    max_results=1000)
 
 record_statuses(results)
 
