@@ -49,7 +49,7 @@ def record_statuses(results):
                         stock.save()
                         stocks[symbol] = stock
 
-                if Stock_status.objects.filter(status_id=result['id'],stock=stock) or 
+                if Stock_status.objects.filter(status_id=result['id'],stock=stock) or \
                     result['user']['id']==2669983818 :
                     continue  
                 text = result['text']
