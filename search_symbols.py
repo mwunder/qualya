@@ -55,7 +55,7 @@ def record_statuses(results):
                 text = result['text']
                 current_analyst_tweets= Stock_status.objects.filter(analyst_id=result['user']['id'],
                     created_at=date_record_to_hour(result['created_at']),
-                    stock=stock):
+                    stock=stock)
                 if current_analyst_tweets and any(t.status_text[:50] == text[:50] for t in  current_analyst_tweets):
                     continue  
                 
