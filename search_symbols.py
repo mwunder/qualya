@@ -8,7 +8,7 @@ from twitter_data_interface import *
 symbols = ['$AAPL', '$GOOG','$AMZN', '$MSFT', '$FB','$NFLX' ,'$TSLA','$GS','$TWTR','$GDX','$QQQ','$SPY']
 symbol_dict = {'$AAPL':'apple', '$GOOGL':'google','$AMZN':'amazon', '$QQQ':'qqq','$SPY':'spy',
 '$MSFT':'microsoft', '$FB':'facebook','$NFLX':'netflix' ,'$TSLA':'tesla',
-'$GS':'goldman','$TWTR':'twitter','$GDX':'gdx'}
+'$XOM':'exxon','$TWTR':'twitter','$GDX':'gdx'}
 symbol_index = dict((v,k) for k,v in symbol_dict.items())
 replace_strings = ['\n','amp;','&gt;']
 def rep_str(p): return lambda s: s.replace(p,'')
@@ -49,10 +49,11 @@ def record_statuses(results):
                         stock.save()
                         stocks[symbol] = stock
 
-                if Stock_status.objects.filter(status_id=result['id'],stock=stock) or \
-                    result['user']['id']==2669983818 :
-                    continue  
                 text = result['text']
+                if Stock_status.objects.filter(status_id=result['id'],stock=stock) or \
+                    result['user']['id']==2669983818 or \
+                    text.find('#stocks #stockmarket #investing')>0:
+                    continue  
                 current_analyst_tweets= Stock_status.objects.filter(analyst_id=result['user']['id'],
                     created_at=date_record_to_hour(result['created_at']),
                     stock=stock)
