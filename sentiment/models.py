@@ -47,7 +47,6 @@ class Stock_sentiment(models.Model):
     symbol_frequency = models.FloatField(default=0)
     def __unicode__(self):
         return u'%s at time %s' % (self.symbol, self.created_at)
-    
     class Meta:
         db_table = 'stock_sentiment'
         ordering = ['-symbol_count','symbol','-created_at']
