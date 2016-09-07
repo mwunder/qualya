@@ -1,0 +1,110 @@
+{% load static from staticfiles %}
+
+<head>
+  <meta charset="UTF-8">
+  <title>Stock sentiments </title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="{% static 'c3.min.css' %}"> -->
+  <!-- <link rel="stylesheet" href="{% static 'style.css' %}"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+  <div class="main">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <!-- <p>Frequencies of <b>{{query}}</b> over time.</p> -->
+        </div>
+      </div>
+      <div class="row dateselector">
+        <div class="col-sm-12 center">
+          <form class="row form-inline" name="rangeform"> 
+          <!--   <label>from&nbsp;<input type="date" required name="from" class="form-control"></label>
+            <label>to&nbsp;<input type="date" required class="form-control" name="to"></label>
+           -->
+        </form>
+        </div><!-- col-md-12 --> 
+      </div>
+      <div class="row chart">
+        <div class="col-md-12">
+        <figure>
+        <div id="chart"></div>
+        </figure>
+        </div><!-- col -->
+      </div><!-- row -->
+    </div><!-- container -->
+  </div><!-- main -->
+
+<!-- 
+<form action = "/trend_score/" method="get">
+    Term: <input type="text" name='q' value={{query}}>&nbsp;
+    Megatrend: <input type="checkbox" name="mega" value='1'> <br>
+    Lookback:  <select name = 'h'>
+            <option value="2880">2 days</option>
+            <option value="10080">1 week</option> 
+            <option value="40320">1 month</option> 
+    </select>&nbsp;
+    Window size:  <select name = 'w'>
+            <option value="60">1 hour</option>
+            <option value="1440">24 hours</option> 
+    </select>&nbsp;
+    <label>New date:&nbsp;<input type="date" required class="form-control" name="date"></label>    
+    <input type ="submit" value = "Submit">
+</form> -->
+<!-- 
+<form action = "/place_zite/" method="get">        
+  {% if not user or user == 'AnonymousUser'%}
+      User: <input type="text" name='u' value='test'>&nbsp;
+  {% else %}
+      User: <input type="text" name='u' value={{user}}>&nbsp;
+  {% endif %}
+  Term: <input type="text" name='q' value={{query}}>&nbsp;
+  Duration:  <select name = 'w'>
+      <option value="1">1 hour</option>
+      <option value="24">24 hours</option>
+  </select>&nbsp;
+
+  <button type="submit" name="d" value="1">Rise</button>
+  <button type="submit" name="d" value="0">Ignore</button>
+  <button type="submit" name="d" value="-1">Fall</button>
+</form>
+ -->
+
+<p>You searched for: <strong>{{ query }}</strong></p>
+{% if scores %}
+    <p>Found {{ scores|length }} stock{{ scores|pluralize }}.</p>
+    <ul>
+        {% for score in scores %}
+        <li>{{ score.created_at }}  stock: {{ score.symbol }}  sentiments: {{ score.scores }} </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No stocks matched your search criteria.</p>
+{% endif %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js'></script>
+<!-- <script src='{% static "c3.min.js" %}'></script> -->
+
+
+<script>
+// var times = {{times|safe}};
+// var freqs = {{freqs|safe}};
+// var EDist = {{laplace|safe}}; 
+// console.log(times);
+
+// var myData = [];
+// myData.push(times,freqs,EDist);
+
+</script>
+
+<!-- <script src='{% static "plotting.js" %}'></script> -->
+
+
+
+</body>
+

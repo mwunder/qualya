@@ -1,0 +1,56 @@
+<html>
+
+<head>
+        <title> Welcome to the Stock sentimentalysis. </title>
+</head>
+<body style ="width:100vw;">
+    <h1> Select a destination. </h1> <br>
+
+<!--     {% if user.is_authenticated%}
+    Logged in as {{user.username}}. <a href= '/logout_view/'> Log out.</a><br><br>
+    {% else %}
+      {% if form.errors %}
+        <p class="error">Sorry, that's not a valid username or password</p>
+      {% endif %}
+      <form action="/login_view/" method="post">
+        <label for="username">User name:</label>
+        <input type="text" name="username" value="" id="username">
+        <label for="password">Password:</label>
+        <input type="password" name="password" value="" id="password">
+
+        <input type="submit" value="login" />
+      </form>
+      <a href= '/register/'> Create an account.</a><br><br>
+    
+    {% endif %} -->
+
+    <a href= '/stock_sentiment/'> Latest stock sentiments.</a><br><br> 
+
+   <!--  {% if user.is_authenticated%}
+        <form action = "/zite_score/" method="get">
+            How are your zites performing?
+            {% if user %}
+                User: <input type="text" name='u' value={{user}}>&nbsp;
+            {% else %}
+                <select name = 'u'> <option value={{user}}> {{user.username}} </option></select>&nbsp;
+            {% endif %}
+            Look-back:  <select name = 'h'>
+                <option value="60">1 hour</option>
+                <option value="1440">1 day</option>
+                <option value="43200">1 month</option>
+            </select>&nbsp;
+            <input type ="submit" value = "Submit">
+          </form><br>
+        <form action = "/trend_score/" method="get"> 
+            Examine the historical trending score of a hashtag or term. 
+            Term: <input type="text" name='q' value={{q}}>&nbsp;
+            Look-back:  <select name = 'h'>
+                <option value="60">1 hour</option>
+                <option value="1440">1 day</option>
+                <option value="43200">1 month</option>
+            </select>&nbsp;
+            <input type ="submit" value = "Submit">
+        </form><br><br>   
+    {% endif %} -->
+</body>
+</html>
