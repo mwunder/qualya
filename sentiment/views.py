@@ -41,7 +41,6 @@ def get_date_from(request,default_date=''):
 def home(request):
     return render(request,'home.html')
 
-
 def stock_sentiment(request):
     interval = 1440 if 'w' not in request.GET or not is_num(request.GET['w']) else  int(request.GET['w'])
     end_date = get_date_from(request.GET,datetime.strptime('2016-08-08','%Y-%m-%d'))
@@ -52,9 +51,11 @@ def stock_sentiment(request):
         if not status.status_sentiment or status.status_sentiment< -1 or status.status_sentiment>1: continue 
         try:    symbol_scores[status.symbol].append(status.status_sentiment)
         except: symbol_scores[status.symbol] = [status.status_sentiment]
-    print end_date
-    print len(statuses)
-    return render(request,'stock_sentiment.html', { 'scores':set_scores(symbol_scores,end_date)} )
-
+    for stock in symbol_scores.keys():
+        symbol_scores[stock] = sorted(symbol_scores[stock])
+    # print symbol_scores.keys()
+    return render(request,'stock_sentiment.html', 
+        {   'scores':set_scores(symbol_scores,end_date),
+            'aapl_scores':symbol_scores['AAPL'] if 'AAPL' in symbol_scores else []} )
         # {'symbols': symbol_scores.keys(),
         #  'sentiments': symbol_scores.values()})
