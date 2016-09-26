@@ -103,7 +103,7 @@ function generateHist(data) {
   var chart = c3.generate({
     data: {
       // x: 'x',
-      columns: [data],
+      columns: data,
       type: 'bar',
     },
     bar: {
@@ -210,15 +210,35 @@ function computeEDist(values,normalized) {
   return EDists;
 }
 
-function hist(values) {
-  var bins = [0,0,0,0,0] 
-  for (var i = 0; i<values.length-1; i++) {
-    var v =  values[i]+1;
-    // console.log(Math.floor(2.5*v));
-    bins[Math.floor(2.5*v)] = bins[Math.floor(2.5*v)]+1;
-  }
-  for  (var i = 0; i<bins.length; i++) { 
-    bins[i] = bins[i]/(1.0*values.length)
+// function hist(values) {
+//   var bins = [0,0,0,0,0] 
+//   for (var i = 0; i<values.length-1; i++) {
+//     var v =  values[i]+1;  
+//     bins[Math.floor(2.5*v)] = bins[Math.floor(2.5*v)]+1;
+//   }
+//   for  (var i = 0; i<bins.length; i++) { 
+//     bins[i] = bins[i]/(1.0*values.length)
+//   }
+//   return bins;
+// }
+
+function hist(values,symbols) {
+  var bins = [] ;
+  for (var i = 0; i<values.length; i++) {
+    bins.push([0,0,0,0,0]);
+    if (values[i].length<5 || symbols[i]=='GS') {
+      bins[i].unshift(symbols[i]);
+      continue;
+    }
+    for (var j = 0; j<values[i].length-1; j++) {
+      var v =  values[i][j]+1;
+      bins[i][Math.floor(2.5*v)] = bins[i][Math.floor(2.5*v)]+1;
+    }
+    console.log(values[i].length);
+    for  (var j = 0; j<5; j++) { 
+      bins[i][j] = bins[i][j]/(1.0*values[i].length);
+    }
+    bins[i].unshift(symbols[i]);
   }
   return bins;
 }
@@ -273,11 +293,13 @@ document.forms.rangeform.addEventListener('change', function(e) {
 // console.log(myData);
 // generateChart(myData);
 
-var myData = hist(scores);
-myData.unshift('aapl');
+// console.log(myData);
+
+var myData = hist(scores,symbols);
+
 console.log(myData);
 generateHist(myData);
-
+ 
 //var md = {d:dates}
 
 }); // Page Loaded

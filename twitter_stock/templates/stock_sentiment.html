@@ -72,11 +72,12 @@
 </form>
  -->
 
+
 <p>You searched for: <strong>{{ query }}</strong></p>
-{% if scores %}
-    <p>Found {{ scores|length }} stock{{ scores|pluralize }}.</p>
+{% if symbol_scores %}
+    <p>Found {{ symbol_scores|length }} stock{{ symbol_scores|pluralize }}.</p>
     <ul>
-        {% for score in scores %}
+        {% for score in symbol_scores %}
         <li>{{ score.created_at }}  stock: {{ score.symbol }}  sentiments: {{ score.scores }} </li>
         {% endfor %}
     </ul>
@@ -99,7 +100,13 @@
 // var myData = [];
 // myData.push(times,freqs,EDist);
 
-var scores = {{aapl_scores|safe}}
+var scores  = {{scores|safe}};
+var symbols = {{symbols|safe}};
+console.log(symbols);
+// console.log(symbols);
+// var myData = [];
+// myData.push(scores,symbols);
+
 </script>
 
 <script src='{% static "plotting.js" %}'></script>

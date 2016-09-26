@@ -55,7 +55,8 @@ def stock_sentiment(request):
         symbol_scores[stock] = sorted(symbol_scores[stock])
     # print symbol_scores.keys()
     return render(request,'stock_sentiment.html', 
-        {   'scores':set_scores(symbol_scores,end_date),
-            'aapl_scores':symbol_scores['AAPL'] if 'AAPL' in symbol_scores else []} )
+        {   'symbol_scores':set_scores(symbol_scores,end_date),
+            'symbols': map(str,symbol_scores.keys()), 
+            'scores': symbol_scores.values()} )
         # {'symbols': symbol_scores.keys(),
         #  'sentiments': symbol_scores.values()})
