@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
+import os, sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -88,10 +88,11 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'twitter_stock', # os.path.join(BASE_DIR, 'db.sqlite3'),
         'USER': 'root',
-        'PASSWORD':'',
+        'PASSWORD': 'python' if sys.platform[:3]=='win' else '',
     },
+
     'legacy': {
-            #'ENGINE': 'django.db.backends.sqlite3',
+        #'ENGINE': 'django.db.backends.sqlite3',
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'twitter_stock.cnmn806ebyyt.us-west-2.rds.amazonaws.com', # os.path.join(BASE_DIR, 'db.sqlite3'),

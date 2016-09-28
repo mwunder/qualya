@@ -1,0 +1,21 @@
+#load-screen {
+  display: block;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: white;
+  z-index: 99;
+}
+
+#chart {
+  margin-top: 2vw;
+  margin-bottom: 2vw;
+}
+
+#universe {
+  margin-top: 0.5vw;
+  margin-bottom: 1.5vw;
+  text-align: center;
+}
