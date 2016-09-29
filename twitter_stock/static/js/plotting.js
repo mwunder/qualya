@@ -182,8 +182,6 @@ function hist(values,symbols) {
       var v = values[i][j]+1;
       bins[i][Math.floor(2.49*v)] = bins[i][Math.floor(2.49*v)]+1;
     }
-
-    console.log(values[i].length);
     
     for(var j = 0; j<5; j++) { 
       bins[i][j] = bins[i][j]/(values[i].length);
