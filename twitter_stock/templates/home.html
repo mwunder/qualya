@@ -3,16 +3,60 @@
 <html lang="en-US">
     <head>
         <meta charset="UTF-8" />
-        <link rel="stylesheet" href="{% static 'css/home.css' %}">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
 
-        <title>Stock Sentiment Home Page</title><!-- Symbient? -->
+        <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+
+        <!-- WHAT'S THE NAME OF THIS APP? -->
+        <title>Stock Sentiment Home Page</title>
     </head>
 
     <body>
-        <div id="icon-container"></div>
+        <!-- load -->
+        <div id="load-screen"></div>
 
-        <ul id="nav-menu">
-            <li><a class="nav-menu-links" href= '/stock_sentiment/'>- stock sentiments -</a></li>
-        </ul>
+        <div id="nav">APP ICON HERE</div>
+
+        <div id="main">
+            <p id="main-heading">Sentiment for the most-followed stocks.</p>
+
+            <form id="search-form" action="/stock_sentiment/" method="get">
+                <!-- dropdown -->
+                <div class="search-form-child">
+                    <label>
+                        <span>Symbol :</span>
+                        <select id="ticker-dropdown" tabindex="1"></select>
+                    </label>
+                </div>
+
+                <!-- button -->
+                <div class="search-form-child">
+                    <button id="search-form-button"name="submit" type="submit">Search</button>
+                </div>
+            </form><!-- /search-form -->
+        </div><!-- /main -->
+
+        <!-- populate symbol dropdown menu -->
+        <script>
+            (function (){
+
+                var symbols = {{ symbols|safe }};
+                var sorted = symbols.sort();
+
+                var select = document.getElementById("ticker-dropdown");
+
+                for(i=0; i<sorted.length; i++) { 
+
+                    var ticker = sorted[i];
+                    var opt = document.createElement("option");
+
+                    opt.textContent = ticker;
+                    select.appendChild(opt);
+                }
+            }());
+        </script>
+
+        <!-- remove #load-screen once site has fully loaded -->
+        <script>window.onload = function() { document.getElementById("load-screen").style.display = "none" }</script>
     </body>
 </html>

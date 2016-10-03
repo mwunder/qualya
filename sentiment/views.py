@@ -23,7 +23,11 @@ class Score:
 
 #VIEW FUNCTIONS
 def home(request):
-    return render(request,'home.html')
+    symbols = [s.symbol for s in Stock.objects.all()]
+
+    return render(request,'home.html', {
+               'symbols': map(str, symbols)
+           })
 
 
 def stock_sentiment(request):

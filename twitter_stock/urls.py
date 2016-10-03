@@ -24,4 +24,3 @@ urlpatterns = [
     url(r'^stock_sentiment/$', stock_sentiment),
     url(r'^admin/', include(admin.site.urls)),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-

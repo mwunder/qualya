@@ -1,34 +1,167 @@
+/* CSS resets =====================================================================================================================================*/
+
+* {
+  margin: 0;
+  padding: 0;
+
+  /* box-sizing */
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+/* main ===========================================================================================================================================*/
+
 body {
-  width: 100vw;
-  margin: 0;
-  padding: 0;
-  font-family: "Century Gothic", Helvetica, sans-serif;
+  color: #555555;
+  background-color: #ffffff;
+}
+
+#load-screen {
+  display: block;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  z-index: 99;
+}
+
+#nav {
+  padding: 15px;
+  font: 400 15px "Arial", sans-serif;
+  border-bottom: 2px solid black;
+}
+
+#main {
+  position: relative;
+  max-width: 700px; /* use max-width instead of width to allow browser resizing of #main */
+  margin: 100px auto; /* left and right margins set to auto to horizontally center #main within the body */
+  padding: 20px;
   text-align: center;
+  background-color: rgba(171,239,255, 0.25);
 }
 
-#icon-container {
-  display: inline-block;
-  width: 99vw;
-  margin-top: 2vw;
-  margin-bottom: 3vw;
-  text-align: left;
-  border-bottom: 1px solid #666666;
+#main-heading {
+  padding: 20px 0;
+  font: 100 35px Trebuchet MS, sans-serif;
+  border-bottom: 1px solid #555555;
 }
 
-#nav-menu {
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  list-style-type: none;
+#search-form {
+  padding: 20px;
+  background-color: lightgreen;
 }
 
-.nav-menu-links {
-  font-size: 2vw;
-  text-decoration: none;
-  color: black;
+.search-form-child {
+  padding-top: 50px;
 }
 
-.nav-menu-links:hover {
-  color: #ff5d5d;
+label, #ticker-dropdown, #search-form-button {
+  font: 100 24px Trebuchet MS, sans-serif;
+}
+
+#ticker-dropdown,
+#search-form-button {
+  border: none;
+  border-radius: 3px;
+}
+
+#ticker-dropdown {
+  margin-left: 15px;
+  padding-left: 8px;
+}
+
+#search-form-button {
+  width: 225px;
+  padding: 10px 0;
+}
+
+/* media queries ==================================================================================================================================*/
+
+@media only screen and (max-width: 675px) {
+  #main{
+    margin: 75px auto;
+    padding: 15px;
+  }
+
+  #main-heading {
+    padding: 10px 0;
+    font-size: 30px;
+  }
+
+  .search-form-child {
+    padding-top: 40px;
+  }
+
+  label, #ticker-dropdown, #search-form-button {
+    font-size: 21px;
+  }
+
+  #search-form-button {
+    width: 200px;
+    padding: 7px 0;
+  }
+}
+
+
+
+@media only screen and (max-width: 575px) {
+  #main{
+    margin: 50px auto;
+    padding: 10px;
+  }
+
+  #main-heading {
+    padding-bottom: 0 10px 0 0;
+    font-size: 25px;
+  }
+
+  .search-form-child {
+    padding-top: 30px;
+  }
+
+  label, #ticker-dropdown, #search-form-button {
+    font-size: 18px;
+  }
+
+  #search-form-button {
+    width: 175px;
+    padding: 5px 0;
+  }
+}
+
+
+@media only screen and (max-width: 475px) {
+  #main{
+    margin: 25px auto;
+  }
+
+  #main-heading {
+    font-size: 20px;
+  }
+
+   .search-form-child {
+    padding-top: 25px;
+  }
+
+  label, #ticker-dropdown, #search-form-button {
+    font-size: 15px;
+  }
+
+  #search-form-button {
+    width: 150px;
+  }
+}
+
+
+@media only screen and (max-width: 385px) {
+  #main{
+    margin: 20px auto;
+  }
+
+  #main-heading {
+    font-size: 17px;
+  }
 }
