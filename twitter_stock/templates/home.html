@@ -3,42 +3,48 @@
 <html lang="en-US">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <link rel="stylesheet" href="{% static 'css/home.css' %}" />
 
         <!-- WHAT'S THE NAME OF THIS APP? -->
-        <title>Stock Sentiment Home Page</title>
+        <title>APP NAME | Home Page</title>
     </head>
 
     <body>
-        <!-- load -->
+        <!-- load screen -->
         <div id="load-screen"></div>
 
-        <div id="nav">APP ICON HERE</div>
+        <!-- navigation -->
+        <!-- WHAT'S THE NAME OF THIS APP? -->
+        <div id="nav">APP NAME</div>
 
         <div id="main">
+            <!-- heading -->
             <p id="main-heading">Sentiment for the most-followed stocks.</p>
 
             <form id="search-form" action="/stock_sentiment/" method="get">
-                <!-- dropdown -->
+                <!-- symbol dropdown menu -->
                 <div class="search-form-child">
                     <label>
-                        <span>Symbol :</span>
+                        <span>Symbol:</span>
                         <select id="ticker-dropdown" tabindex="1"></select>
                     </label>
                 </div>
 
-                <!-- button -->
+                <!-- search button -->
                 <div class="search-form-child">
                     <button id="search-form-button"name="submit" type="submit">Search</button>
                 </div>
             </form><!-- /search-form -->
+
+            <!-- home page art -->
+            <img id="main-img" alt="Sentiment Tesseract" src="{% static 'img/tesseract.png' %}" />
         </div><!-- /main -->
 
         <!-- populate symbol dropdown menu -->
         <script>
-            (function (){
+            (function() {
 
                 var symbols = {{ symbols|safe }};
                 var sorted = symbols.sort();
@@ -56,7 +62,7 @@
             }());
         </script>
 
-        <!-- remove #load-screen once site has fully loaded -->
+        <!-- remove load screen once site has fully loaded -->
         <script>window.onload = function() { document.getElementById("load-screen").style.display = "none" }</script>
     </body>
 </html>

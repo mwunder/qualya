@@ -10,11 +10,10 @@
   -moz-box-sizing: border-box;
 }
 
-/* main ===========================================================================================================================================*/
+/* default ========================================================================================================================================*/
 
 body {
-  color: #555555;
-  background-color: #ffffff;
+  color: #444444;
 }
 
 #load-screen {
@@ -24,42 +23,35 @@ body {
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: white;
   z-index: 99;
 }
 
 #nav {
   padding: 15px;
   font: 400 15px "Arial", sans-serif;
-  border-bottom: 2px solid black;
+  color: white;
+  background-color: #444444;
+  border-bottom: 4px solid #b3d9ff;
 }
 
 #main {
   position: relative;
-  max-width: 700px; /* use max-width instead of width to allow browser resizing of #main */
-  margin: 100px auto; /* left and right margins set to auto to horizontally center #main within the body */
-  padding: 20px;
+  max-width: 700px;
+  min-width: 320px;
+  margin: 0 auto; /* left and right margins set to auto to horizontally center this element within the body */
+  padding: 25px;
   text-align: center;
-  background-color: rgba(171,239,255, 0.25);
-}
-
-#main-heading {
-  padding: 20px 0;
-  font: 100 35px Trebuchet MS, sans-serif;
-  border-bottom: 1px solid #555555;
 }
 
 #search-form {
-  padding: 20px;
-  background-color: lightgreen;
+  margin: 30px 0 10px 0;
+  padding: 5px;
+  background-color: #f4f7fb;
+  border: 1px solid #555555;
 }
 
-.search-form-child {
-  padding-top: 50px;
-}
-
-label, #ticker-dropdown, #search-form-button {
-  font: 100 24px Trebuchet MS, sans-serif;
+label {
+  color: #aaaaaa;
 }
 
 #ticker-dropdown,
@@ -69,99 +61,142 @@ label, #ticker-dropdown, #search-form-button {
 }
 
 #ticker-dropdown {
-  margin-left: 15px;
-  padding-left: 8px;
+  margin: 15px 0 0 10px;
+  padding: 0 0 0 5px;
+  background-color: #b3d9ff;
 }
 
 #search-form-button {
-  width: 225px;
+  margin: 10px 0;
   padding: 10px 0;
+  color: white;
+  background-color: #444444;
+}
+
+#main-img {
+  margin: 60px 0 0 0;
 }
 
 /* media queries ==================================================================================================================================*/
 
-@media only screen and (max-width: 675px) {
-  #main{
-    margin: 75px auto;
-    padding: 15px;
-  }
+@media only screen and (max-width: 374px) {
 
   #main-heading {
-    padding: 10px 0;
-    font-size: 30px;
+    font: 200 25px/1.5 Trebuchet MS, sans-serif;
   }
 
   .search-form-child {
-    padding-top: 40px;
+    padding: 10px;
   }
 
-  label, #ticker-dropdown, #search-form-button {
-    font-size: 21px;
+  label {
+    font: 200 19px Trebuchet MS, sans-serif;
+  }
+
+  #ticker-dropdown,
+  #search-form-button {
+    font: 100 17px Trebuchet MS, sans-serif;
   }
 
   #search-form-button {
-    width: 200px;
-    padding: 7px 0;
+    width: 160px;
+  }
+
+  #main-img {
+    max-width: 100px;
   }
 }
 
 
-
-@media only screen and (max-width: 575px) {
-  #main{
-    margin: 50px auto;
-    padding: 10px;
-  }
+@media only screen and (min-width: 375px) {
 
   #main-heading {
-    padding-bottom: 0 10px 0 0;
-    font-size: 25px;
+    font: 200 29px/1.5 Trebuchet MS, sans-serif;
   }
 
   .search-form-child {
-    padding-top: 30px;
+    padding: 15px;
   }
 
-  label, #ticker-dropdown, #search-form-button {
-    font-size: 18px;
+  label {
+    font: 200 20px Trebuchet MS, sans-serif;
+  }
+
+  #ticker-dropdown,
+  #search-form-button {
+    font: 100 18px Trebuchet MS, sans-serif;
   }
 
   #search-form-button {
     width: 175px;
-    padding: 5px 0;
+  }
+
+  #main-img {
+    max-width: 110px;
   }
 }
 
 
-@media only screen and (max-width: 475px) {
-  #main{
-    margin: 25px auto;
-  }
+@media only screen and (min-width: 475px) {
 
   #main-heading {
-    font-size: 20px;
+    font: 300 31px/1.5 Trebuchet MS, sans-serif;
   }
 
-   .search-form-child {
-    padding-top: 25px;
+  label {
+    font: 200 22px Trebuchet MS, sans-serif;
   }
 
-  label, #ticker-dropdown, #search-form-button {
-    font-size: 15px;
+  #ticker-dropdown,
+  #search-form-button {
+    font: 100 20px Trebuchet MS, sans-serif;
   }
 
   #search-form-button {
-    width: 150px;
+    width: 180px;
+  }
+
+  #main-img {
+    max-width: 130px;
+    margin-top: 65px;
   }
 }
 
 
-@media only screen and (max-width: 385px) {
-  #main{
-    margin: 20px auto;
-  }
+@media only screen and (min-width: 575px) {
 
   #main-heading {
-    font-size: 17px;
+    font: 400 33px/1.5 Trebuchet MS, sans-serif;
+  }
+
+  #main-img {
+    margin-top: 75px;
+  }
+}
+
+
+@media only screen and (min-width: 700px) {
+
+  #main-heading {
+    margin: 30px 0 20px 0;
+    font: 500 35px/1.75 Trebuchet MS, sans-serif;
+  }
+
+  label {
+    font: 300 23px Trebuchet MS, sans-serif;
+  }
+
+  #ticker-dropdown,
+  #search-form-button {
+    font: 200 21px Trebuchet MS, sans-serif;
+  }
+
+  #search-form-button {
+    width: 185px;
+  }
+
+  #main-img {
+    max-width: 150px;
+    margin-top: 100px;
   }
 }
