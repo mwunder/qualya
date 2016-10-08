@@ -9,7 +9,7 @@
     <!-- -->
     <link rel="stylesheet" href="{% static 'css/stock_sentiment.css' %}">
 
-    <title>Stock Sentiment Analysis</title>
+    <title>APP NAME | Stock Sentiment Analysis</title>
 </head>
 
 <body>
@@ -59,16 +59,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src='//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js'></script>
-    <!-- -->
-    <script>
-        var scores  = {{scores|safe}};
-        var symbols = {{symbols|safe}};
 
-        console.log(symbols);
+    <script>
+        //import globals for use in GUI
+        var symbols = {{ symbols|safe }} 
+        var scores  = {{ scores |safe }};
     </script>
-    <!-- -->
+
     <script src='{% static "js/plotting.js" %}'></script>
 
-    <!-- remove #load-screen once site has fully loaded -->
+    <!-- remove load screen once site has fully loaded -->
     <script>window.onload = function() { document.getElementById("load-screen").style.display = "none" }</script>
 </body>

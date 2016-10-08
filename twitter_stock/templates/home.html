@@ -7,7 +7,6 @@
 
         <link rel="stylesheet" href="{% static 'css/home.css' %}" />
 
-        <!-- WHAT'S THE NAME OF THIS APP? -->
         <title>APP NAME | Home Page</title>
     </head>
 
@@ -16,13 +15,13 @@
         <div id="load-screen"></div>
 
         <!-- navigation -->
-        <!-- WHAT'S THE NAME OF THIS APP? -->
         <div id="nav">APP NAME</div>
 
         <div id="main">
             <!-- heading -->
             <p id="main-heading">Sentiment for the most-followed stocks.</p>
 
+            <!-- search form -->
             <form id="search-form" action="/stock_sentiment/" method="get">
                 <!-- symbol dropdown menu -->
                 <div class="search-form-child">
@@ -36,28 +35,30 @@
                 <div class="search-form-child">
                     <button id="search-form-button"name="submit" type="submit">Search</button>
                 </div>
-            </form><!-- /search-form -->
+            </form>
 
             <!-- home page art -->
-            <img id="main-img" alt="Sentiment Tesseract" src="{% static 'img/tesseract.png' %}" />
+            <img id="main-img" alt="Sentiment Tesseract" src="{% static 'img/sentiment_tesseract.png' %}" />
         </div><!-- /main -->
 
-        <!-- populate symbol dropdown menu -->
         <script>
+            'use strict';
+
+            //populate dropdown menu
             (function() {
 
-                var symbols = {{ symbols|safe }};
-                var sorted = symbols.sort();
+                //local vars
+                var sorted_symbols = {{ symbols|safe }}.sort(),
+                    dropdown_menu  = document.getElementById("ticker-dropdown");
 
-                var select = document.getElementById("ticker-dropdown");
+                for(var i=0; i<sorted_symbols.length; i++) { 
 
-                for(i=0; i<sorted.length; i++) { 
+                    //loop vars
+                    var ticker = sorted_symbols[i],
+                        option = document.createElement("option");
 
-                    var ticker = sorted[i];
-                    var opt = document.createElement("option");
-
-                    opt.textContent = ticker;
-                    select.appendChild(opt);
+                    option.textContent = ticker;
+                    dropdown_menu.appendChild(option);
                 }
             }());
         </script>
