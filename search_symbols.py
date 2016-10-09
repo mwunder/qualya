@@ -5,7 +5,7 @@ from twitter_refs import *
 from sentiment.models import *
 from twitter_data_interface import *
 
-symbols = ['$AAPL', '$GOOG','$AMZN', '$MSFT', '$FB','$NFLX' ,'$TSLA','$GS','$TWTR','$GDX','$QQQ','$SPY']
+symbols = ['$AAPL', '$GOOG','$AMZN', '$MSFT', '$FB','$NFLX' ,'$TSLA','$GOOGL','$TWTR','$GDX','$QQQ','$SPY']
 symbol_dict = {'$AAPL':'apple', '$GOOGL':'google','$AMZN':'amazon', '$QQQ':'qqq','$SPY':'spy',
 '$MSFT':'microsoft', '$FB':'facebook','$NFLX':'netflix' ,'$TSLA':'tesla',
 '$XOM':'exxon','$TWTR':'twitter','$GDX':'gdx'}
@@ -52,7 +52,9 @@ def record_statuses(results):
                 text = result['text']
                 if Stock_status.objects.filter(status_id=result['id'],stock=stock) or \
                     result['user']['id']==2669983818 or \
-                    text.find('#stocks #stockmarket #investing')>0:
+                    text.find('#stocks #stockmarket #investing')>0 or \
+                    text.find('nlock Rate')>0 or text.find('nlocking')>0 or \
+                    text.find('Video Analysis')>0:
                     continue  
                 current_analyst_tweets= Stock_status.objects.filter(analyst_id=result['user']['id'],
                     created_at=date_record_to_hour(result['created_at']),
@@ -81,6 +83,7 @@ def record_statuses(results):
         except: 
             continue
     return stock_count
+ 
 
 twitter_api = oauth_login()
 
