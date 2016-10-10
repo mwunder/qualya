@@ -89,8 +89,9 @@ stocks['bigrams'] = stocks['indexed_words'].apply(bigramize).apply(set)
 stocks['bag_of_words']=stocks['indexed_words'].apply(set)
 stocks['bag_of_words']= stocks.apply(series_union('bag_of_words','bigrams'),axis=1)
 stocks['nonstopwords'] = stocks.indexed_words.apply(unindex(reverse_dict))
+stocks.index = np.arange(stocks.shape[0])
+stocks = stocks.sort_index()
 stocks['bigrams'] = stocks['bigrams'].apply(list)
-
 
 # dictionary = pickle.load('models/dictionary.p') 
 # word_index = pickle.load('models/word_index.p')
