@@ -11,12 +11,13 @@
     </head>
 
     <body>
-        <!-- load screen -->
+        <!-- LOAD SCREEN -->
         <div id="load-screen"></div>
 
-        <!-- navigation -->
+        <!-- NAVIGATION -->
         <div id="nav">APP NAME</div>
 
+        <!-- MAIN -->
         <div id="main">
             <!-- heading -->
             <p id="main-heading">Sentiment for the most-followed stocks.</p>
@@ -41,17 +42,20 @@
             <img id="main-img" alt="Sentiment Tesseract" src="{% static 'img/sentiment_tesseract.png' %}" />
         </div><!-- /main -->
 
+
+        <!-- SCRIPTS -->
         <script>
             'use strict';
 
-            //populate dropdown menu
             (function() {
 
                 //local vars
                 var sorted_symbols = {{ symbols|safe }}.sort(),
-                    dropdown_menu  = document.getElementById("ticker-dropdown");
+                    dropdown_menu  = document.getElementById("ticker-dropdown"),
+                    search_button  = document.getElementById("search-form-button");
 
-                for(var i=0; i<sorted_symbols.length; i++) { 
+                //populate dropdown menu
+                for(var i=0; i<sorted_symbols.length; i++) {
 
                     //loop vars
                     var ticker = sorted_symbols[i],
@@ -60,6 +64,9 @@
                     option.textContent = ticker;
                     dropdown_menu.appendChild(option);
                 }
+
+                //use session storage to persist dropdown menu value
+                search_button.onclick = function() { sessionStorage.SYMBOL = dropdown_menu.value }
             }());
         </script>
 
