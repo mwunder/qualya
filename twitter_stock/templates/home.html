@@ -11,18 +11,13 @@
     </head>
 
     <body>
-        <!-- LOAD SCREEN -->
         <div id="load-screen"></div>
 
-        <!-- NAVIGATION -->
         <div id="nav">APP NAME</div>
 
-        <!-- MAIN -->
         <div id="main">
-            <!-- heading -->
             <p id="main-heading">Sentiment for the most-followed stocks.</p>
 
-            <!-- search form -->
             <form id="search-form" action="/stock_sentiment/" method="get">
                 <!-- symbol dropdown menu -->
                 <div class="search-form-child">
@@ -38,23 +33,19 @@
                 </div>
             </form>
 
-            <!-- home page art -->
             <img id="main-img" alt="Sentiment Tesseract" src="{% static 'img/sentiment_tesseract.png' %}" />
         </div><!-- /main -->
 
-
-        <!-- SCRIPTS -->
         <script>
             'use strict';
 
+            //populate dropdown menu, store user-selected symbol
             (function() {
 
                 //local vars
                 var sorted_symbols = {{ symbols|safe }}.sort(),
-                    dropdown_menu  = document.getElementById("ticker-dropdown"),
-                    search_button  = document.getElementById("search-form-button");
+                    dropdown_menu  = document.getElementById("ticker-dropdown");
 
-                //populate dropdown menu
                 for(var i=0; i<sorted_symbols.length; i++) {
 
                     //loop vars
@@ -66,11 +57,10 @@
                 }
 
                 //use session storage to persist dropdown menu value
-                search_button.onclick = function() { sessionStorage.SYMBOL = dropdown_menu.value }
+                document.getElementById("search-form-button").onclick = function() { sessionStorage.SYMBOL = dropdown_menu.value }
             }());
         </script>
 
-        <!-- remove load screen once site has fully loaded -->
         <script>window.onload = function() { document.getElementById("load-screen").style.display = "none" }</script>
     </body>
 </html>
