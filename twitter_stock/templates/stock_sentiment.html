@@ -6,18 +6,16 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/c3.min.css' %}">
-    <!-- -->
+
     <link rel="stylesheet" href="{% static 'css/stock_sentiment.css' %}">
 
-    <title>APP NAME | Stock Sentiment Analysis</title>
+    <title>APP NAME | Stock Sentiment</title>
 </head>
 
 <body>
-    <!-- LOAD SCREEN -->
     <div id="load-screen"></div>
 
-    <!-- CHART -->
-    <div class="container">
+    <div id="chart-container">
         <div class="row">
             <div class="col-md-12"></div>
         </div>
@@ -35,39 +33,54 @@
                 </figure>
             </div>
         </div>
-    </div><!-- container -->
+    </div><!-- /chart-container -->
 
+    <div id="output-text-container">
+        <p id="universe">Universe on {{ current_date }}: {{ symbol_scores|length }} stock{{ symbol_scores|pluralize }}.</p>
+    </div>
 
-    <!-- OUTPUT TEXT -->
-    <div id="output-text">
-        {% if symbol_scores %}
-            <p id="universe"><b>Universe: {{ symbol_scores|length }} stock{{ symbol_scores|pluralize }}.</b></p>
-
-            <ul>
-                {% for score in symbol_scores %}
-                    <li>{{ score.created_at }}  stock: {{ score.symbol }}  sentiments: {{ score.scores }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No stocks matched your search criteria.</p>
-        {% endif %}
-    </div><!-- output text -->
-
-
-    <!-- SCRIPTS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src='//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js'></script>
 
     <script>
-        //import globals for use in GUI
-        var symbols = {{ symbols|safe }} 
-        var scores  = {{ scores |safe }};
+        'use strict';
+
+        //global vars
+        var SYMBOLS = {{ symbols|safe }}, 
+            SCORES  = {{ scores |safe }};
+
+        //store the data index of the selected symbol if it exists for a particular date; otherwise, notify the user
+        (function(callback) {
+
+            for(var i=0; i<SYMBOLS.length; i++) { if(sessionStorage.SYMBOL === SYMBOLS[i]) { sessionStorage.DATA_INDEX = i } }
+
+            callback = function() {
+
+                if(!sessionStorage.DATA_INDEX) {
+
+                    var notif = document.createElement('p');
+
+                    notif.style.textAlign = "center";
+                    document.getElementById("output-text-container").appendChild(notif);
+
+                    //basic error handling
+                    if(sessionStorage.SYMBOL) {
+
+                        notif.appendChild(document.createTextNode('Sorry, no results on this date for symbol '+sessionStorage.SYMBOL+'.'));
+                    } else {
+                        notif.appendChild(document.createTextNode('Please select a symbol before loading this page.'));
+                    }
+                }
+            }();
+        }());
+
+        //test
+        console.log(SYMBOLS, SCORES);
     </script>
 
     <script src='{% static "js/plotting.js" %}'></script>
 
-    <!-- remove load screen once site has fully loaded -->
     <script>window.onload = function() { document.getElementById("load-screen").style.display = "none" }</script>
 </body>
