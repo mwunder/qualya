@@ -1,6 +1,5 @@
 
-from sklearn import linear_model
-from sklearn import tree, ensemble
+from sklearn import linear_model, tree, ensemble
 from sklearn.linear_model import * 
 from sklearn.feature_selection import *
 

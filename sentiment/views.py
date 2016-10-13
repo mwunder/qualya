@@ -36,8 +36,13 @@ def stock_sentiment(request):
     interval     = 1440 if 'w' not in request.GET or not is_num(request.GET['w']) else int(request.GET['w'])
     current_date = datetime.strptime('2016-08-08','%Y-%m-%d') # Placeholder date, to be replaced or removed
     end_date     = get_date_from(request.GET,current_date) 
-    statuses     = Stock_status.objects.filter(created_at__gte=end_date, created_at__lte=end_date+timedelta(minutes=interval))
-    
+    symbol       = '' if 'symbol' not in request.GET else request.GET['symbol']
+    if not symbol:
+        statuses     = Stock_status.objects.filter(created_at__gte=end_date, created_at__lte=end_date+timedelta(minutes=interval))
+    else:
+        stock = Stock.objects.filter(symbol=symbol.lower())
+        statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date, created_at__lte=end_date+timedelta(minutes=interval))
+
     # Tally up all the sentiment scores from stock_status within valid range, organized by stock symbol
     symbol_scores = {}
     for status in statuses: 
@@ -56,6 +61,42 @@ def stock_sentiment(request):
               'scores':        symbol_scores.values()
            })
 
+def stock_sentiment_historical(request):
+    ''' The main function for displaying the sentiment scores for a single stock over time in the DB
+    '''
+    if 'symbol' not in request.GET:
+        return HttpResponse("<html><body>'No stock symbol found'</body></html>") 
+    symbol = request.GET['symbol']
+
+    # Fetch the statuses from stock_status given the date constraints
+    interval     = 1440*7 if 'w' not in request.GET or not is_num(request.GET['w']) else int(request.GET['w'])
+    current_date = datetime.strptime('2016-08-08','%Y-%m-%d') # Placeholder date, to be replaced or removed
+    
+    end_date     = get_date_from(request.GET,current_date) 
+    stock = Stock.objects.filter(symbol=symbol.lower())
+    statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date, created_at__lte=end_date+timedelta(minutes=interval))
+    
+    # Tally up all the sentiment scores from stock_status within valid range, organized by stock symbol
+    stock_sentiment_history = {}
+    for status in statuses: 
+        if not  status.status_sentiment or status.status_sentiment < -1 or status.status_sentiment > 1: continue 
+        try:    stock_sentiment_history[datetime.date(status.created_at)].append(status.status_sentiment)
+        except: stock_sentiment_history[datetime.date(status.created_at)] = [status.status_sentiment]
+
+    for day,history  in stock_sentiment_history.items():
+        stock_sentiment_history[day] = sorted(history)
+
+
+    dates,scores_by_date = zip(* sorted(stock_sentiment_history.items()))
+    dates = map(int,map(lambda d: d.day,dates ))
+    scores_by_date = list( scores_by_date )
+
+    # Pass the raw sentiment scores to the page for presenting in visual form 
+    return render(request,'stock_sentiment_historical.html', {
+              'current_stock':  symbol,
+              'dates': dates,
+              'scores_by_date':  scores_by_date
+           })
 
 #HELPERS
 def set_scores(sentiment,t):
