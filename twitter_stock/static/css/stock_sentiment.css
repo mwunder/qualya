@@ -36,9 +36,13 @@
   margin-bottom: 2vw;
 }
 
+#sentiment-bar {
+  display: block;
+  margin: 40px auto; /* left and right margins set to auto to horizontally center this element within its contianer */
+}
+
 #universe {
-  margin-top: 0.5vw;
-  margin-bottom: 1.5vw;
+  margin: 40px 0;
   text-align: center;
   font-weight: bold;
 }

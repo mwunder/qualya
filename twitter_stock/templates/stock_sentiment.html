@@ -37,12 +37,16 @@
         </div>
     </div><!-- /chart-container -->
 
+    <div id="sentiment-bar-container"></div>
+
     <div id="output-text-container"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src='//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js'></script>
+
+    <script src='{% static "js/stock_sentiment.js" %}'></script>
 
     <script>
         'use strict';
@@ -52,76 +56,26 @@
             SYMBOLS = {{ symbols|safe }},
             SCORES  = {{ scores |safe }};
 
-        //test
         console.log(DATE, SYMBOLS, SCORES);
 
-
-        //METHODS
-        var printUniverseInfo = function() {
-
-            //print info about the stock universe to the page
-            var universe = document.createElement("p");
-
-            universe.id = "universe";
-            universe.appendChild(document.createTextNode("Universe on "+DATE+": "+SYMBOLS.length+" stock(s)."));
-
-            document.getElementById("output-text-container").appendChild(universe);
-        }
-
-        var printDataInfo = function(callback) {
-
-            for(var i=0; i<SYMBOLS.length; i++) {
-
-                //if the selected symbol exists for the date, store array index of the data and print symbol + scores info to the page, then break
-                if(sessionStorage.SYMBOL === SYMBOLS[i]) {
-
-                    sessionStorage.DATA_INDEX = i;
-                    
-                    [sessionStorage.SYMBOL, SCORES[i]].forEach(function(info) {
-
-                        var element = document.createElement('p');
-
-                        element.appendChild(document.createTextNode(info));
-                        element.style.textAlign = "center";
-
-                        document.getElementById("output-text-container").appendChild(element);
-                    });
-
-                    break;
-                }
-            }
-
-            //error handling
-            callback = function() {
-
-                if(!sessionStorage.DATA_INDEX) {
-
-                    var notif = document.createElement('p');
-
-                    notif.id = "notification";
-                    notif.style.textAlign = "center";
-
-                    document.getElementById("output-text-container").appendChild(notif);
-
-                    if(sessionStorage.SYMBOL) {
-
-                        notif.appendChild(document.createTextNode('Sorry, no results on this date for symbol '+sessionStorage.SYMBOL+'.'));
-                    } else {
-                        notif.appendChild(document.createTextNode('Please select a symbol before loading this page.'));
-                    }
-                }
-            }();
-        }
-
+        //METHODS in 'js/stock_sentiment.js'
 
         //MAIN
-        (function(methods) {
+        (function(callback) {
 
-            for(var i=0; i<methods.length; i++) {
+            getDataIndex();
 
-                if(typeof methods[i] === 'function') { methods[i]() } else { methods[i] }
-            }
-        }([ printUniverseInfo, printDataInfo ])); // PLACE METHODS TO BE CALLED HERE
+            callback = function() {
+
+                if(sessionStorage.DATA_INDEX) {
+
+                    addSentimentBar();
+                    printSymbolData([sessionStorage.SYMBOL, SCORES[sessionStorage.DATA_INDEX]]);
+                }
+
+                printUniverseInfo();
+            }();
+        }());
     </script>
 
     <script src='{% static "js/plotting.js" %}'></script>

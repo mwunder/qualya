@@ -35,7 +35,6 @@ body {
 }
 
 #main {
-  position: relative;
   max-width: 700px;
   min-width: 320px;
   margin: 0 auto; /* left and right margins set to auto to horizontally center this element within the body */
