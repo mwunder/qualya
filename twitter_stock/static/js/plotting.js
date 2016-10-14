@@ -7,9 +7,10 @@ if(sessionStorage.DATA_INDEX) {
         //local var
         var data = SCORES[sessionStorage.DATA_INDEX];
 
-        (function addHistogram(callback) {
 
-            //create bins
+        //methods
+        var createBinsData = function() {
+
             var bins = [ [0,0,0,0,0] ];
 
             for(var i=0; i<data.length; i++) { bins[0][Math.floor(2.49*(data[i]+1))] = bins[0][Math.floor(2.49*(data[i]+1))]+1 }
@@ -18,69 +19,57 @@ if(sessionStorage.DATA_INDEX) {
 
             bins[0].unshift(sessionStorage.SYMBOL);
 
+            return bins;
+        }
 
-            callback = function() {
+        var addHistogram = function(binsData) {
 
-                //create chart
-                var chart = c3.generate({
+            //create chart
+            var chart = c3.generate({
+        
+                data: {  
+                        columns: binsData(),
+                        type:    'bar'
+                      },
+
+                bar:  {  width: { ratio: 0.9 }  }
+            });
+
+            //generate and load chart
+            $.ajax({
+
+                url:           'http://foundationphp.com/phpclinic/podata.php?&raw&callback=?',
+                jsonpCallback: 'jsonReturnData',
+                dataType:      'jsonp',
+                data:          { format: 'json' },
+
+                success: function(response) {
             
-                    data: {  
-                            columns: bins,
-                            type:    'bar'
-                          },
+                    (function generateChart(data) {
 
-                    bar:  {  width: { ratio: 0.9 }  }
-                });
+                        var chart = c3.generate({
 
-                //generate and load chart
-                $.ajax({
+                            data: {  x: 'x',
+                                     xFormat: '%Y-%m-%d %H:%M:%S',
+                                     columns: data
+                                  },
 
-                    url:           'http://foundationphp.com/phpclinic/podata.php?&raw&callback=?',
-                    jsonpCallback: 'jsonReturnData',
-                    dataType:      'jsonp',
-                    data:          { format: 'json' },
+                            axis: {
+                                     x: {  type: 'timeseries',
 
-                    success: function(response) {
-                
-                        (function generateChart(data) {
+                                           tick: {  format: '%m-%d %H:%M',
+                                                    culling: {  max: 5  }
+                                                 }
+                                        }
+                                  } 
+                        });
+                    }(processData(response)));
+                }
+            });
+        }
 
-                            var chart = c3.generate({
-
-                                data: {  x: 'x',
-                                         xFormat: '%Y-%m-%d %H:%M:%S',
-                                         columns: data
-                                      },
-
-                                axis: {
-                                         x: {  type: 'timeseries',
-
-                                               tick: {  format: '%m-%d %H:%M',
-                                                        culling: {  max: 5  }
-                                                     }
-                                            }
-                                      } 
-                            });
-                        }(processData(response)));
-                    }
-                });
-            }();
-        }());
-
-
-        //print symbol and scores info to the page, clear sessionStorage
-        [sessionStorage.SYMBOL, data].forEach(function(info, callback) {
-
-            var element = document.createElement('p');
-
-            element.appendChild(document.createTextNode(info));
-            element.style.textAlign = "center";
-            document.getElementById("output-text-container").appendChild(element);
-
-            callback = function() {
-
-                sessionStorage.removeItem('SYMBOL');
-                sessionStorage.removeItem('DATA_INDEX');
-            }();
-        });
+        
+        //main
+        addHistogram(createBinsData);
     });
 }

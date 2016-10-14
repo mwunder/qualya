@@ -9,7 +9,7 @@
 
     <link rel="stylesheet" href="{% static 'css/stock_sentiment.css' %}">
 
-    <title>APP NAME | Stock Sentiment</title>
+    <title>APP NAME | Stock Sentiment | Universe Data</title>
 </head>
 
 <body>
@@ -37,9 +37,7 @@
         </div>
     </div><!-- /chart-container -->
 
-    <div id="output-text-container">
-        <p id="universe">Universe on {{ current_date }}: {{ symbol_scores|length }} stock{{ symbol_scores|pluralize }}.</p>
-    </div>
+    <div id="output-text-container"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
@@ -49,25 +47,62 @@
     <script>
         'use strict';
 
-        //global vars
-        var SYMBOLS = {{ symbols|safe }}, 
+        //GLOBAL VARS
+        var DATE    = "{{ current_date }}",
+            SYMBOLS = {{ symbols|safe }},
             SCORES  = {{ scores |safe }};
 
-        //store the data index of the selected symbol if it exists for a particular date; otherwise, notify the user
-        (function(callback) {
+        //test
+        console.log(DATE, SYMBOLS, SCORES);
 
-            for(var i=0; i<SYMBOLS.length; i++) { if(sessionStorage.SYMBOL === SYMBOLS[i]) { sessionStorage.DATA_INDEX = i } }
 
+        //METHODS
+        var printUniverseInfo = function() {
+
+            //print info about the stock universe to the page
+            var universe = document.createElement("p");
+
+            universe.id = "universe";
+            universe.appendChild(document.createTextNode("Universe on "+DATE+": "+SYMBOLS.length+" stock(s)."));
+
+            document.getElementById("output-text-container").appendChild(universe);
+        }
+
+        var printDataInfo = function(callback) {
+
+            for(var i=0; i<SYMBOLS.length; i++) {
+
+                //if the selected symbol exists for the date, store array index of the data and print symbol + scores info to the page, then break
+                if(sessionStorage.SYMBOL === SYMBOLS[i]) {
+
+                    sessionStorage.DATA_INDEX = i;
+                    
+                    [sessionStorage.SYMBOL, SCORES[i]].forEach(function(info) {
+
+                        var element = document.createElement('p');
+
+                        element.appendChild(document.createTextNode(info));
+                        element.style.textAlign = "center";
+
+                        document.getElementById("output-text-container").appendChild(element);
+                    });
+
+                    break;
+                }
+            }
+
+            //error handling
             callback = function() {
 
                 if(!sessionStorage.DATA_INDEX) {
 
                     var notif = document.createElement('p');
 
+                    notif.id = "notification";
                     notif.style.textAlign = "center";
+
                     document.getElementById("output-text-container").appendChild(notif);
 
-                    //basic error handling
                     if(sessionStorage.SYMBOL) {
 
                         notif.appendChild(document.createTextNode('Sorry, no results on this date for symbol '+sessionStorage.SYMBOL+'.'));
@@ -76,13 +111,28 @@
                     }
                 }
             }();
-        }());
+        }
 
-        //test
-        console.log(SYMBOLS, SCORES);
+
+        //MAIN
+        (function(methods) {
+
+            for(var i=0; i<methods.length; i++) {
+
+                if(typeof methods[i] === 'function') { methods[i]() } else { methods[i] }
+            }
+        }([ printUniverseInfo, printDataInfo ])); // PLACE METHODS TO BE CALLED HERE
     </script>
 
     <script src='{% static "js/plotting.js" %}'></script>
 
-    <script>window.onload = function() { document.getElementById("load-screen").style.display = "none" }</script>
+    <script>
+        'use strict';
+
+        window.onload = function() {
+
+            sessionStorage.clear();
+            document.getElementById("load-screen").style.display = "none";
+        }
+    </script>
 </body>
