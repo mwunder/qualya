@@ -1,3 +1,17 @@
+/* CSS resets =====================================================================================================================================*/
+
+* {
+  margin: 0;
+  padding: 0;
+
+  /* box-sizing */
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+/* default ========================================================================================================================================*/
+
 #load-screen {
   display: block;
   position: fixed;
@@ -7,6 +21,14 @@
   bottom: 0;
   background-color: white;
   z-index: 99;
+}
+
+#nav {
+  padding: 15px;
+  font: 400 15px "Arial", sans-serif;
+  color: white;
+  background-color: #444444;
+  border-bottom: 4px solid #b3d9ff;
 }
 
 #chart {

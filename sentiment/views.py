@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from sentiment.models import *
 from twitter_refs import *
 import datetime, re
-from datetime import * 
+from datetime import *
 
 class Score:
     ''' An object to represent all the scores of a stock on a specific day or interval
@@ -15,11 +15,10 @@ class Score:
     def __init__(self,symbol,t,sc=0,f=0,z=0,c=0):
         self.symbol = symbol
         self.created_at = t
-        self.scored_at = t 
+        self.scored_at = t
         self.scores = sc
         self.freq = f
         self.z = z
-
 
 #VIEW FUNCTIONS
 def home(request):
@@ -37,11 +36,12 @@ def stock_sentiment(request):
     current_date = datetime.strptime('2016-08-08','%Y-%m-%d') # Placeholder date, to be replaced or removed
     end_date     = get_date_from(request.GET,current_date) 
     symbol       = '' if 'symbol' not in request.GET else request.GET['symbol']
+
     if not symbol:
-        statuses     = Stock_status.objects.filter(created_at__gte=end_date, created_at__lte=end_date+timedelta(minutes=interval))
+        statuses = Stock_status.objects.filter(created_at__gte=end_date, created_at__lte=end_date+timedelta(minutes=interval))
     else:
-        stock = Stock.objects.filter(symbol=symbol.lower())
-        statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date, created_at__lte=end_date+timedelta(minutes=interval))
+        stock    = Stock.objects.filter(symbol=symbol.lower())
+        statuses = Stock_status.objects.filter(stock=stock,created_at__gte=end_date, created_at__lte=end_date+timedelta(minutes=interval))
 
     # Tally up all the sentiment scores from stock_status within valid range, organized by stock symbol
     symbol_scores = {}
@@ -73,7 +73,7 @@ def stock_sentiment_historical(request):
     current_date = datetime.strptime('2016-08-08','%Y-%m-%d') # Placeholder date, to be replaced or removed
     
     end_date     = get_date_from(request.GET,current_date) 
-    stock = Stock.objects.filter(symbol=symbol.lower())
+    stock        = Stock.objects.filter(symbol=symbol.lower())
     statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date, created_at__lte=end_date+timedelta(minutes=interval))
     
     # Tally up all the sentiment scores from stock_status within valid range, organized by stock symbol
@@ -83,19 +83,19 @@ def stock_sentiment_historical(request):
         try:    stock_sentiment_history[datetime.date(status.created_at)].append(status.status_sentiment)
         except: stock_sentiment_history[datetime.date(status.created_at)] = [status.status_sentiment]
 
-    for day,history  in stock_sentiment_history.items():
+    for day,history in stock_sentiment_history.items():
         stock_sentiment_history[day] = sorted(history)
 
 
     dates,scores_by_date = zip(* sorted(stock_sentiment_history.items()))
-    dates = map(int,map(lambda d: d.day,dates ))
-    scores_by_date = list( scores_by_date )
+    dates = map(int,map(lambda d: d.day,dates))
+    scores_by_date = list(scores_by_date)
 
     # Pass the raw sentiment scores to the page for presenting in visual form 
     return render(request,'stock_sentiment_historical.html', {
               'current_stock':  symbol,
-              'dates': dates,
-              'scores_by_date':  scores_by_date
+              'dates':          dates,
+              'scores_by_date': scores_by_date
            })
 
 #HELPERS
