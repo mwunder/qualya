@@ -42,8 +42,8 @@ stocks = pd.DataFrame(columns=['id','status_id','created_at','status_text','stat
 if not update_all: 
     statuses = Stock_status.objects.filter(status_sentiment=0, created_at__gte=datetime.date(datetime.now()-timedelta(minutes=1440))) 
 else:
-    statuses = Stock_status.objects.filter(status_sentiment=0, created_at__gte=datetime.date(datetime.now()-timedelta(minutes=50*1440)),\
-                    created_at__lte=datetime.date(datetime.now()-timedelta(minutes=30*1440))) 
+    statuses = Stock_status.objects.filter(status_sentiment=0, created_at__gte=datetime.date(datetime.now()-timedelta(minutes=75*1440)),\
+                    created_at__lte=datetime.date(datetime.now()-timedelta(minutes=50*1440))) 
 
 for status in statuses:
     # if status.status_sentiment != 0: continue
