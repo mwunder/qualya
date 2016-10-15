@@ -3,6 +3,7 @@ from sentiment.models import *
 from collections import Counter, defaultdict
 import pickle 
 
+update_all = 1 
 use_negations = 1
 vocab_size = 50000
 
@@ -38,7 +39,12 @@ def bigramize(word_indexes,bigram_stop_len = 0 ) : return [(w,x) for w,x in zip(
 # stocks = pd.concat([stocks, stock_test]) 
 
 stocks = pd.DataFrame(columns=['id','status_id','created_at','status_text','status_sentiment','stock_id','symbol'])
-statuses = Stock_status.objects.filter(status_sentiment=0, created_at__gte=datetime.date(datetime.now()-timedelta(minutes=10*1440))) 
+if update_all: 
+    statuses = Stock_status.objects.filter(status_sentiment=0, created_at__gte=datetime.date(datetime.now()-timedelta(minutes=1440))) 
+else:
+    statuses = Stock_status.objects.filter(status_sentiment=0, created_at__gte=datetime.date(datetime.now()-timedelta(minutes=20*1440),
+                    created_at__lte=datetime.date(datetime.now()-timedelta(minutes=10*1440))) 
+
 for status in statuses:
     # if status.status_sentiment != 0: continue
     stocks = stocks.append(pd.DataFrame({ 'id':status.id, 'status_id':status.status_id,
