@@ -39,6 +39,27 @@ $(function() {
       return bin_series;
   }
 
+  function addDate(bins,dates){
+    for(var j=0; j<bins.length; j++) { 
+          bins[j].unshift(dates[j]);
+    }
+    return bins;
+  }
+
+  function normalize(values,startIndex){
+    var total = 0;
+    var new_values = []
+    for (var i = startIndex; i<values.length; i++) {
+      total+=Number(values[i]);
+    }
+    if (total==1) return values;
+    for (var i = 0; i<values.length; i++) {
+      new_values.push(Number(values[i])/total);
+      // new_values[i-1] = new_values[i-1].toString();
+    }
+    return new_values;
+  }
+
   function generateSentOverTime(binsObj) {
   
       var chart = c3.generate({
@@ -56,9 +77,14 @@ $(function() {
   }
 
   var sents = ['Strong neg','Weak neg','Neutral','Weak pos','Strong pos']
-  var bins = generateBins(scores_by_date,dates);
-  var bin_series = binsOverTime(bins,sents);
-  // console.log(bins);
+  // var bins = generateBins(scores_by_date,dates);
+  var bin_freqs = [];
+  for (var i = 0; i<bins.length; i++) {
+    bin_freqs.push(normalize(bins[i],0))
+  } 
+  
+  var bin_series = binsOverTime(bin_freqs,sents);
+  console.log(bin_freqs);
   // console.log(bin_series);
   generateSentOverTime(bin_series);
 });

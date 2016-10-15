@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from sentiment.models import *
 from twitter_refs import *
+from collections import defaultdict, Counter
 import datetime, re
 from datetime import *
 
@@ -64,6 +65,8 @@ def stock_sentiment(request):
 def stock_sentiment_historical(request):
     ''' The main function for displaying the sentiment scores for a single stock over time in the DB
     '''
+
+
     if 'symbol' not in request.GET:
         return HttpResponse("<html><body>'No stock symbol found'</body></html>") 
     symbol = request.GET['symbol']
@@ -78,23 +81,29 @@ def stock_sentiment_historical(request):
     
     # Tally up all the sentiment scores from stock_status within valid range, organized by stock symbol
     stock_sentiment_history = {}
+    bins = defaultdict(list)
     for status in statuses: 
         if not  status.status_sentiment or status.status_sentiment < -1 or status.status_sentiment > 1: continue 
         try:    stock_sentiment_history[datetime.date(status.created_at)].append(status.status_sentiment)
         except: stock_sentiment_history[datetime.date(status.created_at)] = [status.status_sentiment]
+        bins[datetime.date(status.created_at)].append(status.sentiment_bin)
 
     for day,history in stock_sentiment_history.items():
         stock_sentiment_history[day] = sorted(history)
-
+        bins[day] = map(lambda x:x-1,zip(* sorted(Counter(bins[day]+[-2,-1,0,1,2]).most_common(5)))[1])
 
     dates,scores_by_date = zip(* sorted(stock_sentiment_history.items()))
-    dates = map(int,map(lambda d: d.day,dates))
-    scores_by_date = list(scores_by_date)
+    dates,bins = zip(* sorted(bins.items()))
 
+    dates = map(int,map(lambda d: d.day,dates))
+    bins , scores_by_date = list(bins), list(scores_by_date)
+
+    print bins
     # Pass the raw sentiment scores to the page for presenting in visual form 
     return render(request,'stock_sentiment_historical.html', {
               'current_stock':  symbol,
               'dates':          dates,
+              'bins':           bins,
               'scores_by_date': scores_by_date
            })
 
