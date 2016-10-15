@@ -1,8 +1,7 @@
 
-from sklearn import linear_model
-from sklearn import tree, ensemble
-from sklearn.linear_model import * 
-from sklearn.feature_selection import *
+# from sklearn import linear_model, tree, ensemble
+# from sklearn.linear_model import * 
+# from sklearn.feature_selection import *
 
 import preprocess_statuses
 from preprocess_statuses import *
@@ -43,16 +42,23 @@ for i,row in stocks.iterrows():
         X[i,word_index[w]] =X[i,word_index[w]]/2.0
         X[i,word_index[x]] =X[i,word_index[x]]/2.0
 
-stocks['clm_predicted'] =  clm.predict(X)
+# stocks['clm_predicted'] =  clm.predict(X)
+stocks['clm_predicted'] = X.dot(clm[0])+clm[1]
 stocks['clm_predicted'] = (stocks['clm_predicted']>=0)*stocks['clm_predicted']
 stocks['clm_predicted'] = (stocks['clm_predicted']<=1)*stocks['clm_predicted'] + 1*(stocks['clm_predicted']>1)
-stocks['forest'] = forest.predict(X)
-stocks['lasso'] = lasso.predict(X)
+# stocks['forest'] = forest.predict(X)
+# stocks['lasso'] = lasso.predict(X)
+stocks['lasso'] = X.dot(lasso[0])+lasso[1]
 stocks['predicted_scores'] = stocks['indexed_words'].apply(predict_score)
 
-stocks['ensemble'] = (stocks['lasso']+stocks['forest']+stocks['clm_predicted']+stocks['predicted_scores'])/4.0
+stocks['ensemble'] = (stocks['lasso']+stocks['clm_predicted']+stocks['predicted_scores'])/3.0 #stocks['forest']+
 stocks['ensemble'] = (stocks['ensemble']>=0)*stocks['ensemble']
 stocks['ensemble'] = (stocks['ensemble']<=1)*stocks['ensemble'] + 1*(stocks['ensemble']>1)
+
+bin_edges = np.array([0.0,0.25,0.499,clm.intercept_+0.01,0.76,1.0])
+
+stocks['bin'] = 0 + -2*(stocks['ensemble']<=bin_edges[1]) - (stocks['ensemble']>bin_edges[1]&stocks['ensemble']<=bin_edges[2]) + \
+                        (stocks['ensemble']>=bin_edges[3]&stocks['ensemble']<bin_edges[4]) + 2*(stocks['ensemble']>=bin_edges[4]&stocks['ensemble']<bin_edges[5])
 
 updated_count = 0 
 updated_ids = []
@@ -61,6 +67,7 @@ for i,row in stocks.iterrows():
     if not stock_status or row['id'] in updated_ids: continue
     stock_status = stock_status[0]
     stock_status.status_sentiment = 2*max(0,min(1,row['ensemble']))-1
+    stock_status.sentiment_bin = row['bin']
     stock_status.save()
     updated_count += 1 
     updated_ids.append(row['id'])

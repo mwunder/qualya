@@ -9,6 +9,8 @@ class Stock(models.Model):
     stock_name = models.CharField(max_length=100)
     latest_price = models.FloatField(default=1)
     avg_volume = models.FloatField(default=1)
+    outstanding_shares = models.IntegerField(default=1)
+    approxmiate_mkt_cap = models.FloatField(default=1)
     class Meta:
         db_table = 'stock'
 
@@ -32,6 +34,7 @@ class Stock_status(models.Model):
     tracked_at = models.DateTimeField()
     status_text = models.CharField(max_length=200)
     status_sentiment = models.FloatField(default=0)
+    sentiment_bin = models.IntegerField(default=0)
     retweet_count = models.IntegerField(default=60) 
     favorite_count = models.IntegerField(default=60) 
     class Meta:

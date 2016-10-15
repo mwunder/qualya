@@ -1,7 +1,7 @@
 
-from sklearn import linear_model, tree, ensemble
-from sklearn.linear_model import * 
-from sklearn.feature_selection import *
+# from sklearn import linear_model, tree, ensemble
+# from sklearn.linear_model import * 
+# from sklearn.feature_selection import *
 
 import preprocess_statuses
 from preprocess_statuses import *
@@ -42,14 +42,16 @@ for i,row in stocks.iterrows():
         X[i,word_index[w]] =X[i,word_index[w]]/2.0
         X[i,word_index[x]] =X[i,word_index[x]]/2.0
 
-stocks['clm_predicted'] =  clm.predict(X)
+# stocks['clm_predicted'] =  clm.predict(X)
+stocks['clm_predicted'] = X.dot(clm[0])+clm[1]
 stocks['clm_predicted'] = (stocks['clm_predicted']>=0)*stocks['clm_predicted']
 stocks['clm_predicted'] = (stocks['clm_predicted']<=1)*stocks['clm_predicted'] + 1*(stocks['clm_predicted']>1)
-stocks['forest'] = forest.predict(X)
-stocks['lasso'] = lasso.predict(X)
+# stocks['forest'] = forest.predict(X)
+# stocks['lasso'] = lasso.predict(X)
+stocks['lasso'] = X.dot(lasso[0])+lasso[1]
 stocks['predicted_scores'] = stocks['indexed_words'].apply(predict_score)
 
-stocks['ensemble'] = (stocks['lasso']+stocks['forest']+stocks['clm_predicted']+stocks['predicted_scores'])/4.0
+stocks['ensemble'] = (stocks['lasso']+stocks['clm_predicted']+stocks['predicted_scores'])/3.0 3stocks['forest']+
 stocks['ensemble'] = (stocks['ensemble']>=0)*stocks['ensemble']
 stocks['ensemble'] = (stocks['ensemble']<=1)*stocks['ensemble'] + 1*(stocks['ensemble']>1)
 
