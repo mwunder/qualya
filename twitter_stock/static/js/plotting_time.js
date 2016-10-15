@@ -75,7 +75,7 @@ $(function() {
                   }
           },
           color: {
-            pattern: [ '#ff0000', '#ff7f0e', '#D3D3D3', '#98df8a', '#2ca02c']
+            pattern: [ '#ff0000', '#FF4500', '#D3D3D3', '#98df8a', '#2ca02c']
           }
       });
   }
