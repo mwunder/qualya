@@ -38,7 +38,7 @@ def bigramize(word_indexes,bigram_stop_len = 0 ) : return [(w,x) for w,x in zip(
 # stocks = pd.concat([stocks, stock_test]) 
 
 stocks = pd.DataFrame(columns=['id','status_id','created_at','status_text','status_sentiment','stock_id','symbol'])
-statuses = Stock_status.objects.filter(status_sentiment=0, created_at__gte=datetime.date(datetime.now()-timedelta(minutes=20*1440))) 
+statuses = Stock_status.objects.filter(status_sentiment=0, created_at__gte=datetime.date(datetime.now()-timedelta(minutes=10*1440))) 
 for status in statuses:
     # if status.status_sentiment != 0: continue
     stocks = stocks.append(pd.DataFrame({ 'id':status.id, 'status_id':status.status_id,
@@ -47,6 +47,7 @@ for status in statuses:
                 'stock_id':status.stock_id,
                 'status_sentiment':0},index=[stocks.shape[0]]))
 
+print stocks.shape 
 stocks['status_text'] = stocks['status_text'].str.replace('[A-Z][a-z]{4,12} [lL][lL][cC]\.?',' Institution_name ')
 stocks['status_text'] = stocks['status_text'].str.replace('[A-Z][a-z]{4,12} [iI][n][c]\.?',' Institution_name ')
 stocks['status_text'] = stocks['status_text'].str.replace('RBC [A-Z][a-z]{4,12}',' Institution_name ')
