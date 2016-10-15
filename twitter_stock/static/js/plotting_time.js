@@ -66,12 +66,16 @@ $(function() {
           data: {  
                    columns: binsObj,
                    type:    'bar',
-                   groups: [['Strong neg','Weak neg','Neutral','Weak pos','Strong pos']]
+                   groups: [['Strong neg','Weak neg','Neutral','Weak pos','Strong pos']],
+                   order: 'asc'
                 },
           grid: {
                   y: {
                       lines: [{value:0}]
                   }
+          },
+          color: {
+            pattern: [ '#ff0000', '#ff7f0e', '#D3D3D3', '#98df8a', '#2ca02c']
           }
       });
   }

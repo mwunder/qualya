@@ -77,7 +77,7 @@ def stock_sentiment_historical(request):
     
     end_date     = get_date_from(request.GET,current_date) 
     stock        = Stock.objects.filter(symbol=symbol.lower())
-    statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date, created_at__lte=end_date+timedelta(minutes=interval))
+    statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date-timedelta(minutes=interval), created_at__lte=end_date)
     
     # Tally up all the sentiment scores from stock_status within valid range, organized by stock symbol
     stock_sentiment_history = {}
