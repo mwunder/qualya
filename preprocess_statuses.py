@@ -38,7 +38,7 @@ def bigramize(word_indexes,bigram_stop_len = 0 ) : return [(w,x) for w,x in zip(
 # stocks = pd.concat([stocks, stock_test]) 
 
 stocks = pd.DataFrame(columns=['id','status_id','created_at','status_text','status_sentiment','stock_id','symbol'])
-statuses = Stock_status.objects.filter(created_at__gte=datetime.date(datetime.now()-timedelta(minutes=75*1440))) 
+statuses = Stock_status.objects.filter(created_at__gte=datetime.date(datetime.now()-timedelta(minutes=1440))) 
 for status in statuses:
     # if status.status_sentiment != 0: continue
     stocks = stocks.append(pd.DataFrame({ 'id':status.id, 'status_id':status.status_id,
