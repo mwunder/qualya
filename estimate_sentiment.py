@@ -55,15 +55,15 @@ stocks['ensemble'] = (stocks['lasso']+stocks['clm_predicted']+stocks['predicted_
 stocks['ensemble'] = (stocks['ensemble']>=0)*stocks['ensemble']
 stocks['ensemble'] = (stocks['ensemble']<=1)*stocks['ensemble'] + 1*(stocks['ensemble']>1)
 
-bin_edges = np.array([0.0,0.25,0.499,clm.intercept_+0.01,0.76,1.0])
+bin_edges = np.array([0.0,0.25,0.499,clm[1]+0.01,0.76,1.0])
 
-stocks['bin'] = 0 + -2*(stocks['ensemble']<=bin_edges[1]) - (stocks['ensemble']>bin_edges[1]&stocks['ensemble']<=bin_edges[2]) + \
-                        (stocks['ensemble']>=bin_edges[3]&stocks['ensemble']<bin_edges[4]) + 2*(stocks['ensemble']>=bin_edges[4]&stocks['ensemble']<bin_edges[5])
+stocks['bin'] = 0 + -2*(stocks['ensemble']<=bin_edges[1]) - ((stocks['ensemble']>bin_edges[1])&(stocks['ensemble']<=bin_edges[2])) + \
+                        ((stocks['ensemble']>=bin_edges[3])&(stocks['ensemble']<bin_edges[4])) + 2*((stocks['ensemble']>=bin_edges[4])&(stocks['ensemble']<bin_edges[5]))
 
 updated_count = 0 
 updated_ids = []
 for i,row in stocks.iterrows():
-    stock_status = Stock_status.objects.filter(id=row['id'])
+    stock_status = Stock_status.objects.filter(id=row['id'], status_id=row['status_id'])
     if not stock_status or row['id'] in updated_ids: continue
     stock_status = stock_status[0]
     stock_status.status_sentiment = 2*max(0,min(1,row['ensemble']))-1
