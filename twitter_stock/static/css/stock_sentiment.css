@@ -31,18 +31,18 @@
   border-bottom: 4px solid #b3d9ff;
 }
 
+#universe, #not-found-notif {
+  margin: 40px 0;
+  text-align: center;
+  font-weight: bold;
+}
+
 #chart {
   margin-top: 2vw;
   margin-bottom: 2vw;
 }
 
-#sentiment-bar {
+.sentiment-bar {
   display: block;
   margin: 40px auto; /* left and right margins set to auto to horizontally center this element within its contianer */
-}
-
-#universe {
-  margin: 40px 0;
-  text-align: center;
-  font-weight: bold;
 }

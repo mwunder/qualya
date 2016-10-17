@@ -1,34 +1,44 @@
 'use strict';
 
-if(sessionStorage.DATA_INDEX) {
+$(function() {
 
-    $(function() {
-
-        //local var
-        var data = SCORES[sessionStorage.DATA_INDEX];
-
+    if(SYMBOLS.length>0) {
 
         //methods
         var createBinsData = function() {
 
-            var bins = [ [0,0,0,0,0] ];
+            var bins = [];
+      
+            for(var i=0; i<SCORES.length; i++) {
 
-            for(var i=0; i<data.length; i++) { bins[0][Math.floor(2.49*(data[i]+1))] = bins[0][Math.floor(2.49*(data[i]+1))]+1 }
+                bins.push([0,0,0,0,0]);
 
-            for(var j=0; j<5; j++) { bins[0][j] = bins[0][j]/(data.length) }
+                for (var j = 0; j<SCORES[i].length; j++) {
 
-            bins[0].unshift(sessionStorage.SYMBOL);
+                    var s = SCORES[i][j]+1;
+
+                    bins[i][Math.floor(2.49*s)] = bins[i][Math.floor(2.49*s)]+1;
+                }
+        
+                for(var j=0; j<5; j++) { 
+
+                    bins[i][j] = bins[i][j]/(SCORES[i].length);
+                }
+
+                bins[i].unshift(SYMBOLS[i]);
+            }
 
             return bins;
         }
 
-        var addHistogram = function(binsData) {
+
+        var addHistogram = function(addBinsData) {
 
             //create chart
             var chart = c3.generate({
         
                 data: {  
-                        columns: binsData(),
+                        columns: addBinsData(),
                         type:    'bar'
                       },
 
@@ -68,8 +78,8 @@ if(sessionStorage.DATA_INDEX) {
             });
         }
 
-        
+
         //main
         addHistogram(createBinsData);
-    });
-}
+    }
+});

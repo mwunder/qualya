@@ -19,16 +19,14 @@
             <p id="main-heading">Sentiment for the most-followed stocks.</p>
 
             <form id="search-form" action="/stock_sentiment/" method="get">
-                <!-- symbol dropdown menu -->
-                <div class="search-form-child">
+                <div class="search-form-child"><!-- symbol dropdown menu -->
                     <label>
                         <span>Symbol:</span>
-                        <select id="ticker-dropdown" tabindex="1"></select>
+                        <select id="ticker-dropdown" name="symbol" value="" tabindex="1"></select>
                     </label>
                 </div>
 
-                <!-- search button -->
-                <div class="search-form-child">
+                <div class="search-form-child"><!-- search button -->
                     <button id="search-form-button"name="submit" type="submit">Search</button>
                 </div>
             </form>
@@ -39,12 +37,16 @@
         <script>
             'use strict';
 
-            //populate dropdown menu, store user-selected symbol
+            //populate dropdown menu
             (function() {
 
                 //local vars
-                var sorted_symbols = {{ symbols|safe }}.sort(),
-                    dropdown_menu  = document.getElementById("ticker-dropdown");
+                var dropdown_menu  = document.getElementById("ticker-dropdown"),
+                    all_option     = document.createElement("option"),
+                    sorted_symbols = {{ symbols|safe }}.sort();
+
+                all_option.textContent = "All";
+                dropdown_menu.appendChild(all_option);
 
                 for(var i=0; i<sorted_symbols.length; i++) {
 
@@ -55,9 +57,6 @@
                     option.textContent = ticker;
                     dropdown_menu.appendChild(option);
                 }
-
-                //use session storage to persist dropdown menu value
-                document.getElementById("search-form-button").onclick = function() { sessionStorage.SYMBOL = dropdown_menu.value }
             }());
         </script>
 

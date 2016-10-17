@@ -10,6 +10,7 @@ from collections import defaultdict, Counter
 import datetime, re
 from datetime import *
 
+
 class Score:
     ''' An object to represent all the scores of a stock on a specific day or interval
     '''
@@ -21,12 +22,14 @@ class Score:
         self.freq = f
         self.z = z
 
+
 #VIEW FUNCTIONS
 def home(request):
     symbols = [s.symbol for s in Stock.objects.all()]
 
     # Pass the symbols to page for use in the dropdown menu
     return render(request,'home.html', { 'symbols': map(str, symbols) })
+
 
 def stock_sentiment(request):
     ''' The main function for displaying the sentiment scores for one or more stocks in the DB
@@ -36,9 +39,9 @@ def stock_sentiment(request):
     interval     = 1440 if 'w' not in request.GET or not is_num(request.GET['w']) else int(request.GET['w'])
     current_date = datetime.strptime('2016-08-08','%Y-%m-%d') # Placeholder date, to be replaced or removed
     end_date     = get_date_from(request.GET,current_date) 
-    symbol       = '' if 'symbol' not in request.GET else request.GET['symbol']
+    symbol       = "All" if 'symbol' not in request.GET else request.GET['symbol']
 
-    if not symbol:
+    if symbol=="All":
         statuses = Stock_status.objects.filter(created_at__gte=end_date, created_at__lte=end_date+timedelta(minutes=interval))
     else:
         stock    = Stock.objects.filter(symbol=symbol.lower())
@@ -56,11 +59,13 @@ def stock_sentiment(request):
 
     # Pass the raw sentiment scores to the page for presenting in visual form 
     return render(request,'stock_sentiment.html', {
-              'current_date':  current_date,
+              'date':          end_date,
               'symbol_scores': set_scores(symbol_scores,end_date),
+              'symbol':        symbol,
               'symbols':       map(str,symbol_scores.keys()), 
               'scores':        symbol_scores.values()
            })
+
 
 def stock_sentiment_historical(request):
     ''' The main function for displaying the sentiment scores for a single stock over time in the DB
@@ -107,9 +112,11 @@ def stock_sentiment_historical(request):
               'scores_by_date': scores_by_date
            })
 
+
 #HELPERS
 def set_scores(sentiment,t):
     return [Score(sym,t,scores) for sym,scores in sentiment.items() ]
+
 
 def get_date_from(request,default_date=''):
     ''' Given a request for some date, parse it and return a valid date object.
@@ -130,3 +137,4 @@ def get_date_from(request,default_date=''):
         return datetime.now() if not default_date else default_date
 
     return datetime.now() if not default_date else default_date
+

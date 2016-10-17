@@ -1,38 +1,20 @@
 'use strict';
 
-//METHODS
-var getDataIndex = function(callback) {
+var symbolFound = function() {
 
-    for(var i=0; i<SYMBOLS.length; i++) {
+    if(SYMBOLS.length!==0) { return true } else { return false }
+}
 
-        //if the selected symbol exists for the date, store array index of the data, then break
-        if(sessionStorage.SYMBOL === SYMBOLS[i]) {
 
-            sessionStorage.DATA_INDEX = i;
-            break;
-        }
-    }
+var notifyNotFound = function() {
 
-    //error handling
-    callback = function() {
+    //notify the user that no data exists for the selected symbol on the chosen date
+    var not_found_notif = document.createElement('p');
 
-        if(!sessionStorage.DATA_INDEX) {
+    not_found_notif.id = "not-found-notif";
+    not_found_notif.appendChild(document.createTextNode("Sorry, no results on "+DATE+" for symbol "+SYMBOL+" ."));
 
-            var notif = document.createElement('p');
-
-            notif.id = "notification";
-            notif.style.textAlign = "center";
-
-            document.getElementById("output-text-container").appendChild(notif);
-
-            if(sessionStorage.SYMBOL) {
-
-                notif.appendChild(document.createTextNode('Sorry, no results on this date for symbol '+sessionStorage.SYMBOL+'.'));
-            } else {
-                notif.appendChild(document.createTextNode('Please select a symbol before loading this page.'));
-            }
-        }
-    }();
+    document.getElementById("info-container").appendChild(not_found_notif);
 }
 
 
@@ -44,35 +26,27 @@ var printUniverseInfo = function() {
     universe.id = "universe";
     universe.appendChild(document.createTextNode("Universe on "+DATE+": "+SYMBOLS.length+" stock(s)."));
 
-    document.getElementById("output-text-container").appendChild(universe);
+    document.getElementById("info-container").appendChild(universe);
 }
 
 
-var printSymbolData = function(array) {
+var addSentimentBars = function() {
 
-    for(var i=0; i<array.length; i++) {
+    //add sentiment bars to the page
+    for(var i=0; i<SYMBOLS.length; i++) {
 
-        var element = document.createElement('p');
+        var s_bar   = document.createElement("canvas"),
+            context = s_bar.getContext('2d'); 
 
-        element.appendChild(document.createTextNode(array[i]));
-        element.style.textAlign = "center";
+        s_bar.className = "sentiment-bar";
+        s_bar.width     = 500;
+        s_bar.height    = 50;
 
-        document.getElementById("output-text-container").appendChild(element);
+        context.fillStyle = "red";
+        context.fillRect(0, 0, s_bar.width, s_bar.height);
+
+        document.getElementById("sentiment-bar-container").appendChild(s_bar);
     }
 }
 
 
-var addSentimentBar = function() {
-
-    var s_bar   = document.createElement("canvas"),
-        context = s_bar.getContext('2d'); 
-
-    s_bar.id     = "sentiment-bar";
-    s_bar.width  = 500;
-    s_bar.height = 50;
-
-    context.fillStyle = "red";
-    context.fillRect(0, 0, s_bar.width, s_bar.height);
-
-    document.getElementById("sentiment-bar-container").appendChild(s_bar);
-}
