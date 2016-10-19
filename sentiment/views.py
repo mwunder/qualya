@@ -101,6 +101,7 @@ def stock_sentiment_historical(request):
         if day not in closes: 
             for d,close in sorted(closes.items()):
                 if d<day: closes[day] = close
+        if day not in closes: closes[day] = np.mean(closes.values())
 
     dates,scores_by_date = zip(* sorted(stock_sentiment_history.items()))
     dates,bins = zip(* sorted(bins.items()))
