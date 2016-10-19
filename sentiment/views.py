@@ -87,6 +87,8 @@ def stock_sentiment_historical(request):
     # Tally up all the sentiment scores from stock_status within valid range, organized by stock symbol
     stock_sentiment_history = {}
     bins = defaultdict(list)
+    closes = dict([(datetime.date(p.trading_day),p.close_price) for p in prices])  
+
     for status in statuses: 
         if not  status.status_sentiment or status.status_sentiment < -1 or status.status_sentiment > 1: continue 
         try:    stock_sentiment_history[datetime.date(status.created_at)].append(status.status_sentiment)
@@ -96,9 +98,14 @@ def stock_sentiment_historical(request):
     for day,history in stock_sentiment_history.items():
         stock_sentiment_history[day] = sorted(history)
         bins[day] = map(lambda x:x-1,zip(* sorted(Counter(bins[day]+[-2,-1,0,1,2]).most_common(5)))[1])
+        if day not in closes: 
+            for d,close in sorted(closes.items()):
+                if d<day: closes[day] = close
 
     dates,scores_by_date = zip(* sorted(stock_sentiment_history.items()))
     dates,bins = zip(* sorted(bins.items()))
+    if closes: _,closes = zip(* sorted(closes.items())) 
+    else:        closes = [0]*len(dates)
 
     dates = map(int,map(lambda d: d.day,dates))
     bins , scores_by_date = list(bins), list(scores_by_date)
@@ -110,7 +117,7 @@ def stock_sentiment_historical(request):
               'dates':          dates,
               'bins':           bins,
               'scores_by_date': scores_by_date,
-              'closes':         [p.close_price for p in prices]
+              'closes':         closes
            })
 
 
