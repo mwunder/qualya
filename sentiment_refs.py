@@ -44,14 +44,14 @@ months = [ 'oct', 'sep','aug','nov','dec','jan','feb','march','april','jun','jun
             'august','september','october','november','december','january','february']
 
 stopwords = stopwords | set(days_of_week) | set(months)
-stopwords = stopwords - set(['not','never','out',"n't",'no','noo'])
+stopwords = stopwords - set(['not','never','out',"n't",'no','noo','down'])
 stopwords = stopwords | (set(map(st.stem,list(stopwords))) | stopwords)
 
 def unindex(dictionary): return lambda words : [dictionary[w] for w in words if w in dictionary]
 def keep_members(dictionary): return lambda words : set(words) & set( dictionary.keys())
 def memberof(item): return lambda s : 0 if not s else (item in s)
 def rep_str(p): return lambda s: s.replace(p,'')
-def kw_index(d): return lambda kws : [d[w] for w in kws]
+def kw_index(d): return lambda kws : [(d[w] if w in d else 0) for w in kws]
 def round_decs(d): return lambda x: round(x*10**d)/(10**d)
 def trunc_str(k): return lambda s: s[:k]
 def apply_cutoffs(upper_b=1,lower_b=0): return lambda x : min(upper_b,max(lower_b,x))
@@ -205,5 +205,30 @@ def replace_status_with_signal(status):
     # elif maxP<0.55: return 'neutral_signal'
     # elif pcratio<0.75: return 'weak_pos_signal'
     # else: return 'strong_pos_signal'
-
     return status_text
+
+def status_preprocessing(stocks,use_negations=0):
+    stocks['status_text'] = stocks['status_text'].str.replace('[A-Z][a-z]{4,12} [lL][lL][cC]\.?',' Institution_name ')
+    stocks['status_text'] = stocks['status_text'].str.replace('[A-Z][a-z]{4,12} [iI][n][c]\.?',' Institution_name ')
+    stocks['status_text'] = stocks['status_text'].str.replace('RBC [A-Z][a-z]{4,12}',' Institution_name ')
+    stocks['status_text'] = stocks['status_text'].str.replace(' [A-Z][a-z]{4,12} {1,2}[A-Z][a-z]{4,12} ',' institution_name ')
+    stocks['status_text'] = stocks['status_text'].str.lower()
+    stocks['status_text'] = stocks.apply(replace_status_with_signal,axis=1)
+    stocks['status_text'] = stocks['status_text'].str.replace('https?://.{4,15} ?','  hyperlink ')
+    stocks['status_text'] = stocks['status_text'].str.replace('@[a-z_]{3,15} ','  t_handle ')
+    stocks['status_text'] = stocks['status_text'].str.replace('\$[0-9]{1,3}[^,]',' num_price ') 
+    stocks['status_text'] = stocks['status_text'].str.replace('\$[0-9,]+',' num_cash ') 
+    stocks['status_text'] = stocks['status_text'].str.replace('[0-9]+','       num_string ') 
+
+    for p,r in replace_pairs.items() + replace_strings.items() : #symbol_index.items()+
+        stocks['status_text'] = stocks['status_text'].str.replace(p,r.lower())
+    for sym in symbols:
+        stocks['status_text'] = stocks['status_text'].str.replace(sym,' '+sym+' ')
+    for sym,stock_name in symbol_dict.iteritems():
+        stocks['status_text'] = stocks['status_text'].str.replace(stock_name,' '+sym[1:].lower()+' ')
+    stocks['symbol'] = stocks['symbol'].str.lower()
+    stocks = stocks[stocks.status_text.apply(remove_encodings)]
+    stocks = stocks[stocks.apply(find_symbol,axis=1)]
+    if use_negations: stocks['negation_word'] = stocks.status_text.str.contains('negation_word')
+    stocks['words'] = stocks['status_text'].str.split()
+    return stocks

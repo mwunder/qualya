@@ -1,20 +1,10 @@
-from sentiment_refs import *
-from sentiment.models import *
 from collections import Counter, defaultdict
 import pickle 
+from sentiment_refs import *
 
-update_all = 0
+update_all = 1
 use_negations = 1
 vocab_size = 50000
-
-model_object = pickle.load(open('models/models.p'))
-dictionary = model_object['dictionary']
-word_index = model_object['word_index']
-clm = model_object['clm']
-lasso = model_object['lasso']
-# forest = model_object['forest']
-sorted_scores = model_object['sorted_scores']
-reverse_dict = model_object['reverse_dict']
 
 def stems(words): 
     return [st.stem(w) for w in words]
@@ -39,57 +29,72 @@ def bigramize(word_indexes,bigram_stop_len = 0 ) : return [(w,x) for w,x in zip(
 # stocks = pd.concat([stocks, stock_test]) 
 
 stocks = pd.DataFrame(columns=['id','status_id','created_at','status_text','status_sentiment','stock_id','symbol'])
-if not update_all: 
-    statuses = Stock_status.objects.filter(status_sentiment=0, created_at__gte=datetime.date(datetime.now()-timedelta(minutes=1440))) 
-else:
-    statuses = Stock_status.objects.filter(status_sentiment=0, created_at__gte=datetime.date(datetime.now()-timedelta(minutes=75*1440)),\
-                    created_at__lte=datetime.date(datetime.now()-timedelta(minutes=50*1440))) 
+if 1: 
+    from sentiment.models import *
 
-for status in statuses:
-    # if status.status_sentiment != 0: continue
-    stocks = stocks.append(pd.DataFrame({ 'id':status.id, 'status_id':status.status_id,
-                'created_at': status.created_at,
-                'status_text':status.status_text, 'symbol':status.symbol,
-                'stock_id':status.stock_id,
-                'status_sentiment':0},index=[stocks.shape[0]]))
+    model_object = pickle.load(open('models/models.p'))
+    dictionary = model_object['dictionary']
+    word_index = model_object['word_index']
+    clm = model_object['clm']
+    lasso = model_object['lasso']
+    # forest = model_object['forest']
+    sorted_scores = model_object['sorted_scores']
+    reverse_dict = model_object['reverse_dict']
+    if not update_all: 
+        statuses = Stock_status.objects.filter(status_sentiment=0, created_at__gte=datetime.date(datetime.now()-timedelta(minutes=1440))) 
+    else:
+        statuses = Stock_status.objects.filter(status_sentiment=0, created_at__gte=datetime.date(datetime.now()-timedelta(minutes=5*1440)),\
+                        created_at__lte=datetime.date(datetime.now()-timedelta(minutes=1440))) 
+    for status in statuses:
+        # if status.status_sentiment != 0: continue
+        stocks = stocks.append(pd.DataFrame({ 'id':status.id, 'status_id':status.status_id,
+                    'created_at': status.created_at,
+                    'status_text':status.status_text, 'symbol':status.symbol,
+                    'stock_id':status.stock_id,
+                    'status_sentiment':0},index=[stocks.shape[0]]))
+# except:
+#     stocks = pd.read_csv('stock_scores.csv')
+#     stock_test = pd.read_csv('sent_test.csv')
+#     stocks = pd.concat([stocks, stock_test]) 
+ 
 
 print stocks.shape 
-stocks['status_text'] = stocks['status_text'].str.replace('[A-Z][a-z]{4,12} [lL][lL][cC]\.?',' Institution_name ')
-stocks['status_text'] = stocks['status_text'].str.replace('[A-Z][a-z]{4,12} [iI][n][c]\.?',' Institution_name ')
-stocks['status_text'] = stocks['status_text'].str.replace('RBC [A-Z][a-z]{4,12}',' Institution_name ')
-stocks['status_text'] = stocks['status_text'].str.replace(' [A-Z][a-z]{4,12} {1,2}[A-Z][a-z]{4,12} ',' institution_name ')
-stocks['status_text'] = stocks['status_text'].str.lower()
-stocks['status_text'] = stocks.apply(replace_status_with_signal,axis=1)
-stocks['status_text'] = stocks['status_text'].str.replace('https?://.{4,15} ?','  hyperlink ')
-stocks['status_text'] = stocks['status_text'].str.replace('@[a-z_]{3,15} ','  t_handle ')
+# stocks['status_text'] = stocks['status_text'].str.replace('[A-Z][a-z]{4,12} [lL][lL][cC]\.?',' Institution_name ')
+# stocks['status_text'] = stocks['status_text'].str.replace('[A-Z][a-z]{4,12} [iI][n][c]\.?',' Institution_name ')
+# stocks['status_text'] = stocks['status_text'].str.replace('RBC [A-Z][a-z]{4,12}',' Institution_name ')
+# stocks['status_text'] = stocks['status_text'].str.replace(' [A-Z][a-z]{4,12} {1,2}[A-Z][a-z]{4,12} ',' institution_name ')
+# stocks['status_text'] = stocks['status_text'].str.lower()
+# stocks['status_text'] = stocks.apply(replace_status_with_signal,axis=1)
+# stocks['status_text'] = stocks['status_text'].str.replace('https?://.{4,15} ?','  hyperlink ')
+# stocks['status_text'] = stocks['status_text'].str.replace('@[a-z_]{3,15} ','  t_handle ')
 
-stocks['status_text'] = stocks['status_text'].str.replace('\$[0-9]{1,3}[^,]',' num_price ') 
-stocks['status_text'] = stocks['status_text'].str.replace('\$[0-9,]+',' num_cash ') 
-stocks['status_text'] = stocks['status_text'].str.replace('[0-9]+','       num_string ') 
+# stocks['status_text'] = stocks['status_text'].str.replace('\$[0-9]{1,3}[^,]',' num_price ') 
+# stocks['status_text'] = stocks['status_text'].str.replace('\$[0-9,]+',' num_cash ') 
+# stocks['status_text'] = stocks['status_text'].str.replace('[0-9]+','       num_string ') 
 
-for p,r in replace_pairs.items() + replace_strings.items() : #symbol_index.items()+
-    stocks['status_text'] = stocks['status_text'].str.replace(p,r.lower())
+# for p,r in replace_pairs.items() + replace_strings.items() : #symbol_index.items()+
+#     stocks['status_text'] = stocks['status_text'].str.replace(p,r.lower())
 
-for sym in symbols:
-    stocks['status_text'] = stocks['status_text'].str.replace(sym,' '+sym+' ')
+# for sym in symbols:
+#     stocks['status_text'] = stocks['status_text'].str.replace(sym,' '+sym+' ')
 
-# stocks['status_text'] = stocks['status_text'].str.replace("'",' ')
+# # stocks['status_text'] = stocks['status_text'].str.replace("'",' ')
 
-for sym,stock_name in symbol_dict.iteritems():
-    stocks['status_text'] = stocks['status_text'].str.replace(stock_name,' '+sym[1:].lower()+' ')
+# for sym,stock_name in symbol_dict.iteritems():
+#     stocks['status_text'] = stocks['status_text'].str.replace(stock_name,' '+sym[1:].lower()+' ')
 
-stocks['symbol'] = stocks['symbol'].str.lower()
+# stocks['symbol'] = stocks['symbol'].str.lower()
 
-stocks['status_text'] = stocks['status_text'].str.replace('google? ',' goog ')
+# stocks = stocks[stocks.status_text.apply(remove_encodings)]
+# stocks = stocks[stocks.apply(find_symbol,axis=1)]
+# # stocks['created_at'] = stocks.created_at.apply(trunc_str(5))
+# # stocks = stocks.groupby([ 'symbol', 'status_text', 'created_at', 'trading_day'])['score'].mean().reset_index()
 
-stocks = stocks[stocks.status_text.apply(remove_encodings)]
-stocks = stocks[stocks.apply(find_symbol,axis=1)]
-# stocks['created_at'] = stocks.created_at.apply(trunc_str(5))
-# stocks = stocks.groupby([ 'symbol', 'status_text', 'created_at', 'trading_day'])['score'].mean().reset_index()
 
-if use_negations: stocks['negation_word'] = stocks.status_text.str.contains('negation_word')
+# stocks['words'] = stocks['status_text'].str.split()
 
-stocks['words'] = stocks['status_text'].str.split()
+stocks = status_preprocessing(stocks,1)
+
 stocks['indexed_words'] = stocks['words'].apply(stems).apply(kw_index(dictionary))
 stocks['bigrams'] = stocks['indexed_words'].apply(bigramize).apply(set)
 
