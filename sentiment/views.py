@@ -71,7 +71,6 @@ def stock_sentiment_historical(request):
     ''' The main function for displaying the sentiment scores for a single stock over time in the DB
     '''
 
-
     if 'symbol' not in request.GET:
         return HttpResponse("<html><body>'No stock symbol found'</body></html>") 
     symbol = request.GET['symbol']
@@ -83,7 +82,8 @@ def stock_sentiment_historical(request):
     end_date     = get_date_from(request.GET,current_date) 
     stock        = Stock.objects.filter(symbol=symbol.lower())
     statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date-timedelta(minutes=interval), created_at__lte=end_date)
-    
+    prices       = Stock_price.objects.filter(stock=stock,trading_day__gte=end_date-timedelta(minutes=interval), trading_day__lte=end_date)
+
     # Tally up all the sentiment scores from stock_status within valid range, organized by stock symbol
     stock_sentiment_history = {}
     bins = defaultdict(list)
@@ -109,7 +109,8 @@ def stock_sentiment_historical(request):
               'current_stock':  symbol,
               'dates':          dates,
               'bins':           bins,
-              'scores_by_date': scores_by_date
+              'scores_by_date': scores_by_date,
+              'closes':         [p.close_price for p in prices]
            })
 
 

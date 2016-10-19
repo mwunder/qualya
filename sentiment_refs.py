@@ -213,7 +213,7 @@ def status_preprocessing(stocks,use_negations=0):
     stocks['status_text'] = stocks['status_text'].str.replace('RBC [A-Z][a-z]{4,12}',' Institution_name ')
     stocks['status_text'] = stocks['status_text'].str.replace(' [A-Z][a-z]{4,12} {1,2}[A-Z][a-z]{4,12} ',' institution_name ')
     stocks['status_text'] = stocks['status_text'].str.lower()
-    stocks['status_text'] = stocks.apply(replace_status_with_signal,axis=1)
+    # stocks['status_text'] = stocks.apply(replace_status_with_signal,axis=1)
     stocks['status_text'] = stocks['status_text'].str.replace('https?://.{4,15} ?','  hyperlink ')
     stocks['status_text'] = stocks['status_text'].str.replace('@[a-z_]{3,15} ','  t_handle ')
     stocks['status_text'] = stocks['status_text'].str.replace('\$[0-9]{1,3}[^,]',' num_price ') 
