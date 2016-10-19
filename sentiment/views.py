@@ -78,7 +78,7 @@ def stock_sentiment_historical(request):
 
     # Fetch the statuses from stock_status given the date constraints
     interval     = 1440*7 if 'w' not in request.GET or not is_num(request.GET['w']) else int(request.GET['w'])
-    current_date = datetime.strptime('2016-08-08','%Y-%m-%d') # Placeholder date, to be replaced or removed
+    current_date = datetime.now() # datetime.strptime('2016-08-08','%Y-%m-%d') # Placeholder date, to be replaced or removed
     
     end_date     = get_date_from(request.GET,current_date) 
     stock        = Stock.objects.filter(symbol=symbol.lower())
