@@ -7,13 +7,17 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/c3.min.css' %}">
 
+    <link rel="stylesheet" href="{% static 'css/stock_sentiment_historical.css' %}">
+
     <title>APP NAME | Stock Sentiment | Historical Data</title>
 </head>
 
 <body>
     <div id="load-screen"></div>
 
-    <div class="container">
+    <div id="nav">APP NAME</div>
+
+    <div class="chart-container">
         <div class="row">
             <div class="col-md-12"></div>
         </div>
@@ -31,10 +35,9 @@
                 </figure>
             </div>
         </div>
-    </div><!-- container -->
+    </div><!-- /chart-container -->
 
     {{closes}}
-
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
@@ -42,13 +45,15 @@
     <script src='//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js'></script>
 
     <script>
-        var scores_by_date = {{scores_by_date|safe}},
-            bins = {{bins|safe}},
-            closes = {{closes|safe}},
-            dates = {{dates|safe}};
-        
-        console.log(scores_by_date);
-        console.log(dates);
+        'use strict';
+
+        var symbol         = "{{ current_stock }}",
+            dates          = {{dates|safe}},
+            closes         = {{closes|safe}},
+            scores_by_date = {{scores_by_date|safe}},
+            bins           = {{bins|safe}};
+
+        console.log(dates, scores_by_date);
     </script>
 
     <script src='{% static "js/plotting_time.js" %}'></script>

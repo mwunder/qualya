@@ -1,32 +1,22 @@
 'use strict';
 
-var symbolFound = function() {
-
-    if(SYMBOLS.length!==0) { return true } else { return false }
-}
-
-
-var notifyNotFound = function() {
-
-    //notify the user that no data exists for the selected symbol on the chosen date
-    var not_found_notif = document.createElement('p');
-
-    not_found_notif.id = "not-found-notif";
-    not_found_notif.appendChild(document.createTextNode("Sorry, no results on "+DATE+" for symbol "+SYMBOL+" ."));
-
-    document.getElementById("info-container").appendChild(not_found_notif);
-}
-
-
 var printUniverseInfo = function() {
 
     //print info about the stock universe to the page
     var universe = document.createElement("p");
 
     universe.id = "universe";
-    universe.appendChild(document.createTextNode("Universe on "+DATE+": "+SYMBOLS.length+" stock(s)."));
 
-    document.getElementById("info-container").appendChild(universe);
+    if(SYMBOLS.length>0) {
+
+        universe.appendChild(document.createTextNode("On "+DATE+", the Universe contains "+SYMBOLS.length+" stock(s)."));
+
+    } else {
+
+        universe.appendChild(document.createTextNode("Sorry, but there are no stocks in the Universe on "+DATE+"."));
+    }
+
+    document.getElementById("universe-container").appendChild(universe);
 }
 
 
@@ -48,5 +38,4 @@ var addSentimentBars = function() {
         document.getElementById("sentiment-bar-container").appendChild(s_bar);
     }
 }
-
 

@@ -31,24 +31,19 @@ def home(request):
     return render(request,'home.html', { 'symbols': map(str, symbols) })
 
 
-def stock_sentiment(request):
-    ''' The main function for displaying the sentiment scores for one or more stocks in the DB
+def stock_sentiment_universe(request):
+    ''' The main function for displaying the sentiment scores for the universe of stocks in the DB
     '''
 
     # Fetch the statuses from stock_status given the date constraints
     interval     = 1440 if 'w' not in request.GET or not is_num(request.GET['w']) else int(request.GET['w'])
     current_date = datetime.strptime('2016-08-08','%Y-%m-%d') # Placeholder date, to be replaced or removed
-    end_date     = get_date_from(request.GET,current_date) 
-    symbol       = "All" if 'symbol' not in request.GET else request.GET['symbol']
-
-    if symbol=="All":
-        statuses = Stock_status.objects.filter(created_at__gte=end_date, created_at__lte=end_date+timedelta(minutes=interval))
-    else:
-        stock    = Stock.objects.filter(symbol=symbol.lower())
-        statuses = Stock_status.objects.filter(stock=stock,created_at__gte=end_date, created_at__lte=end_date+timedelta(minutes=interval))
+    end_date     = get_date_from(request.GET,current_date)
+    statuses     = Stock_status.objects.filter(created_at__gte=end_date, created_at__lte=end_date+timedelta(minutes=interval))
 
     # Tally up all the sentiment scores from stock_status within valid range, organized by stock symbol
     symbol_scores = {}
+
     for status in statuses: 
         if not  status.status_sentiment or status.status_sentiment < -1 or status.status_sentiment > 1: continue 
         try:    symbol_scores[status.symbol].append(status.status_sentiment)
@@ -58,13 +53,12 @@ def stock_sentiment(request):
         symbol_scores[stock] = sorted(symbol_scores[stock])
 
     # Pass the raw sentiment scores to the page for presenting in visual form 
-    return render(request,'stock_sentiment.html', {
+    return render(request,'stock_sentiment_universe.html', {
               'date':          end_date,
-              'symbol_scores': set_scores(symbol_scores,end_date),
-              'symbol':        symbol,
-              'symbols':       map(str,symbol_scores.keys()), 
-              'scores':        symbol_scores.values()
-           })
+              'symbols':       map(str, symbol_scores.keys()),
+              'scores':        symbol_scores.values(),
+              'symbol_scores': set_scores(symbol_scores, end_date)
+            })
 
 
 def stock_sentiment_historical(request):
@@ -117,17 +111,13 @@ def stock_sentiment_historical(request):
     return render(request,'stock_sentiment_historical.html', {
               'current_stock':  symbol,
               'dates':          dates,
-              'bins':           bins,
+              'closes':         closes,
               'scores_by_date': scores_by_date,
-              'closes':         closes
+              'bins':           bins
            })
 
 
 #HELPERS
-def set_scores(sentiment,t):
-    return [Score(sym,t,scores) for sym,scores in sentiment.items() ]
-
-
 def get_date_from(request,default_date=''):
     ''' Given a request for some date, parse it and return a valid date object.
         Valid forms, for August 9, 2016:
@@ -147,4 +137,8 @@ def get_date_from(request,default_date=''):
         return datetime.now() if not default_date else default_date
 
     return datetime.now() if not default_date else default_date
+
+
+def set_scores(sentiment,t):
+    return [Score(sym,t,scores) for sym,scores in sentiment.items() ]
 

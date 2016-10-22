@@ -1,0 +1,48 @@
+/* CSS resets =====================================================================================================================================*/
+
+* {
+  margin: 0;
+  padding: 0;
+
+  /* box-sizing */
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+/* default ========================================================================================================================================*/
+
+#load-screen {
+  display: block;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: white;
+  z-index: 99;
+}
+
+#nav {
+  padding: 15px;
+  font: 400 15px "Arial", sans-serif;
+  color: white;
+  background-color: #444444;
+  border-bottom: 4px solid #b3d9ff;
+}
+
+#universe {
+  margin: 40px 0;
+  text-align: center;
+  font-weight: bold;
+}
+
+#chart {
+  margin-top: 2vw;
+  margin-bottom: 2vw;
+}
+
+.sentiment-bar {
+  display: block;
+  margin: 40px auto; /* left and right margins set to auto to horizontally center this element within its contianer */
+}
