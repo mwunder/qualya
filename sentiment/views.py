@@ -76,7 +76,7 @@ def stock_sentiment_historical(request):
     end_date     = get_date_from(request.GET,current_date) 
     stock        = Stock.objects.filter(symbol=symbol.lower())
     statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date-timedelta(minutes=interval), created_at__lte=end_date)
-    prices       = Stock_price.objects.filter(stock=stock,trading_day__gte=end_date-timedelta(minutes=interval), trading_day__lte=end_date)
+    prices       = Stock_price.objects.filter(stock=stock,trading_day__gte=end_date-timedelta(minutes=interval+1440*3), trading_day__lte=end_date)
 
     # Tally up all the sentiment scores from stock_status within valid range, organized by stock symbol
     stock_sentiment_history = {}
@@ -97,6 +97,8 @@ def stock_sentiment_historical(request):
             for d,close in sorted(closes.items()):
                 if d<day: closes[day] = close
         if day not in closes: closes[day] =  sum(closes.values())/len(closes)
+    for day in closes.keys():
+        if day not in stock_sentiment_history: del closes[day]
 
     dates,scores_by_date = zip(* sorted(stock_sentiment_history.items()))
     dates,bins = zip(* sorted(bins.items()))
@@ -111,7 +113,7 @@ def stock_sentiment_historical(request):
     return render(request,'stock_sentiment_historical.html', {
               'current_stock':  symbol,
               'dates':          dates,
-              'closes':         closes,
+              'closes':         list(closes),
               'scores_by_date': scores_by_date,
               'bins':           bins
            })
