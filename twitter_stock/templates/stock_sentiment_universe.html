@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/c3.min.css' %}">
 
-    <link rel="stylesheet" href="{% static 'css/stock_sentiment.css' %}">
+    <link rel="stylesheet" href="{% static 'css/stock_sentiment_universe.css' %}">
 
-    <title>APP NAME | Stock Sentiment | Universe Data</title>
+    <title>APP NAME | Stock Sentiment | Universe</title>
 </head>
 
 <body>
@@ -17,7 +17,7 @@
 
     <div id="nav">APP NAME</div>
 
-    <div id="info-container"></div>
+    <div id="universe-container"></div>
 
     <div id="chart-container">
         <div class="row">
@@ -46,38 +46,26 @@
     <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src='//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js'></script>
 
-    <script src='{% static "js/stock_sentiment.js" %}'></script>
+    <script src='{% static "js/stock_sentiment_universe.js" %}'></script>
 
     <script>
         'use strict';
 
         //GLOBAL VARS
         var DATE    = "{{ date }}",
-            SYMBOL  = "{{ symbol }}",
             SYMBOLS = {{ symbols|safe }},
             SCORES  = {{ scores |safe }};
 
-        console.log(DATE, SYMBOL, SYMBOLS, SCORES);
+        console.log(DATE, SYMBOLS, SCORES);
 
         //METHODS
-        //see 'js/stock_sentiment.js'
+        //see 'js/stock_sentiment_universe.js'
 
         //MAIN
         (function() {
 
-            if(SYMBOL=="All") {
-
-                printUniverseInfo();
-                addSentimentBars();
-
-            } else {
-
-                if(symbolFound()) {
-
-                    //redirect to /stock_sentiment_historical/?symbol=SYMBOL
-
-                } else { notifyNotFound() }
-            }
+            printUniverseInfo();
+            addSentimentBars();
         }());
     </script>
 

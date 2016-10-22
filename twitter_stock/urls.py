@@ -17,11 +17,11 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from sentiment.views import home,stock_sentiment,stock_sentiment_historical
+from sentiment.views import home, stock_sentiment_universe, stock_sentiment_historical
 
 urlpatterns = [
     url(r'^home/$', home),
-    url(r'^stock_sentiment/$', stock_sentiment),
+    url(r'^stock_sentiment_universe/$', stock_sentiment_universe),
     url(r'^stock_sentiment_historical/$', stock_sentiment_historical),
     url(r'^admin/', include(admin.site.urls)),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

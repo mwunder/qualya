@@ -18,45 +18,37 @@
         <div id="main">
             <p id="main-heading">Sentiment for the most-followed stocks.</p>
 
-            <form id="search-form" action="/stock_sentiment/" method="get">
+            <form id="search-form" method="get">
                 <div class="search-form-child"><!-- symbol dropdown menu -->
                     <label>
                         <span>Symbol:</span>
-                        <select id="ticker-dropdown" name="symbol" value="" tabindex="1"></select>
+                        <select id="ticker-dropdown" name="symbol" tabindex="1"></select>
                     </label>
                 </div>
 
                 <div class="search-form-child"><!-- search button -->
-                    <button id="search-form-button"name="submit" type="submit">Search</button>
+                    <button id="search-form-button" name="submit" type="submit" onclick="addFormAction()">Search</button>
                 </div>
             </form>
 
             <img id="main-img" alt="Sentiment Tesseract" src="{% static 'img/sentiment_tesseract.png' %}" />
         </div><!-- /main -->
 
+        <script src='{% static "js/home.js" %}'></script>
+
         <script>
             'use strict';
 
-            //populate dropdown menu
+            //GLOBAL VARS
+            var SYMBOLS = {{ symbols|safe }};
+
+            //METHODS
+            //see 'js/home.js'
+
+            //MAIN
             (function() {
 
-                //local vars
-                var dropdown_menu  = document.getElementById("ticker-dropdown"),
-                    all_option     = document.createElement("option"),
-                    sorted_symbols = {{ symbols|safe }}.sort();
-
-                all_option.textContent = "All";
-                dropdown_menu.appendChild(all_option);
-
-                for(var i=0; i<sorted_symbols.length; i++) {
-
-                    //loop vars
-                    var ticker = sorted_symbols[i],
-                        option = document.createElement("option");
-
-                    option.textContent = ticker;
-                    dropdown_menu.appendChild(option);
-                }
+                populateDropDownMenu();
             }());
         </script>
 
