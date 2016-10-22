@@ -71,15 +71,18 @@ def stock_sentiment_historical(request):
 
     # Fetch the statuses from stock_status given the date constraints
     interval     = 1440*7 if 'w' not in request.GET or not is_num(request.GET['w']) else int(request.GET['w'])
-    current_date = datetime.strptime('2016-08-08','%Y-%m-%d') # Placeholder date, to be replaced or removed
+    current_date = datetime.now() # datetime.strptime('2016-08-08','%Y-%m-%d') # Placeholder date, to be replaced or removed
     
     end_date     = get_date_from(request.GET,current_date) 
     stock        = Stock.objects.filter(symbol=symbol.lower())
     statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date-timedelta(minutes=interval), created_at__lte=end_date)
-    
+    prices       = Stock_price.objects.filter(stock=stock,trading_day__gte=end_date-timedelta(minutes=interval), trading_day__lte=end_date)
+
     # Tally up all the sentiment scores from stock_status within valid range, organized by stock symbol
     stock_sentiment_history = {}
     bins = defaultdict(list)
+    closes = dict([(datetime.date(p.trading_day),p.close_price) for p in prices])  
+
     for status in statuses: 
         if not  status.status_sentiment or status.status_sentiment < -1 or status.status_sentiment > 1: continue 
         try:    stock_sentiment_history[datetime.date(status.created_at)].append(status.status_sentiment)
@@ -89,9 +92,15 @@ def stock_sentiment_historical(request):
     for day,history in stock_sentiment_history.items():
         stock_sentiment_history[day] = sorted(history)
         bins[day] = map(lambda x:x-1,zip(* sorted(Counter(bins[day]+[-2,-1,0,1,2]).most_common(5)))[1])
+        if day not in closes: 
+            for d,close in sorted(closes.items()):
+                if d<day: closes[day] = close
+        if day not in closes: closes[day] =  sum(closes.values())/len(closes)
 
     dates,scores_by_date = zip(* sorted(stock_sentiment_history.items()))
     dates,bins = zip(* sorted(bins.items()))
+    if closes: _,closes = zip(* sorted(closes.items())) 
+    else:        closes = [0]*len(dates)
 
     dates = map(int,map(lambda d: d.day,dates))
     bins , scores_by_date = list(bins), list(scores_by_date)
@@ -101,6 +110,7 @@ def stock_sentiment_historical(request):
     return render(request,'stock_sentiment_historical.html', {
               'current_stock':  symbol,
               'dates':          dates,
+              'closes':         closes,
               'scores_by_date': scores_by_date,
               'bins':           bins
            })
