@@ -98,6 +98,7 @@ def stock_sentiment_historical(request):
     for day,history in stock_sentiment_history.items():
         stock_sentiment_history[day] = sorted(history)
         bins[day] = map(lambda x:x-1,zip(* sorted(Counter(bins[day]+[-2,-1,0,1,2]).most_common(5)))[1])
+        if not closes: continue
         if day not in closes: 
             for d,close in sorted(closes.items()):
                 if d<day: closes[day] = close

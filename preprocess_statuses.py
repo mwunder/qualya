@@ -2,7 +2,7 @@ from collections import Counter, defaultdict
 import pickle 
 from sentiment_refs import *
 
-update_all = 0
+update_all = 1
 use_negations = 1
 vocab_size = 50000
 
