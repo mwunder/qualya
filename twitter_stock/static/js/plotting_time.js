@@ -79,6 +79,9 @@ $(function() {
                 data: {  
                          columns: binsObj,
                          type:    'bar',
+                         types: {
+                          Closing_Price: 'line',
+                         },
                          groups: [['Strong neg','Weak neg','Neutral','Weak pos','Strong pos']],
                          order: 'asc'
                       },
@@ -99,7 +102,14 @@ $(function() {
     var bin_series = binsOverTime(bin_freqs,sents);
   
     console.log(bin_freqs);
+    console.log(closes);
     //console.log(bin_series);
-  
+    if (closes[0]>0){
+      for (var i=1; i<closes.length; i++) { closes[i] = (closes[i]-closes[0])/(0.1*closes[i]) }
+      closes[0] = 0.0;
+    }
+    console.log(closes);
+    closes.unshift('Closing_Price');
+    bin_series.push(closes);
     generateSentOverTime(bin_series);
 });
