@@ -1,0 +1,35 @@
+/* CSS resets =====================================================================================================================================*/
+
+* {
+  margin: 0;
+  padding: 0;
+
+  /* box-sizing */
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+/* default ========================================================================================================================================*/
+
+body {
+  color: #444444;
+}
+
+#load-screen {
+  display: block;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+}
+
+#nav {
+  padding: 15px;
+  font: 400 15px "Arial", sans-serif;
+  color: white;
+  background-color: #444444;
+  border-bottom: 4px solid #b3d9ff;
+}

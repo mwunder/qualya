@@ -1,48 +1,37 @@
-/* CSS resets =====================================================================================================================================*/
-
-* {
-  margin: 0;
-  padding: 0;
-
-  /* box-sizing */
-  box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
+#universe,
+#histogram-container,
+#sentiment-bars-container {
+  text-align: center;
 }
 
-/* default ========================================================================================================================================*/
-
-#load-screen {
-  display: block;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background-color: white;
-  z-index: 99;
-}
-
-#nav {
-  padding: 15px;
-  font: 400 15px "Arial", sans-serif;
-  color: white;
-  background-color: #444444;
-  border-bottom: 4px solid #b3d9ff;
+#universe-container {
+  background-color: #f4f7fb;
+  border-bottom: 1px solid #b3d9ff;
 }
 
 #universe {
-  margin: 40px 0;
-  text-align: center;
-  font-weight: bold;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  font: 200 15px "Arial", sans-serif;
+  color: #888888;
 }
 
-#chart {
-  margin-top: 2vw;
-  margin-bottom: 2vw;
+#histogram-container {
+  display: none;
+  margin: 25px 0 40px 0;
+}
+
+#sentiment-bars-container {
+  margin: 50px 0;
 }
 
 .sentiment-bar {
   display: block;
-  margin: 40px auto; /* left and right margins set to auto to horizontally center this element within its contianer */
+  margin: 0 auto;
 }
+
+.sentiment-bar:hover {
+  opacity: 0.75;
+}
+

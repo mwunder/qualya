@@ -5,6 +5,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+        <link rel="stylesheet" href="{% static 'css/global.css' %}" />
         <link rel="stylesheet" href="{% static 'css/home.css' %}" />
 
         <title>APP NAME | Home Page</title>
@@ -19,14 +20,14 @@
             <p id="main-heading">Sentiment for the most-followed stocks.</p>
 
             <form id="search-form" method="get">
-                <div class="search-form-child"><!-- symbol dropdown menu -->
+                <div id="ticker-dropdown-container" class="search-form-child">
                     <label>
                         <span>Symbol:</span>
                         <select id="ticker-dropdown" name="symbol" tabindex="1"></select>
                     </label>
                 </div>
 
-                <div class="search-form-child"><!-- search button -->
+                <div id="search-form-button-container" class="search-form-child">
                     <button id="search-form-button" name="submit" type="submit" onclick="addFormAction()">Search</button>
                 </div>
             </form>
@@ -42,14 +43,10 @@
             //GLOBAL VARS
             var SYMBOLS = {{ symbols|safe }};
 
-            //METHODS
-            //see 'js/home.js'
+            //METHODS in 'js/home.js'
 
             //MAIN
-            (function() {
-
-                populateDropDownMenu();
-            }());
+            (function() { populateDropDownMenu() }());
         </script>
 
         <script>window.onload = function() { document.getElementById("load-screen").style.display = "none" }</script>

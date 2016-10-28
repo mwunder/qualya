@@ -1,13 +1,12 @@
 {% load static from staticfiles %}
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'css/c3.min.css' %}">
-
-    <link rel="stylesheet" href="{% static 'css/stock_sentiment_universe.css' %}">
+    <link rel="stylesheet" href="{% static 'css/chartist.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/stock_sentiment_universe.css' %}" />
 
     <title>APP NAME | Stock Sentiment | Universe</title>
 </head>
@@ -19,33 +18,13 @@
 
     <div id="universe-container"></div>
 
-    <div id="chart-container">
-        <div class="row">
-            <div class="col-md-12"></div>
-        </div>
+    <div id="histogram-container">
+        <div id="histogram" class="ct-chart"></div>
+    </div>
 
-        <div class="row dateselector">
-            <div class="col-sm-12 center">
-                <form class="row form-inline" name="rangeform"></form>
-            </div>
-        </div>
+    <div id="sentiment-bars-container"></div>
 
-        <div class="row chart">
-            <div class="col-md-12">
-                <figure>
-                    <div id="chart"></div>
-                </figure>
-            </div>
-        </div>
-    </div><!-- /chart-container -->
-
-    <div id="sentiment-bar-container"></div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <script src='//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js'></script>
-
+    <script src='{% static "js/chartist.js" %}'></script>
     <script src='{% static "js/stock_sentiment_universe.js" %}'></script>
 
     <script>
@@ -54,22 +33,30 @@
         //GLOBAL VARS
         var DATE    = "{{ date }}",
             SYMBOLS = {{ symbols|safe }},
-            SCORES  = {{ scores |safe }};
+            SCORES  = {{ scores |safe }},
+            BINS    = [];
 
-        console.log(DATE, SYMBOLS, SCORES);
-
-        //METHODS
-        //see 'js/stock_sentiment_universe.js'
+        //METHODS in 'js/stock_sentiment_universe.js'
 
         //MAIN
         (function() {
 
             printUniverseInfo();
-            addSentimentBars();
+            generateBins();
+            addSentimentGraphics();
+
+            //debug mode
+            if(DEBUG_UNIVERSE) {
+
+                //add histogram and toggle functionality
+                addHistogram();
+                document.getElementById("universe-container").onclick = toggleHistogram;
+
+                //test
+                console.log(DATE, SYMBOLS, SCORES, BINS);
+            }
         }());
     </script>
-
-    <script src='{% static "js/plotting.js" %}'></script>
 
     <script>window.onload = function() { document.getElementById("load-screen").style.display = "none" }</script>
 </body>
