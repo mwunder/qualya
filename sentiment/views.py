@@ -98,6 +98,8 @@ def stock_sentiment_historical(request):
             for d,close in sorted(closes.items()):
                 if d<day: closes[day] = close
         if day not in closes: closes[day] =  sum(closes.values())/len(closes)
+    for day in closes.keys():
+        if day not in stock_sentiment_history: del closes[day]
 
     for day in closes.keys():
         if day not in stock_sentiment_history: del closes[day]
