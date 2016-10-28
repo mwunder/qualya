@@ -14,6 +14,7 @@ from datetime import *
 class Score:
     ''' An object to represent all the scores of a stock on a specific day or interval
     '''
+
     def __init__(self,symbol,t,sc=0,f=0,z=0,c=0):
         self.symbol = symbol
         self.created_at = t
@@ -76,7 +77,9 @@ def stock_sentiment_historical(request):
     end_date     = get_date_from(request.GET,current_date)
     stock        = Stock.objects.filter(symbol=symbol.lower())
     statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date-timedelta(minutes=interval), created_at__lte=end_date)
-    prices       = Stock_price.objects.filter(stock=stock,trading_day__gte=end_date-timedelta(minutes=interval+1440*3), trading_day__lte=end_date)
+
+    # Fetch prices
+    prices = Stock_price.objects.filter(stock=stock,trading_day__gte=end_date-timedelta(minutes=interval+1440*3), trading_day__lte=end_date)
 
     # Tally up all the sentiment scores from stock_status within valid range, organized by stock symbol
     stock_sentiment_history = {}
@@ -93,13 +96,11 @@ def stock_sentiment_historical(request):
     for day,history in stock_sentiment_history.items():
         stock_sentiment_history[day] = sorted(history)
         bins[day] = map(lambda x:x-1,zip(* sorted(Counter(bins[day]+[-2,-1,0,1,2]).most_common(5)))[1])
-        if not closes: continue
+        if not closes: continue        
         if day not in closes: 
             for d,close in sorted(closes.items()):
                 if d<day: closes[day] = close
-        if day not in closes: closes[day] =  sum(closes.values())/len(closes)
-    for day in closes.keys():
-        if day not in stock_sentiment_history: del closes[day]
+        if day not in closes: closes[day] = sum(closes.values())/len(closes)
 
     for day in closes.keys():
         if day not in stock_sentiment_history: del closes[day]
@@ -107,30 +108,31 @@ def stock_sentiment_historical(request):
     dates, scores_by_date = zip(* sorted(stock_sentiment_history.items()))
     dates, bins           = zip(* sorted(bins.items()))
 
-    if closes: _, closes  = zip(* sorted(closes.items()))
-    else:         closes  = [0]*len(dates)
+    if closes: _, closes = zip(* sorted(closes.items()))
+    else:         closes = [0]*len(dates)
 
     dates = map(int,map(lambda d: d.day,dates))
+
     bins, scores_by_date = list(bins), list(scores_by_date)
 
     print bins
 
     # Pass the raw sentiment scores to the page for presenting in visual form 
     return render(request,'stock_sentiment_historical.html', {
-              'current_stock':  symbol,
-              'dates':          dates,
-              'closes':         list(closes),
-              'scores_by_date': scores_by_date,
-              'bins':           bins
+               'current_stock':  symbol,
+               'dates':          dates,
+               'closes':         list(closes),
+               'scores_by_date': scores_by_date,
+               'bins':           bins
            })
 
 
 #HELPERS
 def get_date_from(request,default_date=''):
     ''' 
-    Given a request for some date, parse it and return a valid date object. As an example, valid forms for August 9, 2016 are:
+    Given a request for some date, parse it and return a valid date object. As an example, valid forms for August 9th, 2016 are:
         (1) "2016-08-09"
-        (2) "0809"      (if called in 2016 only, otherwise will be August 9, XXXX where XXXX is current year)
+        (2) "0809"      (if called in 2016 only, otherwise will be August 9th, XXXX where XXXX is current year)
     '''
 
     if 'date' not in request:
