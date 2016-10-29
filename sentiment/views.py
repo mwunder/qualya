@@ -40,7 +40,7 @@ def stock_sentiment_universe(request):
     current_date = datetime.now() # datetime.strptime('2016-08-08','%Y-%m-%d') <-- placeholder date
     end_date     = get_date_from(request.GET,current_date)
     statuses     = Stock_status.objects.filter(created_at__gte=end_date, created_at__lte=end_date+timedelta(minutes=interval))
-    prices       = Stock_price.objects.filter(trading_day__gt=end_date-timedelta(minutes=interval+1440), trading_day__lte=end_date)
+    prices       = Stock_price.objects.filter(trading_day__gt=end_date-timedelta(minutes=interval+1400), trading_day__lte=end_date)
     stocks       = Stock.objects.all()
 
     # Tally up all the sentiment scores from stock_status within valid range, organized by stock symbol
@@ -57,8 +57,10 @@ def stock_sentiment_universe(request):
         bins[status.symbol].append(status.sentiment_bin)
 
     for stock in symbol_scores.keys():
-        volumes[stock]    = [p.volume for p in prices if p.stock_id==stocks[stock]]
-        closes[stock]   = [p.close_price for p in prices if p.stock_id==stocks[stock]]
+        volumes[stock]    = [int(p.volume) for p in prices if p.stock_id==stocks[stock] and p.trading_day==end_date]
+        volumes[stock]    = volumes[stock][0]   if volumes[stock] else 0
+        closes[stock]     = [p.close_price for p in prices if p.stock_id==stocks[stock] and p.trading_day==end_date]
+        closes[stock]     = closes[stock][0]    if closes[stock] else 0
         symbol_scores[stock] = sorted(symbol_scores[stock])
         bins[stock]     = map(lambda x:x-1,zip(* sorted(Counter(bins[stock]+[-2,-1,0,1,2]).most_common(5)))[1])
     
