@@ -31,6 +31,11 @@ def home(request):
     # Pass the symbols to page for use in the dropdown menu
     return render(request,'home.html', { 'symbols': map(str, symbols) })
 
+def add_zeros(s):
+    return s if len(s)>1 else '0'+s
+
+def sql_full_datetime(d):
+    return str(d.year)+'-'+add_zeros(str(d.month))+'-'+add_zeros(str(d.day)) 
 
 def stock_sentiment_universe(request):
     ''' The main function for displaying the sentiment scores for the universe of stocks in the DB
@@ -58,7 +63,7 @@ def stock_sentiment_universe(request):
         
     # Pass the raw sentiment scores to the page for presenting in visual form 
     return render(request,'stock_sentiment_universe.html', {
-               'date':          end_date,
+               'date':          sql_full_datetime(end_date),
                'symbols':       map(str, symbol_scores.keys()),
                'scores':        symbol_scores.values(),
                'bins':          [bins[s] for s in symbol_scores.keys()],
