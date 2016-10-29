@@ -57,9 +57,9 @@ def stock_sentiment_universe(request):
         bins[status.symbol].append(status.sentiment_bin)
 
     for stock in symbol_scores.keys():
-        volumes[stock]    = [int(p.volume) for p in prices if p.stock_id==stocks[stock] and p.trading_day==end_date]
+        volumes[stock]    = [int(p.volume) for p in prices if p.stock_id==stocks[stock] ]
         volumes[stock]    = volumes[stock][0]   if volumes[stock] else 0
-        closes[stock]     = [p.close_price for p in prices if p.stock_id==stocks[stock] and p.trading_day==end_date]
+        closes[stock]     = [p.close_price for p in prices if p.stock_id==stocks[stock] ]
         closes[stock]     = closes[stock][0]    if closes[stock] else 0
         symbol_scores[stock] = sorted(symbol_scores[stock])
         bins[stock]     = map(lambda x:x-1,zip(* sorted(Counter(bins[stock]+[-2,-1,0,1,2]).most_common(5)))[1])
