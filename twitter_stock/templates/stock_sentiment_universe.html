@@ -34,7 +34,9 @@
         var DATE    = "{{ date }}",
             SYMBOLS = {{ symbols|safe }},
             SCORES  = {{ scores |safe }},
-            BINS    = [];
+            VOLUMES = {{ volumes|safe }},
+            CLOSES  = {{ closes |safe }},
+            BINS    = {{ bins   |safe }};
 
         //METHODS in 'js/stock_sentiment_universe.js'
 
@@ -42,7 +44,6 @@
         (function() {
 
             printUniverseInfo();
-            generateBins();
             addSentimentGraphics();
 
             //debug mode
@@ -53,7 +54,7 @@
                 document.getElementById("universe-container").onclick = toggleHistogram;
 
                 //test
-                console.log(DATE, SYMBOLS, SCORES, BINS);
+                console.log(DATE, SYMBOLS, SCORES, VOLUMES, CLOSES, BINS);
             }
         }());
     </script>

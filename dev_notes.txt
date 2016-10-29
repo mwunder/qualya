@@ -2,22 +2,6 @@ USE THIS FILE TO SHARE ANY NOTES OR COMMENTS DURING DEVELOPMENT
 =====================================================================================================================================================
 
 
-10-27-2016:
+- There should be a '404' error page to handle situations where requested data isn't contained in the DB - currently some of this functionality is being handled by the 'printUniverseInfo()' method in 'stock_sentiment_universe.js'
 
-- The global variable 'BINS' in 'stock_sentiment_universe.html' should be generated on the back-end and fed to the front-end through
-  a dictionary in views.py
-
-
-- There should be a '404' error page to handle situations where requested data isn't contained in the DB - currently some of this
-  functionality is being handled by the 'printUniverseInfo()' method in 'stock_sentiment_universe.js'
-
-
-- When '{{date}}' is embedded in the 'stock_sentiment_universe.html' page, the format isn't directly usable for anything other than text
-  display. If the date could be in the 'yyyy-mm-dd' format, the variable could then be used in the url redirect to 'stock_sentiment_historical.html'
-  when the user clicks on a sentiment bar
-
-
-- If we could store volume as well as market cap for individual stocks in the DB, the info could be used to add another dimension to the data vis on
-  the 'stock_sentiment_universe.html' page. As an example, the stocks could be ordered from greatest to least in terms of market cap, and the height
-  of each sentiment bar could be mapped to ln(market cap)
-
+- Add date functionality to the home page
