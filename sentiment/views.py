@@ -46,10 +46,15 @@ def stock_sentiment_universe(request):
     current_date = datetime.now() # datetime.strptime('2016-08-08','%Y-%m-%d') <-- placeholder date
     end_date     = get_date_from(request.GET,current_date)
     statuses     = Stock_status.objects.filter(created_at__gte=end_date, created_at__lte=end_date+timedelta(minutes=interval))
+    prices       = Stock_price.objects.filter(trading_day__gt=end_date-timedelta(minutes=interval+1440), trading_day__lte=end_date)
+    stocks       = Stock.objects.all()
 
     # Tally up all the sentiment scores from stock_status within valid range, organized by stock symbol
+    stocks  = dict((s.symbol,s.id) for s in stocks)
     symbol_scores = {}
     bins = defaultdict(list)
+    closes = defaultdict(list)
+    volumes = defaultdict(list)
     
     for status in statuses: 
         if not  status.status_sentiment or status.status_sentiment < -1 or status.status_sentiment > 1: continue 
@@ -58,8 +63,10 @@ def stock_sentiment_universe(request):
         bins[status.symbol].append(status.sentiment_bin)
 
     for stock in symbol_scores.keys():
+        volumes[stock]    = [p.volume for p in prices if p.stock_id==stocks[stock]]
+        closes[stock]   = [p.close_price for p in prices if p.stock_id==stocks[stock]]
         symbol_scores[stock] = sorted(symbol_scores[stock])
-        bins[stock] = map(lambda x:x-1,zip(* sorted(Counter(bins[stock]+[-2,-1,0,1,2]).most_common(5)))[1])
+        bins[stock]     = map(lambda x:x-1,zip(* sorted(Counter(bins[stock]+[-2,-1,0,1,2]).most_common(5)))[1])
     
     normalized_bins = dict((sym,[b*1./sum(bin_counts) for b in bin_counts]) for sym,bin_counts in bins.items())  
 
@@ -68,6 +75,8 @@ def stock_sentiment_universe(request):
                'date':          sql_full_datetime(end_date),
                'symbols':       map(str, symbol_scores.keys()),
                'scores':        symbol_scores.values(),
+               'closes':        [closes[s] for s in symbol_scores.keys()],
+               'volumes':       [volumes[s] for s in symbol_scores.keys()],
                'bins':          [normalized_bins[s] for s in symbol_scores.keys()],
                'symbol_scores': set_scores(symbol_scores, end_date)
            })
