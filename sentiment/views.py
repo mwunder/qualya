@@ -60,13 +60,15 @@ def stock_sentiment_universe(request):
     for stock in symbol_scores.keys():
         symbol_scores[stock] = sorted(symbol_scores[stock])
         bins[stock] = map(lambda x:x-1,zip(* sorted(Counter(bins[stock]+[-2,-1,0,1,2]).most_common(5)))[1])
-        
+    
+    normalized_bins = dict((sym,[b*1./sum(bin_counts) for b in bin_counts]) for sym,bin_counts in bins.items())  
+
     # Pass the raw sentiment scores to the page for presenting in visual form 
     return render(request,'stock_sentiment_universe.html', {
                'date':          sql_full_datetime(end_date),
                'symbols':       map(str, symbol_scores.keys()),
                'scores':        symbol_scores.values(),
-               'bins':          [bins[s] for s in symbol_scores.keys()],
+               'bins':          [normalized_bins[s] for s in symbol_scores.keys()],
                'symbol_scores': set_scores(symbol_scores, end_date)
            })
 
