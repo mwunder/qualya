@@ -44,20 +44,24 @@ def stock_sentiment_universe(request):
 
     # Tally up all the sentiment scores from stock_status within valid range, organized by stock symbol
     symbol_scores = {}
-
+    bins = defaultdict(list)
+    
     for status in statuses: 
         if not  status.status_sentiment or status.status_sentiment < -1 or status.status_sentiment > 1: continue 
         try:    symbol_scores[status.symbol].append(status.status_sentiment)
         except: symbol_scores[status.symbol] = [status.status_sentiment]
+        bins[status.symbol].append(status.sentiment_bin)
 
     for stock in symbol_scores.keys():
         symbol_scores[stock] = sorted(symbol_scores[stock])
-
+        bins[stock] = map(lambda x:x-1,zip(* sorted(Counter(bins[stock]+[-2,-1,0,1,2]).most_common(5)))[1])
+        
     # Pass the raw sentiment scores to the page for presenting in visual form 
     return render(request,'stock_sentiment_universe.html', {
                'date':          end_date,
                'symbols':       map(str, symbol_scores.keys()),
                'scores':        symbol_scores.values(),
+               'bins':          [bins[s] for s in symbol_scores.keys()],
                'symbol_scores': set_scores(symbol_scores, end_date)
            })
 
