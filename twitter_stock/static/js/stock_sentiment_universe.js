@@ -33,51 +33,94 @@ var addSentimentGraphics = function() {
     //local vars
     var className = 'sentiment-bar',
         width     = 500,
-        height    = 50,
-        cols      = ['rgba(255,0,0,0.9)', 'rgba(255,128,0,0.9)', 'rgba(128,128,128,1)', 'rgba(255,255,0,0.9)', 'rgba(0,255,0,0.9)'],
-        bordRad   = '5px';
+        height    = 125,
+        cols      = ['darkred', 'rgba(255,0,0,1)', 'silver', 'rgba(0,255,0,1)', 'darkgreen'],
+        bordRad   = '5px',
+        bordBot   = '1px solid rgb(150,150,150)';
 
+
+    var sortData = function() {
+
+        var obj = {};
+
+        for(var k=0; k<SYMBOLS.length; k++) { obj[SYMBOLS[k]] = Math.pow(SCORES[k].length, 1/5) }
+
+        var sortObj = function() {
+
+            var data = [];
+
+            for(var sym in obj) {
+
+                data.push([sym, obj[sym]]);
+
+                data.sort(function(x,y) { return y[1]-x[1] });
+            }
+
+            for(var i=1; i<data.length; i++) { data[i][1] /= data[0][1] }
+
+            data[0][1] = 1;
+
+            return data;
+        }
+
+        return sortObj();
+    }
+
+
+    var sortedData = sortData();
+
+    var sortBins = function() {
+
+        var sortedBins = [];
+
+        for(var i=0; i<sortedData.length; i++) { sortedBins.push(BINS[SYMBOLS.indexOf(sortedData[i][0])]) }
+
+        return sortedBins;
+    }
+
+
+    var sortedBins = sortBins();
 
     var filterBins = function(num) {
 
-        var binIndicies = [];
+        var binIndices = [];
 
-        for(var n=0; n<BINS[num].length; n++) { if(BINS[num][n] != 0) { binIndicies.push(n) } }
+        for(var n=0; n<sortedBins[num].length; n++) { if(sortedBins[num][n] != 0) { binIndices.push(n) } }
 
-        return binIndicies;
+        return binIndices;
     }
 
 
     //add sentiment bars to the page
-    for(var i=0; i<SYMBOLS.length; i++) {
+    for(var i=0; i<sortedBins.length; i++) {
 
         //loop vars
         var wrapper    = document.createElement("div"),
             s_bar      = document.createElement("canvas"),
             context    = s_bar.getContext('2d'),
             gradient   = context.createLinearGradient(0, 0, width, 0),
-            indicies   = filterBins(i),
+            style      = s_bar.style,
             colStopTot = 0,
-            style      = s_bar.style;
+            indices    = filterBins(i);
 
         //attributes
-        s_bar.id        = SYMBOLS[i];
+        s_bar.id        = sortedData[i][0];
         s_bar.className = className;
         s_bar.width     = width;
-        s_bar.height    = height;
-        s_bar.onclick   = (function(i) { return function() { location.href = "/stock_sentiment_historical/?symbol="+SYMBOLS[i] } }(i));
+        s_bar.height    = height*sortedData[i][1];
+        s_bar.onclick   = (function(i) { return function() { location.href = "/stock_sentiment_historical/?symbol="+sortedData[i][0]+"&date="+DATE } }(i));
 
         //add color stops to the gradient
-        for(var j=0; j<indicies.length; j++) {
+        for(var j=0; j<indices.length; j++) {
 
             //start color
-            gradient.addColorStop(colStopTot, cols[indicies[j]]);
+            gradient.addColorStop(colStopTot, cols[indices[j]]);
 
             //update
-            colStopTot += BINS[i][indicies[j]];
+            colStopTot += sortedBins[i][indices[j]];
 
             //stop color
-            gradient.addColorStop(colStopTot, cols[indicies[j]]);
+            gradient.addColorStop(colStopTot, cols[indices[j]]);
         }
 
         //gradient attribute
@@ -87,24 +130,30 @@ var addSentimentGraphics = function() {
         context.fillRect(0, 0, width, height);
 
         //symbol text attributes
-        context.fillStyle    = '#b3d9ff';
-        context.font         = '20px Helvetica';
+        context.fillStyle    = 'rgb(75,75,75)';
+        context.font         = i==0 ? '30px Helvetica' : 30*sortedData[i][1]+'px Helvetica';
         context.textAlign    = 'center';
         context.textBaseline = 'middle';
 
         //write text to the canvas 
-        context.fillText(SYMBOLS[i], width/2, height/2);
+        context.fillText(sortedData[i][0], width/2, height*sortedData[i][1]/2);
 
-        //add border radius styles if the current bar is the first or last
-        if(i == 0) {
+        //add border radius and border bottom styles
+        switch(i) {
 
-            style.borderTopLeftRadius  = bordRad;
-            style.borderTopRightRadius = bordRad;
+            case 0:
+                style.borderTopLeftRadius  = bordRad;
+                style.borderTopRightRadius = bordRad;
+                style.borderBottom = bordBot;
+                break;
 
-        } else if(i == SYMBOLS.length-1) {
+            case SYMBOLS.length-1:
+                style.borderBottomLeftRadius  = bordRad;
+                style.borderBottomRightRadius = bordRad;
+                break;
 
-            style.borderBottomLeftRadius  = bordRad;
-            style.borderBottomRightRadius = bordRad;
+            default:
+                style.borderBottom = bordBot;
         }
 
         wrapper.appendChild(s_bar);
@@ -114,27 +163,6 @@ var addSentimentGraphics = function() {
 
 
 /* DEBUG METHODS ==================================================================================================================================*/
-
-var generateBins = function(callback) {
-    
-    //create bins for the chart from DB data
-    for(var i=0; i<SCORES.length; i++) {
-
-        BINS.push([0,0,0,0,0]);
-
-        for (var j=0; j<SCORES[i].length; j++) {
-
-            var s = SCORES[i][j]+1;
-
-            BINS[i][Math.floor(2.49*s)] = BINS[i][Math.floor(2.49*s)]+1;
-        }
-
-        for(var j=0; j<5; j++) { BINS[i][j] = BINS[i][j]/(SCORES[i].length) }
-    }
-
-    if(typeof callback === 'function') { callback() }
-}
-
 
 var addHistogram = function() {
 

@@ -1,19 +1,23 @@
+#universe-container {
+  background-color: #f4f7fb;
+  border-bottom: 1px solid #b3d9ff;
+}
+
 #universe,
 #histogram-container,
 #sentiment-bars-container {
   text-align: center;
 }
 
-#universe-container {
-  background-color: #f4f7fb;
-  border-bottom: 1px solid #b3d9ff;
+#universe,
+.sentiment-bar {
+  margin: 0 auto;
 }
 
 #universe {
   max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  font: 200 15px "Arial", sans-serif;
+  padding: 10px;
+  font: 200 12px "Arial", sans-serif;
   color: #888888;
 }
 
@@ -28,7 +32,7 @@
 
 .sentiment-bar {
   display: block;
-  margin: 0 auto;
+  opacity: 0.9;
 }
 
 .sentiment-bar:hover {
