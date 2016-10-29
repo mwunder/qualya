@@ -2,7 +2,7 @@ from collections import Counter, defaultdict
 import pickle 
 from sentiment_refs import *
 
-update_all = 0
+update_all = 1
 use_negations = 1
 vocab_size = 50000
 
@@ -32,7 +32,7 @@ stocks = pd.DataFrame(columns=['id','status_id','created_at','status_text','stat
 if 1: 
     from sentiment.models import *
 
-    model_object = pickle.load(open('models/models.p'))
+    model_object = pickle.load(open('twitter_stock/models/models.p'))
     dictionary = model_object['dictionary']
     word_index = model_object['word_index']
     clm = model_object['clm']
@@ -43,7 +43,7 @@ if 1:
     if not update_all: 
         statuses = Stock_status.objects.filter(status_sentiment=0, created_at__gte=datetime.date(datetime.now()-timedelta(minutes=1440))) 
     else:
-        statuses = Stock_status.objects.filter(status_sentiment=0, created_at__gte=datetime.date(datetime.now()-timedelta(minutes=5*1440)),\
+        statuses = Stock_status.objects.filter(status_sentiment=0, created_at__gte=datetime.date(datetime.now()-timedelta(minutes=7*1440)),\
                         created_at__lte=datetime.date(datetime.now()-timedelta(minutes=1440))) 
     for status in statuses:
         # if status.status_sentiment != 0: continue

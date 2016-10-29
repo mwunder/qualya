@@ -92,7 +92,7 @@ def stock_sentiment_historical(request):
     current_date = datetime.now() # datetime.strptime('2016-08-08','%Y-%m-%d') <-- placeholder date
     end_date     = get_date_from(request.GET,current_date)
     stock        = Stock.objects.filter(symbol=symbol.lower())
-    statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date-timedelta(minutes=interval), created_at__lte=end_date)
+    statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date-timedelta(minutes=interval-1440), created_at__lte=end_date+timedelta(minutes=1440))
 
     # Fetch prices
     prices = Stock_price.objects.filter(stock=stock,trading_day__gte=end_date-timedelta(minutes=interval+1440*3), trading_day__lte=end_date)
