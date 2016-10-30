@@ -39,7 +39,7 @@ def stock_sentiment_universe(request):
     interval     = 1440 if 'w' not in request.GET or not is_num(request.GET['w']) else int(request.GET['w'])
     current_date = datetime.now() # datetime.strptime('2016-08-08','%Y-%m-%d') <-- placeholder date
     end_date     = get_date_from(request.GET,current_date)
-    end_date     = datetime.datetime(end_date.year,end_date.month,end_date.day)
+    end_date     = datetime(end_date.year,end_date.month,end_date.day)
     statuses     = Stock_status.objects.filter(created_at__gte=end_date, created_at__lte=end_date+timedelta(minutes=interval))
     prices       = Stock_price.objects.filter(trading_day__gt=end_date-timedelta(minutes=interval+1400), trading_day__lte=end_date)
     stocks       = Stock.objects.all()
