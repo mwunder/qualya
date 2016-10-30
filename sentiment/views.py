@@ -52,9 +52,10 @@ def stock_sentiment_universe(request):
     
     for status in statuses: 
         if not  status.status_sentiment or status.status_sentiment < -1 or status.status_sentiment > 1: continue 
-        try:    symbol_scores[status.symbol].append(status.status_sentiment)
-        except: symbol_scores[status.symbol] = [status.status_sentiment]
-        bins[status.symbol].append(status.sentiment_bin)
+        sym = status.symbol if status.symbol.lower()!='GOOG' else 'GOOGL'
+        try:    symbol_scores[sym].append(status.status_sentiment)
+        except: symbol_scores[sym] = [status.status_sentiment]
+        bins[sym].append(status.sentiment_bin)
 
     for stock in symbol_scores.keys():
         volumes[stock]    = [int(p.volume) for p in prices if p.stock_id==stocks[stock] ]
