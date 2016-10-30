@@ -93,7 +93,7 @@ def stock_sentiment_historical(request):
     interval     = 1440*7 if 'w' not in request.GET or not is_num(request.GET['w']) else int(request.GET['w'])
     current_date = datetime.now() # datetime.strptime('2016-08-08','%Y-%m-%d') <-- placeholder date
     end_date     = get_date_from(request.GET,current_date)
-    end_date     = datetime.datetime(end_date.year,end_date.month,end_date.day)
+    end_date     = datetime(end_date.year,end_date.month,end_date.day)
     stock        = Stock.objects.filter(symbol=symbol.lower())
     statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date-timedelta(minutes=interval-1440), created_at__lte=end_date+timedelta(minutes=1440))
 
