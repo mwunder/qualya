@@ -71,29 +71,79 @@ $(function() {
         return new_values;
     }
 
-
     function generateSentOverTime(binsObj) {
   
         var chart = c3.generate({
 
                 data: {  
-                         columns: binsObj,
-                         type:    'bar',
-                         types: {
+                        x: 'Date',
+                        columns: binsObj,
+                        type:    'bar',
+                        types: {
                           Closing_Price: 'line',
-                         },
-                         groups: [['Strong neg','Weak neg','Neutral','Weak pos','Strong pos']],
-                         order: 'asc'
+                        },
+                        axes: {
+                          Strong_neg: 'y',
+                          Weak_neg: 'y',
+                          Neutral: 'y',
+                          Weak_pos: 'y',
+                          Strong_pos: 'y',
+                          Closing_Price: 'y2'
+                        },
+                        groups: [['Strong_neg','Weak_neg','Neutral','Weak_pos','Strong_pos']],
+                        order: 'asc'
                       },
-
+                axis: {
+                        x: {
+                          type: 'timeseries',
+                          tick: {
+                            format: '%Y-%m-%d'
+                          }
+                        },
+                        y: {
+                          tick: {
+                            values: [-1,-0.75,-0.5,-0.25,0,0.25,0.5,0.75,1]
+                          }
+                        },
+                        y2: {
+                          show:true
+                        }
+                },
                 grid: { y: { lines: [{value:0}] } },
-
-                color: { pattern: [ '#ff0000', '#FF4500', '#D3D3D3', '#98df8a', '#2ca02c'] }
+                bar: {
+                        width: {
+                          ratio: 0.9
+                        }
+                },
+                color: { pattern: [ '#ff0000', '#FF4500', '#D3D3D3', '#98df8a', '#2ca02c', '#000000'] }
         });
     }
 
+    function plotPrice(prices){
+      var chart = c3.generate({
+        data: {
+          x: 'Date',
+          columns: prices,
+          type: 'line',
+          groups: [
+              ['Price']
+          ]
+        }, 
+        axis: {
+          x: {
+            type: 'timeseries',
+            tick: {
+              format: '%Y-%m-%d'
+            }
+          } // x
+        }, // axis
+        subchart: {
+          show: true
+        } //subchart
+      });
+    }
 
-    var sents = ['Strong neg','Weak neg','Neutral','Weak pos','Strong pos'],
+    var sents = ['Strong_neg','Weak_neg','Neutral','Weak_pos','Strong_pos'],
         //bins = generateBins(scores_by_date,dates),
         bin_freqs = [];
 
@@ -103,6 +153,10 @@ $(function() {
   
     console.log(bin_freqs);
     console.log(closes);
+    var prices = [];
+    for (var i=0; i<closes.length; i++) { prices[i] = closes[i] }
+      
+    var priceData = [];
     //console.log(bin_series);
     if (closes[0]>0){
       for (var i=1; i<closes.length; i++) { closes[i] = (closes[i]-closes[0])/(0.1*closes[i]) }
@@ -110,6 +164,22 @@ $(function() {
     }
     console.log(closes);
     closes.unshift('Closing_Price');
-    bin_series.push(closes);
+    dates.unshift('Date');
+    prices.unshift('Closing_Price');
+    bin_series.push(prices);
+    bin_series.unshift(dates);
     generateSentOverTime(bin_series);
+
+    // priceData.push(dates,prices);
+    // plotPrice(priceData);
 });
+
+// CSS 
+// .c3-axis-y text {
+//    fill: red;
+//    font-size:12px;
+// }
+// .c3-axis-x text {
+//     font-size:12px;
+//     fill:purple;
+// }

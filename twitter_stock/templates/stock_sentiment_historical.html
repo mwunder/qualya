@@ -20,6 +20,8 @@
 
     <div id="info-container"></div>
 
+    Recent sentiment data for {{ current_stock }}:
+
     <div class="chart-container">
         <div class="row">
             <div class="col-md-12"></div>
@@ -40,7 +42,7 @@
         </div>
     </div><!-- /chart-container -->
 
-    {{closes}}
+    <!-- {{closes}} -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
@@ -62,4 +64,28 @@
     <script src='{% static "js/plotting_time.js" %}'></script>
 
     <script>window.onload = function() { document.getElementById("load-screen").style.display = "none" }</script>
+
+    <form action = "/stock_sentiment_historical/"  method="get">
+        Symbol:  <select name = 'symbol'>  
+                <option value="amzn">Amazon</option> 
+                <option value="aapl">Apple</option>
+                <option value="fb">FB</option> 
+                <option value="googl">Google</option> 
+                <option value="msft">Microsoft</option> 
+                <option value="gdx">GDX</option> 
+                <option value="nflx">Netflix</option>
+                <option value="twtr">Twitter</option> 
+                <option value="tlsa">Tesla</option> 
+        </select>&nbsp; 
+        <br>
+        <br>
+        Lookback:  <select name = 'w'>
+                <option value="3">3 days</option>
+                <option value="7">1 week</option> 
+                <option value="30">1 month</option> 
+                <option value="90">3 month</option> 
+        </select>&nbsp; 
+        <input type ="submit" value = "Submit">
+    </form> 
+
 </body>

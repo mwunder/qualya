@@ -90,7 +90,7 @@ def stock_sentiment_historical(request):
         return HttpResponse("<html><body>'No stock symbol found'</body></html>")
 
     # Fetch the statuses from stock_status given the date constraints
-    interval     = 1440*7 if 'w' not in request.GET or not is_num(request.GET['w']) else int(request.GET['w'])
+    interval     = 1440*7 if 'w' not in request.GET or not is_num(request.GET['w']) else int(request.GET['w'])*1440
     current_date = datetime.now() # datetime.strptime('2016-08-08','%Y-%m-%d') <-- placeholder date
     end_date     = get_date_from(request.GET,current_date)
     end_date     = datetime(end_date.year,end_date.month,end_date.day)
@@ -130,8 +130,8 @@ def stock_sentiment_historical(request):
     if closes: _, closes = zip(* sorted(closes.items()))
     else:         closes = [0]*len(dates)
 
-    dates = map(int,map(lambda d: d.day,dates))
-
+    # dates = map(int,map(lambda d: d.day,dates))
+    dates = map(sql_full_datetime,dates)
     bins, scores_by_date = list(bins), list(scores_by_date)
 
     print bins

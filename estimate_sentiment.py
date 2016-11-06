@@ -61,10 +61,13 @@ stocks['bin'] = 0 + -2*(stocks['ensemble']<=bin_edges[1]) - ((stocks['ensemble']
                         ((stocks['ensemble']>=bin_edges[3])&(stocks['ensemble']<bin_edges[4])) + 2*((stocks['ensemble']>=bin_edges[4])&(stocks['ensemble']<bin_edges[5]))
 
 updated_count = 0 
+not_updated_count = 0 
 updated_ids = []
 for i,row in stocks.iterrows():
     stock_status = Stock_status.objects.filter(id=row['id'], status_id=row['status_id'])
-    if not stock_status or row['id'] in updated_ids: continue
+    if not stock_status or row['id'] in updated_ids: 
+        not_updated_count+=1
+        continue
     stock_status = stock_status[0]
     stock_status.status_sentiment = 2*max(0,min(1,row['ensemble']))-1
     stock_status.sentiment_bin = row['bin']
@@ -72,4 +75,4 @@ for i,row in stocks.iterrows():
     updated_count += 1 
     updated_ids.append(row['id'])
 
-print updated_count
+print updated_count,not_updated_count
