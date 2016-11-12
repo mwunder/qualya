@@ -27,7 +27,8 @@ replace_strings.update({',':' , ','[\?]+':' ??? ','.':' . ',':':' : ', "=":" = "
 replace_pairs= {'sold out':'sold_out', 'break out':'breakout' , 'all[ -]time':'all_time_', 
 'william blair':'institution_name','short.term':'short_term',
 '[sS]hort.[sS]queeze':'shortsqueeze','[sS]queeze.[sS]hort':'shortsqueeze',
-'adfn investorshub':'institution_name', 'message board': 'institution_name'}
+'adfn investorshub':'institution_name', 'message board': 'institution_name',
+'jpmorgan':'institution_name'}
 
 stopwords.add('num_string')
 stopwords.add('hyperlink')

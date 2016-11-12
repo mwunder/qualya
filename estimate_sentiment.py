@@ -69,7 +69,7 @@ for i,row in stocks.iterrows():
         not_updated_count+=1
         continue
     stock_status = stock_status[0]
-    stock_status.status_sentiment = 2*max(0,min(1,row['ensemble']))-1
+    stock_status.status_sentiment = 2*(max(-0.5,min(0.5,row['ensemble']-clm[1])))
     stock_status.sentiment_bin = row['bin']
     stock_status.save()
     updated_count += 1 
