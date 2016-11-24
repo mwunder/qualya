@@ -26,8 +26,18 @@
   margin: 25px 0 40px 0;
 }
 
+#date-button-form {
+  margin: 25px 0;
+  text-align: center;
+}
+
+.date-button {
+  height: 35px;
+  width: 75px;
+}
+
 #sentiment-bars-container {
-  margin: 50px 0;
+  margin: 25px 0;
 }
 
 .sentiment-bar {

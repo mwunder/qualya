@@ -197,3 +197,9 @@ var toggleHistogram = function() {
     if(histCont.display == 'block') { histCont.display = 'none' } else { histCont.display = 'block' }
 }
 
+var addDateAction = function() {
+
+    document.getElementById("date-button-form").action =  "/stock_sentiment_universe/?symbol=All&inc=-1&date=2016-09-09" ;
+}
+
+

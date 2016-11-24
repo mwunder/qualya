@@ -38,7 +38,7 @@ stopwords = stopwords | set(['could','would','should','may','still','one','via',
     "here's",'get','well','make', 'much','many','getting','going','must','maybe'\
     'see','look','looks','looking','says','let', 'think','need', \
     'maturity','stock','stocks','#stocks','shares','trade','trades',
-    'inc', 'llc','spi', 'institution_name', 't_handle'])
+    'inc', 'llc','spi']) # , 'institution_name', 't_handle'])
 
 days_of_week = ['monday','sunday','tuesday','wednesday','thursday','friday','saturday','tues','weds','thurs']
 months = [ 'oct', 'sep','aug','nov','dec','jan','feb','march','april','jun','june','july','jul',
