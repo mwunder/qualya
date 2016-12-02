@@ -1,51 +1,128 @@
-#universe-container {
-  background-color: #f4f7fb;
-  border-bottom: 1px solid #b3d9ff;
-}
-
+#sub-nav,
 #universe,
 #histogram-container,
 #sentiment-bars-container {
   text-align: center;
 }
 
-#universe,
-.sentiment-bar {
-  margin: 0 auto;
+#sub-nav {
+  background-color: #f4f7fb;
+  border-bottom: 1px solid #b3d9ff;
+}
+
+.date-button,
+#universe {
+  color: black;
+}
+
+.date-button {
+  background-color: #b3d9ff;
+  border: none;
+}
+
+#universe-container {
+  display: inline-block;
+  max-width: 325px;
 }
 
 #universe {
-  max-width: 500px;
   padding: 10px;
-  font: 200 12px "Arial", sans-serif;
-  color: #888888;
 }
 
 #histogram-container {
   display: none;
-  margin: 25px 0 40px 0;
-}
-
-#date-button-form {
-  margin: 25px 0;
-  text-align: center;
-}
-
-.date-button {
-  height: 35px;
-  width: 75px;
-}
-
-#sentiment-bars-container {
-  margin: 25px 0;
+  margin: 15px 0;
 }
 
 .sentiment-bar {
   display: block;
-  opacity: 0.9;
+  opacity: .95;
+  margin: 0 auto;
 }
 
 .sentiment-bar:hover {
-  opacity: 0.75;
+  opacity: .7;
 }
+
+/* media queries ==================================================================================================================================*/
+
+@media only screen and (min-width: 240px) {
+
+  .date-button {
+    height: 20px;
+    width: 25px;
+    margin: 6px 2px 0 2px;
+    font: 700 18px "Arial", sans-serif;
+  }
+
+  #universe {
+    font: 700 9px "Arial", sans-serif;
+  }
+
+  #sentiment-bars-container {
+    margin: 35px 0;
+  }
+}
+
+
+@media only screen and (min-width: 375px) {
+
+  .date-button {
+    height: 25px;
+    width: 30px;
+    font: 700 20px "Arial", sans-serif;
+  }
+
+  #universe {
+    font: 700 10px "Arial", sans-serif;
+  }
+
+  #sentiment-bars-container {
+    margin: 40px 0;
+  }
+}
+
+
+@media only screen and (min-width: 475px) {
+
+  .date-button {
+    height: 30px;
+    width: 35px;
+    margin: 7px 10px;
+    font: 700 22px "Arial", sans-serif;
+  }
+
+  #universe {
+    font: 700 11px "Arial", sans-serif;
+  }
+
+  #sentiment-bars-container {
+    margin: 45px 0;
+  }
+}
+
+
+@media only screen and (min-width: 575px) {
+
+  .date-button {
+    height: 35px;
+    width: 40px;
+    font: 700 24px "Arial", sans-serif;
+  }
+
+  #universe {
+    font: 700 12px "Arial", sans-serif;
+  }
+
+  #sentiment-bars-container {
+    margin: 50px 0;
+  }
+}
+
+
+/* 
+@media only screen and (min-width: 700px) { 
+
+}
+*/
 

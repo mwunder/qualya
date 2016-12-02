@@ -27,9 +27,38 @@ body {
 }
 
 #nav {
-  padding: 15px;
-  font: 400 15px "Arial", sans-serif;
-  color: white;
   background-color: #444444;
   border-bottom: 4px solid #b3d9ff;
 }
+
+/* media queries ==================================================================================================================================*/
+
+@media only screen and (min-width: 240px) {
+
+  #nav-logo {
+    height: 23px;
+    width: 69px;
+    margin: 5px;
+  }
+}
+
+
+@media only screen and (min-width: 375px) {
+
+  #nav-logo {
+    height: 25px;
+    width: 75px;
+    margin: 6px;
+  }
+}
+
+
+@media only screen and (min-width: 475px) {
+
+  #nav-logo {
+    height: 28px;
+    width: 84px;
+    margin: 7px;
+  }
+}
+

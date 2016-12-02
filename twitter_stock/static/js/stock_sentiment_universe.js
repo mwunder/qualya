@@ -5,6 +5,17 @@ var DEBUG_UNIVERSE = true;
 
 /* METHODS ========================================================================================================================================*/
 
+var addDateButtonClickEvents = function() {
+
+    ["date-button-back", "date-button-forward"].forEach(function(button, index) {
+
+        var inc = index == 0 ? -1 : 1;
+
+        document.getElementById(button).onclick = function() { location.href = "/stock_sentiment_universe/?symbol=All&inc="+inc+"&date="+DATE }
+    });
+}
+
+
 var printUniverseInfo = function() {
 
     //print info about the stock universe to the page
@@ -17,7 +28,7 @@ var printUniverseInfo = function() {
         //pluralize string if necessary
         var stk = SYMBOLS.length == 1 ? ' stock' : ' stocks';
 
-        universe.appendChild(document.createTextNode("On "+DATE+", the Universe contains "+SYMBOLS.length+stk+"."));
+        universe.appendChild(document.createTextNode("The Universe contains "+SYMBOLS.length+stk+" on "+DATE+"."));
 
     } else {
 
@@ -31,12 +42,14 @@ var printUniverseInfo = function() {
 var addSentimentGraphics = function() {
 
     //local vars
-    var className = 'sentiment-bar',
-        width     = 500,
+    var width     = 500,
         height    = 125,
         cols      = ['darkred', 'rgba(255,0,0,1)', 'silver', 'rgba(0,255,0,1)', 'darkgreen'],
-        bordRad   = '5px',
-        bordBot   = '1px solid rgb(150,150,150)';
+        textColor = 'rgb(0,135,255)',
+        bordBot   = '1px solid rgb(125,125,125)',
+        //bordRad   = '5px',
+        sortedData,
+        sortedBins;
 
 
     var sortData = function() {
@@ -67,11 +80,10 @@ var addSentimentGraphics = function() {
     }
 
 
-    var sortedData = sortData();
-
     var sortBins = function() {
 
-        var sortedBins = [];
+        sortedBins = [],
+        sortedData = sortData();
 
         for(var i=0; i<sortedData.length; i++) { sortedBins.push(BINS[SYMBOLS.indexOf(sortedData[i][0])]) }
 
@@ -79,11 +91,10 @@ var addSentimentGraphics = function() {
     }
 
 
-    var sortedBins = sortBins();
-
     var filterBins = function(num) {
 
-        var binIndices = [];
+        var binIndices = [],
+            sortedBins = sortBins();
 
         for(var n=0; n<sortedBins[num].length; n++) { if(sortedBins[num][n] != 0) { binIndices.push(n) } }
 
@@ -91,8 +102,32 @@ var addSentimentGraphics = function() {
     }
 
 
+    //dynamic sizing on page load only; sentiment bars will not adapt if window is resized 
+    switch(true) {
+
+        case window.innerWidth >= 240 && window.innerWidth < 375:
+            width  = 280;
+            height = 70;
+            break;
+
+        case window.innerWidth >= 375 && window.innerWidth < 475:
+            width  = 320;
+            height = 80;
+            break;
+
+        case window.innerWidth >= 475 && window.innerWidth < 575:
+            width  = 360;
+            height = 90;
+            break;
+
+        case window.innerWidth >= 575 && window.innerWidth < 700:
+            width  = 400;
+            height = 100;
+            break;
+    }
+
     //add sentiment bars to the page
-    for(var i=0; i<sortedBins.length; i++) {
+    for(var i=0; i<SYMBOLS.length; i++) {
 
         //loop vars
         var wrapper    = document.createElement("div"),
@@ -105,7 +140,7 @@ var addSentimentGraphics = function() {
 
         //attributes
         s_bar.id        = sortedData[i][0];
-        s_bar.className = className;
+        s_bar.className = 'sentiment-bar';
         s_bar.width     = width;
         s_bar.height    = height*sortedData[i][1];
         s_bar.onclick   = (function(i) { return function() { location.href = "/stock_sentiment_historical/?symbol="+sortedData[i][0]+"&date="+DATE } }(i));
@@ -130,8 +165,8 @@ var addSentimentGraphics = function() {
         context.fillRect(0, 0, width, height);
 
         //symbol text attributes
-        context.fillStyle    = 'rgb(75,75,75)';
-        context.font         = i==0 ? '30px Helvetica' : 30*sortedData[i][1]+'px Helvetica';
+        context.fillStyle    = textColor;
+        context.font         = 25*sortedData[i][1]+'px Helvetica';
         context.textAlign    = 'center';
         context.textBaseline = 'middle';
 
@@ -142,14 +177,14 @@ var addSentimentGraphics = function() {
         switch(i) {
 
             case 0:
-                style.borderTopLeftRadius  = bordRad;
-                style.borderTopRightRadius = bordRad;
                 style.borderBottom = bordBot;
+                //style.borderTopLeftRadius  = bordRad;
+                //style.borderTopRightRadius = bordRad;
                 break;
 
             case SYMBOLS.length-1:
-                style.borderBottomLeftRadius  = bordRad;
-                style.borderBottomRightRadius = bordRad;
+                //style.borderBottomLeftRadius  = bordRad;
+                //style.borderBottomRightRadius = bordRad;
                 break;
 
             default:
@@ -176,9 +211,9 @@ var addHistogram = function() {
 
         chartOptions = {
 
-            width: '1400px',
+            width: .9*window.innerWidth,
 
-            height: '700px',
+            height: .5*window.innerHeight,
 
             high: 1,
 
@@ -196,10 +231,4 @@ var toggleHistogram = function() {
 
     if(histCont.display == 'block') { histCont.display = 'none' } else { histCont.display = 'block' }
 }
-
-var addDateAction = function() {
-
-    document.getElementById("date-button-form").action =  "/stock_sentiment_universe/?symbol=All&inc=-1&date=2016-09-09" ;
-}
-
 

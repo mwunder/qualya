@@ -14,21 +14,23 @@
 <body>
     <div id="load-screen"></div>
 
-    <div id="nav">Qualya</div>
+    <div id="nav">
+        <a href="/home">
+            <img id="nav-logo" alt="Qualya Logo" src="{% static 'img/logo.png' %}" />
+        </a>
+    </div><!-- /nav -->
 
-    <div id="universe-container"></div>
+    <div id="sub-nav">
+        <button id="date-button-back" class="date-button">&#171;</button>
+
+        <div id="universe-container"></div>
+
+        <button id="date-button-forward" class="date-button">&#187;</button>
+    </div><!-- /sub-nav -->
 
     <div id="histogram-container">
         <div id="histogram" class="ct-chart"></div>
     </div>
-
-    <form id="date-button-form">
-        <button id="date-back-button" class="date-button"
-        onclick="addDateAction()">Back</button>
-
-        <button id="date-forward-button" class="date-button"
-        onclick="">Forward</button>
-    </form>
 
     <div id="sentiment-bars-container"></div>
 
@@ -51,6 +53,7 @@
         //MAIN
         (function() {
 
+            addDateButtonClickEvents();
             printUniverseInfo();
             addSentimentGraphics();
 

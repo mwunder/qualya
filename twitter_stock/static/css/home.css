@@ -20,7 +20,7 @@ label {
 #ticker-dropdown,
 #search-form-button {
   border: none;
-  border-radius: 3px;
+  /* border-radius: 3px; */
 }
 
 #ticker-dropdown {
@@ -42,7 +42,7 @@ label {
 
 /* media queries ==================================================================================================================================*/
 
-@media only screen and (max-width: 374px) {
+@media only screen and (min-width: 240px) {
 
   #main-heading {
     font: 200 25px/1.5 Trebuchet MS, sans-serif;
@@ -168,3 +168,4 @@ label {
     margin-top: 100px;
   }
 }
+
