@@ -1,6 +1,6 @@
 'use strict';
 
-var DEBUG_UNIVERSE = true;
+var DEBUG_UNIVERSE = false;
 
 
 /* METHODS ========================================================================================================================================*/
@@ -28,7 +28,11 @@ var printUniverseInfo = function() {
         //pluralize string if necessary
         var stk = SYMBOLS.length == 1 ? ' stock' : ' stocks';
 
+        //add text to the universe container
         universe.appendChild(document.createTextNode("The Universe contains "+SYMBOLS.length+stk+" on "+DATE+"."));
+
+        //display sentiment bars
+        document.getElementById("sentiment-bars-container").style.display = 'block';
 
     } else {
 
@@ -45,7 +49,7 @@ var addSentimentGraphics = function() {
     var width     = 500,
         height    = 125,
         cols      = ['darkred', 'rgba(255,0,0,1)', 'silver', 'rgba(0,255,0,1)', 'darkgreen'],
-        textColor = 'rgb(0,135,255)',
+        textColor = 'black', //'rgb(0,135,255)',
         bordBot   = '1px solid rgb(125,125,125)',
         //bordRad   = '5px',
         sortedData,
