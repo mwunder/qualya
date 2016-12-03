@@ -96,7 +96,8 @@ def stock_sentiment_historical(request):
     end_date     = get_date_from(request.GET,current_date)
     end_date     = datetime(end_date.year,end_date.month,end_date.day)
     stock        = Stock.objects.filter(symbol=symbol.lower())
-    statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date-timedelta(minutes=interval-1440), created_at__lte=end_date+timedelta(minutes=1440))
+    statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date-timedelta(minutes=interval-1440), 
+                                                created_at__lt=end_date+timedelta(minutes=1440))
 
     # Fetch prices
     prices = Stock_price.objects.filter(stock=stock,trading_day__gte=end_date-timedelta(minutes=interval+1440*3), trading_day__lte=end_date)
@@ -132,8 +133,9 @@ def stock_sentiment_historical(request):
     else:         closes = [0]*len(dates)
 
     # dates = map(int,map(lambda d: d.day,dates))
-    dates = map(sql_full_datetime,dates)
+    dates = map(sql_date,dates)
     bins, scores_by_date = list(bins), list(scores_by_date)
+    normalized_bins = list([b*1./sum(bin_counts) for b in bin_counts] for bin_counts in bins)  
 
     # Pass the raw sentiment scores to the page for presenting in visual form 
     return render(request,'stock_sentiment_historical.html', {
@@ -141,9 +143,9 @@ def stock_sentiment_historical(request):
                'dates':          dates,
                'closes':         list(closes),
                'scores_by_date': scores_by_date,
-               'bins':           bins
+               'bins':           normalized_bins,
+               'avg_sentiment':  [sum(f*b for b,f in zip([-1,-0.5,0,0.5,1],bin) if b)*1.0/sum(bin[:2]+bin[3:]) for bin in normalized_bins]
            })
-
 
 #HELPERS
 def get_date_from(request,default_date=''):

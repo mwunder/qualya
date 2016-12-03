@@ -2,6 +2,7 @@
 
 $(function() {
 
+  /*
     function generateBins(values,dates) {
   
         var bins = [];
@@ -19,6 +20,7 @@ $(function() {
 
         return bins;
     }
+  */
 
 
     function binsOverTime(bins,sents){
@@ -53,23 +55,23 @@ $(function() {
     }
 
 
-    function normalize(values,startIndex){
+    // function normalize(values,startIndex){
     
-        var total = 0,
-            new_values = [];
+    //     var total = 0,
+    //         new_values = [];
     
-        for(var i=startIndex; i<values.length; i++) { total+=Number(values[i]) }
+    //     for(var i=startIndex; i<values.length; i++) { total+=Number(values[i]) }
     
-        if(total==1) { return values }
+    //     if(total==1) { return values }
 
-        for(var i=0; i<values.length; i++) {
+    //     for(var i=0; i<values.length; i++) {
       
-            new_values.push(Number(values[i])/total);
-            //new_values[i-1] = new_values[i-1].toString();
-        }
+    //         new_values.push(Number(values[i])/total);
+    //         //new_values[i-1] = new_values[i-1].toString();
+    //     }
 
-        return new_values;
-    }
+    //     return new_values;
+    // }
 
     function generateSentOverTime(binsObj) {
   
@@ -81,6 +83,7 @@ $(function() {
                         type:    'bar',
                         types: {
                           Closing_Price: 'line',
+                          Avg_sentiment: 'line',
                         },
                         axes: {
                           Strong_neg: 'y',
@@ -88,7 +91,8 @@ $(function() {
                           Neutral: 'y',
                           Weak_pos: 'y',
                           Strong_pos: 'y',
-                          Closing_Price: 'y2'
+                          Closing_Price: 'y2',
+                          Avg_sentiment: 'y'
                         },
                         groups: [['Strong_neg','Weak_neg','Neutral','Weak_pos','Strong_pos']],
                         order: 'asc'
@@ -115,7 +119,7 @@ $(function() {
                           ratio: 0.9
                         }
                 },
-                color: { pattern: [ '#ff0000', '#FF4500', '#D3D3D3', '#98df8a', '#2ca02c', '#000000'] }
+                color: { pattern: [ '#ff0000', '#FF4500', '#D3D3D3', '#98df8a', '#2ca02c', '#000000', '#ffff00'] }
         });
     }
 
@@ -143,31 +147,33 @@ $(function() {
       });
     }
 
-    var sents = ['Strong_neg','Weak_neg','Neutral','Weak_pos','Strong_pos'],
+    var sents = ['Strong_neg','Weak_neg','Neutral','Weak_pos','Strong_pos'];
         //bins = generateBins(scores_by_date,dates),
-        bin_freqs = [];
+        // bin_freqs = [];
 
-    for(var i=0; i<bins.length; i++) { bin_freqs.push(normalize(bins[i],0)) }
+    // for(var i=0; i<bins.length; i++) { bin_freqs.push(normalize(bins[i],0)) }
   
-    var bin_series = binsOverTime(bin_freqs,sents);
+    var bin_series = binsOverTime(bins,sents);
   
-    console.log(bin_freqs);
+    console.log(bins);
     console.log(closes);
-    var prices = [];
-    for (var i=0; i<closes.length; i++) { prices[i] = closes[i] }
+    // var prices = [];
+    // for (var i=0; i<closes.length; i++) { prices[i] = closes[i] }
       
-    var priceData = [];
     //console.log(bin_series);
-    if (closes[0]>0){
-      for (var i=1; i<closes.length; i++) { closes[i] = (closes[i]-closes[0])/(0.1*closes[i]) }
-      closes[0] = 0.0;
-    }
-    console.log(closes);
-    closes.unshift('Closing_Price');
+    // if (closes[0]>0){
+    //   for (var i=1; i<closes.length; i++) { closes[i] = (closes[i]-closes[0])/(0.1*closes[i]) }
+    //   closes[0] = 0.0;
+    // }
+    // console.log(closes);
+    // closes.unshift('Closing_Price');
     dates.unshift('Date');
-    prices.unshift('Closing_Price');
-    bin_series.push(prices);
+    closes.unshift('Closing_Price');
+    avg_sentiment.unshift('Avg_sentiment');
+    bin_series.push(closes);
     bin_series.unshift(dates);
+    console.log(avg_sentiment);
+    bin_series.push(avg_sentiment);
     generateSentOverTime(bin_series);
 
     // priceData.push(dates,prices);
