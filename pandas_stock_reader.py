@@ -3,7 +3,7 @@ from datetime import *
 from sentiment.models import *
 from sentiment_refs import * 
 
-start = datetime.now() - timedelta(minutes=1440) # datetime(2016,1,1) # 
+start = datetime.now() - timedelta(minutes=15*1440) # datetime(2016,1,1) # 
 end = datetime.now() #(2016,10,7)
 
 
