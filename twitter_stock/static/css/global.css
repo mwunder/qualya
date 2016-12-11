@@ -31,6 +31,19 @@ body {
   border-bottom: 4px solid #b3d9ff;
 }
 
+#sub-nav {
+  text-align: center;
+  background-color: #f4f7fb;
+  border-bottom: 1px solid #b3d9ff;
+}
+
+.button {
+  display: inline-block;
+  color: black;
+  background-color: #b3d9ff;
+  border: none;
+}
+
 /* media queries ==================================================================================================================================*/
 
 @media only screen and (min-width: 240px) {

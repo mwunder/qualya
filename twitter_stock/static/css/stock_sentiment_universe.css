@@ -1,42 +1,27 @@
-#sub-nav,
 #universe,
 #histogram-container,
 #sentiment-bars-container {
   text-align: center;
 }
 
-#sub-nav {
-  background-color: #f4f7fb;
-  border-bottom: 1px solid #b3d9ff;
+#universe-container {
+  display: inline-block;
 }
 
-.date-button,
 #universe {
   color: black;
 }
 
-.date-button {
-  display: inline-block;
-  background-color: #b3d9ff;
-  border: none;
-}
-
-#universe-container {
-  display: inline-block;
-  max-width: 325px;
-}
-
-#universe {
-  padding: 10px;
+#histogram-container,
+#sentiment-bars-container {
+  display: none;
 }
 
 #histogram-container {
-  display: none;
   margin: 15px 0;
 }
 
 #sentiment-bars-container {
-  display: none;
   background-color: #f4f7fb;
   border: 1px solid #555555;
 }
@@ -55,14 +40,20 @@
 
 @media only screen and (min-width: 240px) {
 
-  .date-button {
+  #date-button-back,
+  #date-button-forward {
     height: 25px;
     width: 25px;
     margin: 5px 0;
     font: 700 18px "Arial", sans-serif;
   }
 
+  #universe-container{
+    width: 240px;
+  }
+
   #universe {
+    padding: 10px 5px;
     font: 700 9px "Arial", sans-serif;
   }
 
@@ -76,11 +67,16 @@
 
 @media only screen and (min-width: 375px) {
 
-  .date-button {
+  #date-button-back,
+  #date-button-forward {
     width: 30px;
     margin: 5px;
     padding: 0 0 2px 0;
     font: 700 20px "Arial", sans-serif;
+  }
+
+  #universe-container{
+    width: 270px;
   }
 
   #universe {
@@ -97,10 +93,15 @@
 
 @media only screen and (min-width: 475px) {
 
-  .date-button {
+  #date-button-back,
+  #date-button-forward {
     height: 30px;
     width: 35px;
     font: 700 22px "Arial", sans-serif;
+  }
+
+  #universe-container{
+    width: 325px;
   }
 
   #universe {
@@ -117,7 +118,8 @@
 
 @media only screen and (min-width: 575px) {
 
-  .date-button {
+  #date-button-back,
+  #date-button-forward {
     height: 35px;
     width: 40px;
     font: 700 24px "Arial", sans-serif;
@@ -135,7 +137,7 @@
 }
 
 
-@media only screen and (min-width: 700px) { 
+@media only screen and (min-width: 700px) {
 
   #sentiment-bars-container {
     max-width: 560px;

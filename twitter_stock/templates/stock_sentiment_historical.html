@@ -4,11 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'css/c3.min.css' %}">
-
+    <link rel="stylesheet" href="{% static 'css/chartist.css' %}" />
     <link rel="stylesheet" href="{% static 'css/global.css' %}" />
     <link rel="stylesheet" href="{% static 'css/stock_sentiment_historical.css' %}" />
+
+    <!-- ELIMINATE -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/c3.min.css' %}">
+    <!--           -->
 
     <title>Qualya | Stock Sentiment | Historical Data</title>
 </head>
@@ -22,10 +25,15 @@
         </a>
     </div><!-- /nav -->
 
-    <div id="info-container"></div>
+    <div id="sub-nav">
+        <button id="dec-timeframe-button" class="button">-</button>
 
-    Recent sentiment data for {{ current_stock }}:
+        <div id="historical-container">Historical data for {{ current_stock }}</div>
 
+        <button id="inc-timeframe-button" class="button">+</button>
+    </div><!-- /sub-nav -->
+
+    <!-- ELIMINATE -->
     <div class="chart-container">
         <div class="row">
             <div class="col-md-12"></div>
@@ -45,13 +53,16 @@
             </div>
         </div>
     </div><!-- /chart-container -->
+    <!--           -->
 
-    <!-- {{closes}} -->
-
+    <!-- ELIMINATE -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src='//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js'></script>
+    <!--          -->
+
+    <script src='{% static "js/global.js" %}'></script>
 
     <script>
         'use strict';
@@ -63,12 +74,11 @@
             avg_sentiment  = {{avg_sentiment|safe}},
             bins           = {{bins|safe}};
 
-        console.log(dates, scores_by_date);
+        console.log(symbol, dates, closes, scores_by_date, avg_sentiment, bins);
     </script>
 
+    <!-- ELIMINATE -->
     <script src='{% static "js/plotting_time.js" %}'></script>
-
-    <script>window.onload = function() { document.getElementById("load-screen").style.display = "none" }</script>
 
     <form action = "/stock_sentiment_historical/"  method="get">
         Symbol:  <select name = 'symbol'>  
@@ -91,6 +101,8 @@
                 <option value="90">3 month</option> 
         </select>&nbsp; 
         <input type ="submit" value = "Submit">
-    </form> 
+    </form>
+    <!--           -->
 
+    <script>window.onload = function() { document.getElementById("load-screen").style.display = "none" }</script>
 </body>

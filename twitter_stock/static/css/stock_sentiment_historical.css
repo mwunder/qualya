@@ -1,7 +1,22 @@
-#info{
-  
+#historical-container{
+  display: inline-block;
+  width: 200px;
+  padding: 10px 0;
+  font: 700 12px "Arial", sans-serif;
+  color: black;
+}
+
+#dec-timeframe-button,
+#inc-timeframe-button {
+  height: 35px;
+  width: 40px;
+  margin: 5px;
+  font: 700 20px "Arial", sans-serif;
 }
 
 #chart {
   margin: 50px 0;
 }
+
+/* media queries ==================================================================================================================================*/
+
