@@ -26,10 +26,14 @@ class Score:
 
 #VIEW FUNCTIONS
 def home(request):
-    symbols = [s.symbol for s in Stock.objects.all()]
+    end_date     = datetime.now()
+    end_date     = datetime(end_date.year,end_date.month,end_date.day)
+    statuses     = Stock_status.objects.filter(created_at__gte=end_date,bin=0,
+                    created_at__lte=end_date+timedelta(minutes=1440))
+    symbols      = list(set([s.symbol for s in statuses]))
 
     # Pass the symbols to page for use in the dropdown menu
-    return render(request,'home.html', { 'symbols': map(str, symbols) })
+    return render(request,'home.html', { 'symbols': sorted(map(str, symbols))})
 
 def stock_sentiment_universe(request):
     ''' The main function for displaying the sentiment scores for the universe of stocks in the DB
