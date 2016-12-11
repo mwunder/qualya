@@ -16,8 +16,7 @@
 }
 
 .date-button {
-  display: table-cell;
-  vertical-align: middle;
+  display: inline-block;
   background-color: #b3d9ff;
   border: none;
 }
@@ -57,8 +56,9 @@
 @media only screen and (min-width: 240px) {
 
   .date-button {
-    height: 20px;
+    height: 25px;
     width: 25px;
+    margin: 5px 0;
     font: 700 18px "Arial", sans-serif;
   }
 
@@ -77,8 +77,9 @@
 @media only screen and (min-width: 375px) {
 
   .date-button {
-    height: 25px;
     width: 30px;
+    margin: 5px;
+    padding: 0 0 2px 0;
     font: 700 20px "Arial", sans-serif;
   }
 
@@ -99,7 +100,6 @@
   .date-button {
     height: 30px;
     width: 35px;
-    margin: 5px;
     font: 700 22px "Arial", sans-serif;
   }
 
