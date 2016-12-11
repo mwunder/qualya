@@ -36,7 +36,7 @@ def stock_sentiment_universe(request):
     '''
 
     # Fetch the statuses from stock_status given the date constraints
-    interval     = 1440 if 'w' not in request.GET or not is_num(request.GET['w']) else int(request.GET['w'])
+    interval     = 1440 if 'w' not in request.GET or not is_num(request.GET['w']) else 1440*int(request.GET['w'])
     increment    = 0 if 'inc' not in request.GET else int(request.GET['inc'])
     current_date = datetime.now()-timedelta(minutes=interval) # datetime.strptime('2016-08-08','%Y-%m-%d') <-- placeholder date
     end_date     = get_date_from(request.GET,current_date)+timedelta(minutes=1440*increment)
@@ -91,7 +91,8 @@ def stock_sentiment_historical(request):
         return HttpResponse("<html><body>'No stock symbol found'</body></html>")
 
     # Fetch the statuses from stock_status given the date constraints
-    interval     = 1440*7 if 'w' not in request.GET or not is_num(request.GET['w']) else int(request.GET['w'])*1440
+    multiplier   = 1 if 'mult' not in request.GET or not is_num(request.GET['mult']) else float(request.GET['mult'])
+    interval     = 1440*int(multiplier*(7 if 'w' not in request.GET or not is_num(request.GET['w']) else int(request.GET['w'])))
     current_date = datetime.now() # datetime.strptime('2016-08-08','%Y-%m-%d') <-- placeholder date
     end_date     = get_date_from(request.GET,current_date)
     end_date     = datetime(end_date.year,end_date.month,end_date.day)
