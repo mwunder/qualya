@@ -28,10 +28,13 @@ class Score:
 def home(request):
     end_date     = datetime.now()
     end_date     = datetime(end_date.year,end_date.month,end_date.day)
-    statuses     = Stock_status.objects.filter(created_at__gte=end_date,bin=0,
+    statuses     = Stock_status.objects.filter(created_at__gte=end_date,sentiment_bin=0,
                     created_at__lte=end_date+timedelta(minutes=1440))
+    if not statuses: 
+        statuses = Stock_status.objects.filter(created_at__gte=end_date-timedelta(minutes=60*1440),sentiment_bin=0,
+                    created_at__lte=end_date-timedelta(minutes=58*1440))
     symbols      = list(set([s.symbol for s in statuses]))
-
+    print len(statuses), symbols
     # Pass the symbols to page for use in the dropdown menu
     return render(request,'home.html', { 'symbols': sorted(map(str, symbols))})
 
