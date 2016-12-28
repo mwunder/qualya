@@ -26,11 +26,23 @@
     </div><!-- /nav -->
 
     <div id="sub-nav">
-        <button id="dec-timeframe-button" class="button">-</button>
+        <button id="zoom-in-button" class="button">-</button>
 
-        <div id="historical-container">Historical data for {{ current_stock }}</div>
+        <div id="historical-container">
+            Historical data for
 
-        <button id="inc-timeframe-button" class="button">+</button>
+            <form id="go-form" method="get">
+                <div class="container go-form-child">
+                    <select id="" class="dropdown" name="symbol" tabindex="1"></select>
+                </div>
+
+                <div id="go-form-button-container" class="go-form-child">
+                    <button id="go-form-button" name="submit" type="submit" onclick="addHistoricalFormAction()">Go</button>
+                </div>
+            </form>
+        </div>
+
+        <button id="zoom-out-button" class="button">+</button>
     </div><!-- /sub-nav -->
 
     <!-- ELIMINATE -->
@@ -63,45 +75,44 @@
     <!--          -->
 
     <script src='{% static "js/global.js" %}'></script>
+    <script src='{% static "js/stock_sentiment_historical.js" %}'></script>
 
     <script>
         'use strict';
 
-        var symbol         = "{{ current_stock }}",
-            dates          = {{dates|safe}},
-            closes         = {{closes|safe}},
-            scores_by_date = {{scores_by_date|safe}},
-            avg_sentiment  = {{avg_sentiment|safe}},
-            bins           = {{bins|safe}};
+        //GLOBAL VARS
+        var SYMBOL         = "{{ current_stock }}",
+            dates          = {{ dates|safe }},
+            timeFrame      = {{ dates|length }},
+            closes         = {{ closes|safe }},
+            scores_by_date = {{ scores_by_date|safe }},
+            avg_sentiment  = {{ avg_sentiment|safe }},
+            bins           = {{ bins|safe }};
 
-        console.log(symbol, dates, closes, scores_by_date, avg_sentiment, bins);
+        {% for d in dates %}
+          {% if forloop.last %}
+            var DATE = "{{ d|safe }}";
+          {% endif %}
+        {% endfor %}
+
+        //METHODS in 'js/stock_sentiment_historical.js'
+
+        //MAIN
+        (function() {
+
+            addIntervalButtonClickEvents();
+
+            //debug mode
+            if(DEBUG_UNIVERSE) {
+
+                //test
+                console.log(SYMBOL, dates, timeFrame, closes, scores_by_date, avg_sentiment, bins);
+            }
+        }());
     </script>
 
     <!-- ELIMINATE -->
     <script src='{% static "js/plotting_time.js" %}'></script>
-
-    <form action = "/stock_sentiment_historical/"  method="get">
-        Symbol:  <select name = 'symbol'>  
-                <option value="amzn">Amazon</option> 
-                <option value="aapl">Apple</option>
-                <option value="fb">FB</option> 
-                <option value="googl">Google</option> 
-                <option value="msft">Microsoft</option> 
-                <option value="gdx">GDX</option> 
-                <option value="nflx">Netflix</option>
-                <option value="twtr">Twitter</option> 
-                <option value="tlsa">Tesla</option> 
-        </select>&nbsp; 
-        <br>
-        <br>
-        Lookback:  <select name = 'w'>
-                <option value="3">3 days</option>
-                <option value="7">1 week</option> 
-                <option value="30">1 month</option> 
-                <option value="90">3 month</option> 
-        </select>&nbsp; 
-        <input type ="submit" value = "Submit">
-    </form>
     <!--           -->
 
     <script>window.onload = function() { document.getElementById("load-screen").style.display = "none" }</script>

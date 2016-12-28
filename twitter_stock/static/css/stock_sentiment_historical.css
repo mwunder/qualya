@@ -6,12 +6,32 @@
   color: black;
 }
 
-#dec-timeframe-button,
-#inc-timeframe-button {
+#zoom-in-button,
+#zoom-out-button {
   height: 35px;
   width: 40px;
   margin: 5px;
   font: 700 20px "Arial", sans-serif;
+}
+
+.dropdown,
+#go-form-button {
+  display: inline-block;
+  border: none;
+  /* border-radius: 3px; */
+}
+
+.dropdown {
+  margin: 15px 0 0 10px;
+  padding: 0 0 0 5px;
+  background-color: #b3d9ff;
+}
+
+#go-form-button {
+  margin: 10px 0;
+  padding: 10px 0;
+  color: white;
+  background-color: #444444;
 }
 
 #chart {

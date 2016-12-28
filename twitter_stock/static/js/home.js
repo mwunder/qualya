@@ -1,6 +1,6 @@
 'use strict';
 
-var addFormAction = function() {
+var addHomeFormAction = function() {
 
     if(document.getElementById("ticker-dropdown").value == "All") {
 
