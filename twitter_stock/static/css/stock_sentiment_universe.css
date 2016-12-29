@@ -82,8 +82,8 @@
   }
 
   #sentiment-bars-container {
-    padding: 20px 0;
-    max-width: 360px;
+    padding: 15px 0;
+    max-width: 355px;
     margin: 35px auto;
   }
 }
@@ -107,8 +107,7 @@
   }
 
   #sentiment-bars-container {
-    padding: 25px 0;
-    max-width: 420px;
+    max-width: 395px;
     margin: 40px auto;
   }
 }
@@ -128,8 +127,7 @@
   }
 
   #sentiment-bars-container {
-    padding: 30px 0;
-    max-width: 460px;
+    max-width: 430px;
     margin: 45px auto;
   }
 }
@@ -138,8 +136,7 @@
 @media only screen and (min-width: 700px) {
 
   #sentiment-bars-container {
-    max-width: 560px;
+    max-width: 530px;
     margin: 50px auto;
   }
 }
-

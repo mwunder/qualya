@@ -24,10 +24,6 @@ label {
   background-color: #444444;
 }
 
-#main-img {
-  margin: 40px 0 0 0;
-}
-
 /* media queries ==================================================================================================================================*/
 
 @media only screen and (min-width: 240px) {
@@ -54,7 +50,8 @@ label {
   }
 
   #main-img {
-    max-width: 100px;
+    max-width: 80px;
+    margin: 30px 0 0 0;
   }
 }
 
@@ -83,7 +80,8 @@ label {
   }
 
   #main-img {
-    max-width: 110px;
+    max-width: 90px;
+    margin: 40px 0 0 0;
   }
 }
 
@@ -112,8 +110,8 @@ label {
   }
 
   #main-img {
-    max-width: 130px;
-    margin-top: 65px;
+    max-width: 100px;
+    margin: 75px 0 0 0;
   }
 }
 
@@ -123,10 +121,6 @@ label {
   #main-heading {
     margin: 15px 0 10px 0;
     font: 400 33px/1.5 Trebuchet MS, sans-serif;
-  }
-
-  #main-img {
-    margin-top: 75px;
   }
 }
 
@@ -149,10 +143,5 @@ label {
 
   #search-form-button {
     width: 185px;
-  }
-
-  #main-img {
-    max-width: 150px;
-    margin-top: 100px;
   }
 }
