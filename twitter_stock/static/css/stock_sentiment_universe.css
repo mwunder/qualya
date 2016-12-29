@@ -4,12 +4,10 @@
   text-align: center;
 }
 
-#universe-container {
-  display: inline-block;
-}
-
-#universe {
+#date-button-back,
+#date-button-forward {
   color: black;
+  background-color: #b3d9ff;
 }
 
 #histogram-container,

@@ -1,35 +1,28 @@
-#historical-container{
-  display: inline-block;
+#historical-container {
   width: 200px;
-  padding: 10px 0;
+  padding: 5px 0 3px 5px;
   font: 700 12px "Arial", sans-serif;
-  color: black;
 }
 
 #zoom-in-button,
 #zoom-out-button {
   height: 35px;
   width: 40px;
-  margin: 5px;
-  font: 700 20px "Arial", sans-serif;
-}
-
-.dropdown,
-#go-form-button {
-  display: inline-block;
-  border: none;
-  /* border-radius: 3px; */
-}
-
-.dropdown {
-  margin: 15px 0 0 10px;
-  padding: 0 0 0 5px;
+  margin: 5px 10px 0 25px;
+  font: 700 22px "Arial", sans-serif;
+  color: black;
   background-color: #b3d9ff;
 }
 
-#go-form-button {
-  margin: 10px 0;
-  padding: 10px 0;
+#ticker-dropdown-2 {
+  margin: 0 0 0 4px;
+  padding: 3px;
+}
+
+#go-button {
+  margin: 5px 0;
+  padding: 0 4px 2px 3px;
+  font: 200 15px Arial, sans-serif;
   color: white;
   background-color: #444444;
 }

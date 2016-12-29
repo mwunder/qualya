@@ -29,14 +29,15 @@ def home(request):
     end_date     = datetime.now()
     end_date     = datetime(end_date.year,end_date.month,end_date.day)
     statuses     = Stock_status.objects.filter(created_at__gte=end_date,sentiment_bin=0,
-                    created_at__lte=end_date+timedelta(minutes=1440))
-    if not statuses: 
+                     created_at__lte=end_date+timedelta(minutes=1440))
+    if not statuses:
         statuses = Stock_status.objects.filter(created_at__gte=end_date-timedelta(minutes=60*1440),sentiment_bin=0,
-                    created_at__lte=end_date-timedelta(minutes=58*1440))
+                     created_at__lte=end_date-timedelta(minutes=58*1440))
+
     symbols      = list(set([s.symbol for s in statuses]))
     print len(statuses), symbols
     # Pass the symbols to page for use in the dropdown menu
-    return render(request,'home.html', { 'symbols': sorted(map(str, symbols))})
+    return render(request,'home.html', { 'symbols': sorted(map(str, symbols)) })
 
 def stock_sentiment_universe(request):
     ''' The main function for displaying the sentiment scores for the universe of stocks in the DB
@@ -105,7 +106,12 @@ def stock_sentiment_historical(request):
     end_date     = datetime(end_date.year,end_date.month,end_date.day)
     stock        = Stock.objects.filter(symbol=symbol.lower())
     statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date-timedelta(minutes=interval-1440), 
-                                                created_at__lt=end_date+timedelta(minutes=1440))
+                                                 created_at__lt=end_date+timedelta(minutes=1140))
+
+    all_statuses = Stock_status.objects.filter(created_at__gte=end_date,sentiment_bin=0,
+                                                 created_at__lte=end_date+timedelta(minutes=1440))
+
+    symbols      = list(set([s.symbol for s in all_statuses]))
 
     # Fetch prices
     prices = Stock_price.objects.filter(stock=stock,trading_day__gte=end_date-timedelta(minutes=interval+1440*3), trading_day__lte=end_date)
@@ -148,6 +154,7 @@ def stock_sentiment_historical(request):
     # Pass the raw sentiment scores to the page for presenting in visual form 
     return render(request,'stock_sentiment_historical.html', {
                'current_stock':  symbol,
+               'symbols':        sorted(map(str, symbols)),
                'dates':          dates,
                'closes':         list(closes),
                'scores_by_date': scores_by_date,

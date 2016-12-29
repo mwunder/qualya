@@ -1,8 +1,8 @@
 'use strict';
 
-var addHomeFormAction = function() {
+var addSearchFormAction = function() {
 
-    if(document.getElementById("ticker-dropdown").value == "All") {
+    if(document.getElementById("ticker-dropdown-1").value == "All") {
 
         document.getElementById("search-form").action = "/stock_sentiment_universe/";
 

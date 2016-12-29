@@ -25,12 +25,12 @@
                 <div id="ticker-dropdown-container" class="search-form-child">
                     <label>
                         <span>Symbol:</span>
-                        <select id="ticker-dropdown" name="symbol" tabindex="1"></select>
+                        <select id="ticker-dropdown-1" class="dropdown" name="symbol" tabindex="1"></select>
                     </label>
                 </div>
 
                 <div id="search-form-button-container" class="search-form-child">
-                    <button id="search-form-button" name="submit" type="submit" onclick="addHomeFormAction()">Search</button>
+                    <button id="search-form-button" class="button" name="submit" type="submit">Search</button>
                 </div>
             </form>
 
@@ -49,7 +49,11 @@
             //METHODS in 'js/home.js'
 
             //MAIN
-            (function() { populateDropDownMenu() }());
+            (function() {
+
+                populateDropDownMenu("ticker-dropdown-1", SYMBOLS);
+                addSearchFormAction();
+            }());
         </script>
 
         <script>window.onload = function() { document.getElementById("load-screen").style.display = "none" }</script>

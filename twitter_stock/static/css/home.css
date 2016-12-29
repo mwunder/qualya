@@ -17,18 +17,6 @@ label {
   color: #aaaaaa;
 }
 
-#ticker-dropdown,
-#search-form-button {
-  border: none;
-  /* border-radius: 3px; */
-}
-
-#ticker-dropdown {
-  margin: 15px 0 0 10px;
-  padding: 0 5px;
-  background-color: #b3d9ff;
-}
-
 #search-form-button {
   margin: 10px 0;
   padding: 10px 0;
@@ -56,7 +44,7 @@ label {
     font: 200 19px Trebuchet MS, sans-serif;
   }
 
-  #ticker-dropdown,
+  #ticker-dropdown-1,
   #search-form-button {
     font: 100 17px Trebuchet MS, sans-serif;
   }
@@ -85,7 +73,7 @@ label {
     font: 200 20px Trebuchet MS, sans-serif;
   }
 
-  #ticker-dropdown,
+  #ticker-dropdown-1,
   #search-form-button {
     font: 100 18px Trebuchet MS, sans-serif;
   }
@@ -114,7 +102,7 @@ label {
     font: 200 22px Trebuchet MS, sans-serif;
   }
 
-  #ticker-dropdown,
+  #ticker-dropdown-1,
   #search-form-button {
     font: 100 20px Trebuchet MS, sans-serif;
   }
@@ -154,7 +142,7 @@ label {
     font: 300 23px Trebuchet MS, sans-serif;
   }
 
-  #ticker-dropdown,
+  #ticker-dropdown-1,
   #search-form-button {
     font: 200 21px Trebuchet MS, sans-serif;
   }
@@ -168,4 +156,3 @@ label {
     margin-top: 100px;
   }
 }
-

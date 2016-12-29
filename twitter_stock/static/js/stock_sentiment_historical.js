@@ -2,7 +2,6 @@
 
 var DEBUG_UNIVERSE = true;
 
-
 /* METHODS ========================================================================================================================================*/
 
 var addIntervalButtonClickEvents = function() {
@@ -18,7 +17,12 @@ var addIntervalButtonClickEvents = function() {
     });
 }
 
-var addHistoricalFormAction = function() {
+var addGoButtonClickEvent = function() {
 
-    
+    document.getElementById("go-button").onclick = function() {
+
+        var selected = document.getElementById("ticker-dropdown-2").value;
+
+        location.href = "/stock_sentiment_historical/?symbol="+selected+"&w="+timeFrame+"&date="+DATE;
+    }
 }
