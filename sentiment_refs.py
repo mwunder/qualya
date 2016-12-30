@@ -19,13 +19,14 @@ replace_strings.update({',':' , ','[\?]+':' ??? ','.':' . ',':':' : ', "=":" = "
     "-":" - ", '\(':' ( ','\)': ' ) ', '\\':' ',
     #' not ':' not_',"n't ":' not_',  ' no ':' noo ',
     " not | never |n't | no | noo ":' negation_word ',
-    'googl':'goog',
+    'googl':'goog',' #theral':' theral',
     '^rt @[a-zA-Z]+: ':'',
     ' \#([a-z]+) ' : r' #\1 \1 ' ,
-    ' up ':' upp ','rbc':' institution_name '})
+    ' up ':' upp ','rbc':' institution_name ','vetr':' institution_name '})
 
 replace_pairs= {'sold out':'sold_out', 'break out':'breakout' , 'all[ -]time':'all_time_', 
 'william blair':'institution_name','short.term':'short_term',
+'hedge fund':' institution_name ', '(elon|musk|elon musk)':'elon_musk',
 '[sS]hort.[sS]queeze':'shortsqueeze','[sS]queeze.[sS]hort':'shortsqueeze',
 'adfn investorshub':'institution_name', 'message board': 'institution_name',
 'jpmorgan':'institution_name'}
@@ -38,6 +39,7 @@ stopwords = stopwords | set(['could','would','should','may','still','one','via',
     "here's",'get','well','make', 'much','many','getting','going','must','maybe'\
     'see','look','looks','looking','says','let', 'think','need', \
     'maturity','stock','stocks','#stocks','shares','trade','trades',
+    'nfl','#nfl','nhl','nba','#nhl','tnf','#tnf','footbal','football',
     'inc', 'llc','spi']) # , 'institution_name', 't_handle'])
 
 days_of_week = ['monday','sunday','tuesday','wednesday','thursday','friday','saturday','tues','weds','thurs']
