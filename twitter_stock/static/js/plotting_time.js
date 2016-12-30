@@ -83,7 +83,9 @@ $(function() {
                         type:    'bar',
                         types: {
                           Closing_Price: 'line',
+                          Seven_day_avg_price: 'spline',
                           Avg_sentiment: 'line',
+                          Seven_day_avg_sentiment: 'spline',
                         },
                         axes: {
                           Strong_neg: 'y',
@@ -92,16 +94,21 @@ $(function() {
                           Weak_pos: 'y',
                           Strong_pos: 'y',
                           Closing_Price: 'y2',
-                          Avg_sentiment: 'y'
+                          Seven_day_avg_price: 'y2',
+                          Avg_sentiment: 'y',
+                          Seven_day_avg_sentiment: 'y'
                         },
                         groups: [['Strong_neg','Weak_neg','Neutral','Weak_pos','Strong_pos']],
                         order: 'asc'
                       },
+                point: {
+                        show: false
+                },
                 axis: {
                         x: {
                           type: 'timeseries',
                           tick: {
-                            format: '%Y-%m-%d'
+                            format: '%m-%d'
                           }
                         },
                         y: {
@@ -119,7 +126,7 @@ $(function() {
                           ratio: 0.9
                         }
                 },
-                color: { pattern: [ '#ff0000', '#FF4500', '#D3D3D3', '#98df8a', '#2ca02c', '#000000', '#ffff00'] }
+                color: { pattern: [ '#ff0000', '#FF4500', '#D3D3D3', '#98df8a', '#2ca02c', 'rgba(255,125,0,1)','rgba(255,125,0,0.5)', 'rgba(0,0,255,1)','rgba(0,0,255,0.3)',  '#00e5ee'] }
         });
     }
 
@@ -167,13 +174,20 @@ $(function() {
     // }
     // console.log(closes);
     // closes.unshift('Closing_Price');
+    
     dates.unshift('Date');
     closes.unshift('Closing_Price');
     avg_sentiment.unshift('Avg_sentiment');
+    moving_sentiment.unshift('Seven_day_avg_sentiment');
+    moving_price.unshift('Seven_day_avg_price');
     bin_series.push(closes);
+    bin_series.push(moving_price);
+    bin_series.push(avg_sentiment);
+    bin_series.push(moving_sentiment);
     bin_series.unshift(dates);
     console.log(avg_sentiment);
-    bin_series.push(avg_sentiment);
+    // console.log(moving_sentiment);
+    // console.log(moving_price);
     generateSentOverTime(bin_series);
 
     // priceData.push(dates,prices);

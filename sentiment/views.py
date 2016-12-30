@@ -121,19 +121,21 @@ def stock_sentiment_historical(request):
 
     # Fetch the statuses from stock_status given the date constraints
     multiplier   = 1 if 'mult' not in request.GET or not is_num(request.GET['mult']) else float(request.GET['mult'])
-    interval     = 1440*int(multiplier*(7 if 'w' not in request.GET or not is_num(request.GET['w']) else int(request.GET['w'])))
+    rolling_window = 3
+    w            = int(multiplier*(7 if 'w' not in request.GET or not is_num(request.GET['w']) else int(request.GET['w'])))
+    interval     = 1440*w
     current_date = datetime.now() # datetime.strptime('2016-08-08','%Y-%m-%d') <-- placeholder date
     end_date     = get_date_from(request.GET,current_date)
     end_date     = datetime(end_date.year,end_date.month,end_date.day)
     stock        = Stock.objects.filter(symbol=symbol.lower())
-    statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date-timedelta(minutes=interval-1440), 
+    statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date-timedelta(minutes=rolling_window*1440+interval-1440), 
                                                  created_at__lt=end_date+timedelta(minutes=1140))
     if not statuses:
         statuses = Stock_status.objects.filter(stock=stock,sentiment_bin=0)
         last_date = statuses[len(statuses)-1].created_at
         end_date = get_date_from(request.GET,last_date)
         end_date     = datetime(end_date.year,end_date.month,end_date.day)
-        statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date-timedelta(minutes=interval-1440), 
+        statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date-timedelta(minutes=rolling_window*1440+interval-1440), 
                                                    created_at__lt=end_date+timedelta(minutes=1140))
 
     all_statuses = Stock_status.objects.filter(created_at__gte=end_date,sentiment_bin=0,
@@ -142,13 +144,13 @@ def stock_sentiment_historical(request):
     symbols      = list(set([s.symbol for s in all_statuses]))
 
     # Fetch prices
-    prices = Stock_price.objects.filter(stock=stock,trading_day__gte=end_date-timedelta(minutes=interval+1440*3), trading_day__lte=end_date)
+    prices = Stock_price.objects.filter(stock=stock,trading_day__gte=end_date-timedelta(minutes=rolling_window+interval+1440*3), trading_day__lte=end_date)
 
     # Tally up all the sentiment scores from stock_status within valid range, organized by stock symbol
     stock_sentiment_history = defaultdict(list)
     bins   = defaultdict(list)
     closes = dict([(datetime.date(p.trading_day),p.close_price) for p in prices])
-    offset = timedelta(minutes=300)
+    offset = timedelta(minutes=0)
 
     for status in statuses:
         if not  status.status_sentiment or status.status_sentiment < -1 or status.status_sentiment > 1: continue
@@ -173,21 +175,28 @@ def stock_sentiment_historical(request):
 
     if closes: _, closes = zip(* sorted(closes.items()))
     else:         closes = [0]*len(dates)
+    closes               = list(closes)
 
     # dates = map(int,map(lambda d: d.day,dates))
     dates = map(sql_date,dates)
     bins, scores_by_date = list(bins), list(scores_by_date)
     normalized_bins = list([b*1./sum(bin_counts) for b in bin_counts] for bin_counts in bins)  
+    avg_sentiment =[sum(f*b for b,f in zip([-1,-0.5,0,0.5,1],bin) if b)*1.0/(sum(bin[:2]+bin[3:])+1*(sum(bin)==bin[2])) for bin in normalized_bins]
+    moving_avg_sentiment,moving_avg_price = zip(*[(sum(avg_sentiment[i-rolling_window:i])/(rolling_window*1.0),sum(closes[i-rolling_window:i])/(rolling_window*1.0)) for i in xrange(rolling_window,len(avg_sentiment))])
+ 
+    print moving_avg_price,moving_avg_sentiment
 
     # Pass the raw sentiment scores to the page for presenting in visual form 
     return render(request,'stock_sentiment_historical.html', {
                'current_stock':  symbol,
                'symbols':        sorted(map(str, symbols)),
-               'dates':          dates,
-               'closes':         list(closes),
-               'scores_by_date': scores_by_date,
-               'bins':           normalized_bins,
-               'avg_sentiment':  [sum(f*b for b,f in zip([-1,-0.5,0,0.5,1],bin) if b)*1.0/sum(bin[:2]+bin[3:]) for bin in normalized_bins]
+               'dates':          dates[-w:],
+               'closes':         closes[-w:],
+               'scores_by_date': scores_by_date[-w:],
+               'bins':           normalized_bins[-w:],
+               'avg_sentiment':  avg_sentiment[-w:],
+               'moving_avg_sentiment':  list(moving_avg_sentiment),
+               'moving_avg_price':  list(moving_avg_price)
            })
 
 #HELPERS
