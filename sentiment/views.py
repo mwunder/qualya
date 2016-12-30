@@ -113,14 +113,14 @@ def stock_sentiment_historical(request):
     end_date     = datetime(end_date.year,end_date.month,end_date.day)
     stock        = Stock.objects.filter(symbol=symbol.lower())
     statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date-timedelta(minutes=interval-1440), 
-                                                 created_at__lt=end_date+timedelta(minutes=1440))
+                                                 created_at__lt=end_date+timedelta(minutes=1140))
     if not statuses:
         statuses = Stock_status.objects.filter(stock=stock,sentiment_bin=0)
         last_date = statuses[len(statuses)-1].created_at
         end_date = get_date_from(request.GET,last_date)
         end_date     = datetime(end_date.year,end_date.month,end_date.day)
         statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date-timedelta(minutes=interval-1440), 
-                                                   created_at__lt=end_date+timedelta(minutes=1440))
+                                                   created_at__lt=end_date+timedelta(minutes=1140))
 
     all_statuses = Stock_status.objects.filter(created_at__gte=end_date,sentiment_bin=0,
                                                  created_at__lte=end_date+timedelta(minutes=1440))
@@ -134,7 +134,7 @@ def stock_sentiment_historical(request):
     stock_sentiment_history = defaultdict(list)
     bins   = defaultdict(list)
     closes = dict([(datetime.date(p.trading_day),p.close_price) for p in prices])
-    offset = timedelta(minutes=0)
+    offset = timedelta(minutes=300)
 
     for status in statuses:
         if not  status.status_sentiment or status.status_sentiment < -1 or status.status_sentiment > 1: continue
