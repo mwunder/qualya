@@ -31,8 +31,8 @@ def home(request):
     statuses     = Stock_status.objects.filter(created_at__gte=end_date,sentiment_bin=0,
                      created_at__lte=end_date+timedelta(minutes=1440))
     if not statuses:
-        statuses = Stock_status.objects.filter(created_at__gte=end_date-timedelta(minutes=60*1440),sentiment_bin=0,
-                     created_at__lte=end_date-timedelta(minutes=58*1440))
+        statuses = Stock_status.objects.filter(created_at__gte=end_date-timedelta(minutes=90*1440),sentiment_bin=0,
+                     created_at__lte=end_date-timedelta(minutes=88*1440))
 
     symbols      = list(set([s.symbol for s in statuses]))
     print len(statuses), symbols
@@ -52,6 +52,13 @@ def stock_sentiment_universe(request):
     statuses     = Stock_status.objects.filter(created_at__gte=end_date, created_at__lte=end_date+timedelta(minutes=interval))
     prices       = Stock_price.objects.filter(trading_day__gt=end_date-timedelta(minutes=interval+1400), trading_day__lte=end_date)
     stocks       = Stock.objects.all()
+    if not statuses:
+        statuses = Stock_status.objects.filter(sentiment_bin=1)
+        last_date = statuses[len(statuses)-1].created_at
+        end_date = get_date_from(request.GET,last_date)
+        end_date     = datetime(end_date.year,end_date.month,end_date.day)
+        statuses     = Stock_status.objects.filter(created_at__gte=end_date-timedelta(minutes=interval), 
+                                                   created_at__lt=end_date+timedelta(minutes=1440))
 
     # Tally up all the sentiment scores from stock_status within valid range, organized by stock symbol
     stocks  = dict((s.symbol,s.id) for s in stocks)
@@ -106,7 +113,14 @@ def stock_sentiment_historical(request):
     end_date     = datetime(end_date.year,end_date.month,end_date.day)
     stock        = Stock.objects.filter(symbol=symbol.lower())
     statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date-timedelta(minutes=interval-1440), 
-                                                 created_at__lt=end_date+timedelta(minutes=1140))
+                                                 created_at__lt=end_date+timedelta(minutes=1440))
+    if not statuses:
+        statuses = Stock_status.objects.filter(stock=stock,sentiment_bin=0)
+        last_date = statuses[len(statuses)-1].created_at
+        end_date = get_date_from(request.GET,last_date)
+        end_date     = datetime(end_date.year,end_date.month,end_date.day)
+        statuses     = Stock_status.objects.filter(stock=stock,created_at__gte=end_date-timedelta(minutes=interval-1440), 
+                                                   created_at__lt=end_date+timedelta(minutes=1440))
 
     all_statuses = Stock_status.objects.filter(created_at__gte=end_date,sentiment_bin=0,
                                                  created_at__lte=end_date+timedelta(minutes=1440))
@@ -117,16 +131,16 @@ def stock_sentiment_historical(request):
     prices = Stock_price.objects.filter(stock=stock,trading_day__gte=end_date-timedelta(minutes=interval+1440*3), trading_day__lte=end_date)
 
     # Tally up all the sentiment scores from stock_status within valid range, organized by stock symbol
-    stock_sentiment_history = {}
-
+    stock_sentiment_history = defaultdict(list)
     bins   = defaultdict(list)
     closes = dict([(datetime.date(p.trading_day),p.close_price) for p in prices])
+    offset = timedelta(minutes=0)
 
     for status in statuses:
         if not  status.status_sentiment or status.status_sentiment < -1 or status.status_sentiment > 1: continue
-        try:    stock_sentiment_history[datetime.date(status.created_at)].append(status.status_sentiment)
-        except: stock_sentiment_history[datetime.date(status.created_at)] = [status.status_sentiment]
-        bins[datetime.date(status.created_at)].append(status.sentiment_bin)
+        stock_sentiment_history[datetime.date(status.created_at-offset)].append(status.status_sentiment)
+        bins[datetime.date(status.created_at-offset)].append(status.sentiment_bin)
+    print [len(v) for v in stock_sentiment_history.values()]
 
     for day,history in stock_sentiment_history.items():
         stock_sentiment_history[day] = sorted(history)
