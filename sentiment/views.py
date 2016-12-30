@@ -54,11 +54,11 @@ def stock_sentiment_universe(request):
     stocks       = Stock.objects.all()
     if not statuses:
         statuses = Stock_status.objects.filter(sentiment_bin=1)
-        last_date = statuses[len(statuses)-1].created_at
-        end_date = get_date_from(request.GET,last_date)
-        end_date     = datetime(end_date.year,end_date.month,end_date.day)
-        statuses     = Stock_status.objects.filter(created_at__gte=end_date-timedelta(minutes=interval), 
-                                                   created_at__lt=end_date+timedelta(minutes=1440))
+        last_date   = statuses[len(statuses)-1].created_at
+        end_date    = get_date_from(request.GET,last_date-timedelta(minutes=1400))
+        end_date    = datetime(end_date.year,end_date.month,end_date.day)
+        statuses    = Stock_status.objects.filter(created_at__gte=end_date, 
+                                                   created_at__lt=end_date+timedelta(minutes=interval))
 
     # Tally up all the sentiment scores from stock_status within valid range, organized by stock symbol
     stocks  = dict((s.symbol,s.id) for s in stocks)
