@@ -21,6 +21,7 @@ var populateDropDownMenu = function(id, items) {
             //local var
             var all_option = document.createElement("option");
             all_option.textContent = "All";
+            elem.value = "All";
             elem.insertBefore(all_option, elem.firstChild);
             break;
 
