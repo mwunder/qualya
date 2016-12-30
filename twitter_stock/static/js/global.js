@@ -2,31 +2,37 @@
 
 var populateDropDownMenu = function(id, items) {
 
+    //local var
     var elem = document.getElementById(id);
 
-    for(var i=0; i<items.length; i++) {
+    //add 'All' option to the Home page
+    if(id == "ticker-dropdown-1") {
 
-        //loop vars
-        var ticker = items[i],
-            option = document.createElement("option");
+        //local var
+        var all_option = document.createElement("option");
 
-        option.textContent = ticker;
-        elem.appendChild(option);
+        all_option.textContent = "All";
+        elem.appendChild(all_option);
     }
 
-    switch(id) {
+    (function(callback) {
 
-        //add 'All' option to the Home page
-        case "ticker-dropdown-1":
-            //local var
-            var all_option = document.createElement("option");
-            all_option.textContent = "All";
-            elem.value = "All";
-            elem.insertBefore(all_option, elem.firstChild);
-            break;
+        for(var i=0; i<items.length; i++) {
 
-        case "ticker-dropdown-2":
-            elem.value = SYMBOL;
-            break;
-    }
+            //loop vars
+            var ticker = items[i],
+                option = document.createElement("option");
+
+            option.textContent = ticker;
+            elem.appendChild(option);
+        }
+
+        var callback = function() {
+
+            if(id == "ticker-dropdown-2") {
+
+                elem.value = SYMBOL;
+            }
+        }();
+    }());
 }

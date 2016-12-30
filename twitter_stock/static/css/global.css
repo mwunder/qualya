@@ -46,7 +46,7 @@ body {
 
 .dropdown {
   margin: 15px 0 0 10px;
-  padding: 0 0 0 5px;
+  padding: 0 5px;
   background-color: #f4f7fb;
   border: 2px solid #b3d9ff;
 }
