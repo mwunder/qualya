@@ -26,18 +26,31 @@ class Score:
 
 #VIEW FUNCTIONS
 def home(request):
+    ''' The Home page
+    '''
+
     end_date     = datetime.now()
     end_date     = datetime(end_date.year,end_date.month,end_date.day)
     statuses     = Stock_status.objects.filter(created_at__gte=end_date,sentiment_bin=0,
                      created_at__lte=end_date+timedelta(minutes=1440))
-    if not statuses:
-        statuses = Stock_status.objects.filter(created_at__gte=end_date-timedelta(minutes=90*1440),sentiment_bin=0,
-                     created_at__lte=end_date-timedelta(minutes=88*1440))
 
-    symbols      = list(set([s.symbol for s in statuses]))
+    if not statuses:
+        statuses = Stock_status.objects.filter(sentiment_bin=1)
+        last_date   = statuses[len(statuses)-1].created_at
+        end_date    = get_date_from(request.GET,last_date-timedelta(minutes=1400))
+        end_date    = datetime(end_date.year,end_date.month,end_date.day)
+        statuses    = Stock_status.objects.filter(created_at__gte=end_date,
+                                                   created_at__lt=end_date+timedelta(minutes=1400))
+
+    symbols = list(set([s.symbol for s in statuses]))
+
     print len(statuses), symbols
-    # Pass the symbols to page for use in the dropdown menu
-    return render(request,'home.html', { 'symbols': sorted(map(str, symbols)) })
+    
+    # Pass the date and symbols to the home page
+    return render(request,'home.html', {
+               'date':    sql_full_datetime(end_date),
+               'symbols': sorted(map(str, symbols))
+           })
 
 def stock_sentiment_universe(request):
     ''' The main function for displaying the sentiment scores for the universe of stocks in the DB
@@ -52,12 +65,13 @@ def stock_sentiment_universe(request):
     statuses     = Stock_status.objects.filter(created_at__gte=end_date, created_at__lte=end_date+timedelta(minutes=interval))
     prices       = Stock_price.objects.filter(trading_day__gt=end_date-timedelta(minutes=interval+1400), trading_day__lte=end_date)
     stocks       = Stock.objects.all()
+
     if not statuses:
         statuses = Stock_status.objects.filter(sentiment_bin=1)
         last_date   = statuses[len(statuses)-1].created_at
         end_date    = get_date_from(request.GET,last_date-timedelta(minutes=1400))
         end_date    = datetime(end_date.year,end_date.month,end_date.day)
-        statuses    = Stock_status.objects.filter(created_at__gte=end_date, 
+        statuses    = Stock_status.objects.filter(created_at__gte=end_date,
                                                    created_at__lt=end_date+timedelta(minutes=interval))
 
     # Tally up all the sentiment scores from stock_status within valid range, organized by stock symbol

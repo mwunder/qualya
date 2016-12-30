@@ -1,6 +1,6 @@
 'use strict';
 
-var DEBUG_UNIVERSE = false;
+var DEBUG_UNIVERSE = true;
 
 /* METHODS ========================================================================================================================================*/
 
@@ -146,7 +146,7 @@ var addSentimentGraphics = function() {
         s_bar.className = 'sentiment-bar';
         s_bar.width     = width;
         s_bar.height    = height*sortedData[i][1];
-        s_bar.onclick   = (function(i) { return function() { location.href = "/stock_sentiment_historical/?symbol="+sortedData[i][0]+"&date="+DATE } }(i));
+        s_bar.onclick   = (function(i) { return function() { location.href = "/stock_sentiment_historical/?symbol="+sortedData[i][0]+"&w=7"+"&date="+DATE } }(i));
 
         //add color stops to the gradient
         for(var j=0; j<indices.length; j++) {

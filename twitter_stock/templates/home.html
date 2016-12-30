@@ -21,18 +21,16 @@
         <div id="main">
             <p id="main-heading">Sentiment for the most-followed stocks.</p>
 
-            <form id="search-form" method="get">
-                <div id="ticker-dropdown-container" class="search-form-child">
+            <div id="search-div">
+                <div id="ticker-dropdown-1-container" class="search-div-child">
                     <label>
                         <span>Symbol:</span>
                         <select id="ticker-dropdown-1" class="dropdown" name="symbol" tabindex="1"></select>
                     </label>
                 </div>
 
-                <div id="search-form-button-container" class="search-form-child">
-                    <button id="search-form-button" class="button" name="submit" type="submit">Search</button>
-                </div>
-            </form>
+                <button id="search-button" class="button">Search</button>
+            </div>
 
             <img id="main-img" alt="Sentiment Tesseract" src="{% static 'img/sentiment_tesseract.png' %}" />
         </div><!-- /main -->
@@ -44,7 +42,8 @@
             'use strict';
 
             //GLOBAL VARS
-            var SYMBOLS = {{ symbols|safe }};
+            var DATE    = "{{ date }}",
+                SYMBOLS = {{ symbols|safe }};
 
             //METHODS in 'js/home.js'
 
@@ -52,7 +51,7 @@
             (function() {
 
                 populateDropDownMenu("ticker-dropdown-1", SYMBOLS);
-                addSearchFormAction();
+                addSearchButtonClickEvent();
             }());
         </script>
 

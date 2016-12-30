@@ -1,14 +1,18 @@
 'use strict';
 
-var addSearchFormAction = function() {
+var addSearchButtonClickEvent = function() {
 
-    if(document.getElementById("ticker-dropdown-1").value == "All") {
+    document.getElementById("search-button").onclick = function() {
 
-        document.getElementById("search-form").action = "/stock_sentiment_universe/";
+        var selected = document.getElementById("ticker-dropdown-1").value;
 
-    } else {
+        if(selected == "All") {
 
-        document.getElementById("search-form").action = "/stock_sentiment_historical/";
+            location.href = "/stock_sentiment_universe/?symbol=All";
+
+        } else {
+
+            location.href = "/stock_sentiment_historical/?symbol="+selected+"&w=7&date="+DATE;
+        }
     }
 }
-

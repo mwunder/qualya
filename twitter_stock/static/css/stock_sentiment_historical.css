@@ -8,10 +8,13 @@
 #zoom-out-button {
   height: 35px;
   width: 40px;
-  margin: 5px 10px 0 25px;
+  margin: 5px 9px 0 25px;
   font: 700 22px "Arial", sans-serif;
-  color: black;
   background-color: #b3d9ff;
+}
+
+#ticker-dropdown-2-container {
+  display: inline-block;
 }
 
 #ticker-dropdown-2 {
