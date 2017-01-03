@@ -26,20 +26,28 @@
     </div><!-- /nav -->
 
     <div id="sub-nav">
-        <button id="zoom-in-button" class="button">-</button>
-
-        <div id="historical-container" class="container">
-            <p class="text">Historical data for</p>
-
-            <div id="ticker-dropdown-2-container">
-                <select id="ticker-dropdown-2" class="dropdown" name="symbol" tabindex="1"></select>
-            </div>
+        <div id="zoom-in-button" class="button">
+            <p id="minus">-</p>
         </div>
 
-        <button id="go-button" class="button">&#8594;</button>
+        <div id="historical-container" class="container">
+            <div id="dropdown-container" class="container">
+                <p id="hist-text" class="text">Historical data for</p>
 
-        <button id="zoom-out-button" class="button">+</button>
+                <select id="ticker-dropdown-2" class="dropdown" name="symbol" tabindex="1"></select>
+            </div>
+
+            <button id="go-button" class="button">&#8594;</button>
+        </div>
+
+        <div id="zoom-out-button" class="button">
+            <p id="plus">+</p>
+        </div>
     </div><!-- /sub-nav -->
+
+    <div id="line-graph-container">
+        <div id="line-graph" class="ct-chart"></div>
+    </div>
 
     <!-- ELIMINATE -->
     <div class="chart-container">
@@ -70,6 +78,7 @@
     <script src='//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js'></script>
     <!--          -->
 
+    <script src='{% static "js/chartist.js" %}'></script>
     <script src='{% static "js/global.js" %}'></script>
     <script src='{% static "js/stock_sentiment_historical.js" %}'></script>
 
@@ -100,6 +109,7 @@
             addIntervalButtonClickEvents();
             populateDropDownMenu("ticker-dropdown-2", SYMBOLS);
             addGoButtonClickEvent();
+            addLineGraph();
 
             //debug mode
             if(DEBUG_UNIVERSE) {

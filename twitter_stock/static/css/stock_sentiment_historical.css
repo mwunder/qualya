@@ -1,29 +1,38 @@
+#historical-container,
+#zoom-in-button,
+#zoom-out-button {
+  vertical-align: middle;
+}
+
 #historical-container {
+  width: 260px;
+  margin: 5px 15px;
+  padding: 0 0 7px 0;
+}
+
+#hist-text {
+  margin: 0 4px 0 0;
+}
+
+#dropdown-container {
   width: 200px;
-  padding: 5px 0 3px 5px;
+  padding: 0;
   font: 700 12px "Arial", sans-serif;
 }
+
 
 #zoom-in-button,
 #zoom-out-button {
   height: 35px;
   width: 40px;
-  margin: 5px 9px 0 25px;
+  margin: 5px 0;
+  padding: 5px 0;
   font: 700 22px "Arial", sans-serif;
   background-color: #b3d9ff;
 }
 
-#ticker-dropdown-2-container {
-  display: inline-block;
-}
-
-#ticker-dropdown-2 {
-  margin: 0 0 0 4px;
-  padding: 3px;
-}
-
 #go-button {
-  margin: 5px 0;
+  margin: 0 11px 0 0;
   padding: 0 4px 2px 3px;
   font: 200 15px Arial, sans-serif;
   color: white;

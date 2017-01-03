@@ -1,8 +1,9 @@
 .ct-label {
-  fill: rgba(0, 0, 0, 0.4);
-  color: rgba(0, 0, 0, 0.4);
-  font-size: 0.75rem;
-  line-height: 1; }
+  margin-top: 3px;
+  fill: rgba(0, 0, 0, 1);
+  color: rgba(0, 0, 0, 1);
+  font-size: 9px;
+  line-height: 3px; }
 
 .ct-chart-line .ct-label,
 .ct-chart-bar .ct-label {
@@ -138,9 +139,9 @@
   text-anchor: end; }
 
 .ct-grid {
-  stroke: rgba(0, 0, 0, 0.2);
+  stroke: rgba(0, 0, 0, 1);
   stroke-width: 1px;
-  stroke-dasharray: 2px; }
+  stroke-dasharray: none; }
 
 .ct-grid-background {
   fill: none; }
@@ -151,7 +152,7 @@
 
 .ct-line {
   fill: none;
-  stroke-width: 4px; }
+  stroke-width: 2px; }
 
 .ct-area {
   stroke: none;

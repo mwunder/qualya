@@ -96,12 +96,12 @@ label {
   }
 
   label {
-    font: 200 22px Trebuchet MS, sans-serif;
+    font: 300 21px Trebuchet MS, sans-serif;
   }
 
   #ticker-dropdown-1,
   #search-button {
-    font: 100 20px Trebuchet MS, sans-serif;
+    font: 200 20px Trebuchet MS, sans-serif;
   }
 
   #search-button {
@@ -129,15 +129,6 @@ label {
   #main-heading {
     margin: 30px 0 20px 0;
     font: 500 35px/1.75 Trebuchet MS, sans-serif;
-  }
-
-  label {
-    font: 300 23px Trebuchet MS, sans-serif;
-  }
-
-  #ticker-dropdown-1,
-  #search-button {
-    font: 200 21px Trebuchet MS, sans-serif;
   }
 
   #search-button {
