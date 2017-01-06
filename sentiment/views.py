@@ -181,6 +181,7 @@ def stock_sentiment_historical(request):
     dates = map(sql_date,dates)
     bins, scores_by_date = list(bins), list(scores_by_date)
     normalized_bins = list([b*1./sum(bin_counts) for b in bin_counts] for bin_counts in bins)  
+    # normalized_bins = [(b if b[2]>0 else b[:2] + [-0.01] + b[3:] ) for b in normalized_bins]
     avg_sentiment =[sum(f*b for b,f in zip([-1,-0.5,0,0.5,1],bin) if b)*1.0/(sum(bin[:2]+bin[3:])+1*(sum(bin)==bin[2])) for bin in normalized_bins]
     moving_avg_sentiment,moving_avg_price = zip(*[(sum(avg_sentiment[i-rolling_window:i])/(rolling_window*1.0),sum(closes[i-rolling_window:i])/(rolling_window*1.0)) for i in xrange(rolling_window,len(avg_sentiment))])
  

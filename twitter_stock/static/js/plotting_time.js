@@ -58,7 +58,7 @@ $(function() {
                           Seven_day_avg_sentiment: 'y'
                         },
                         groups: [['Strong_neg','Weak_neg','Neutral','Weak_pos','Strong_pos']],
-                        order: 'asc'
+                        order: null
                       },
                 point: {
                         show: false
