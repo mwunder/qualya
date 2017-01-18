@@ -45,8 +45,8 @@
         </div>
     </div><!-- /sub-nav -->
 
-    <div id="line-graph-container">
-        <div id="line-graph" class="ct-chart"></div>
+    <div id="stacked-bar-chart-container">
+        <div id="stacked-bar-chart" class="ct-chart"></div>
     </div>
 
     <!-- ELIMINATE -->
@@ -86,16 +86,16 @@
         'use strict';
 
         //GLOBAL VARS
-        var SYMBOL         = "{{ current_stock }}",
-            SYMBOLS        = {{ symbols|safe }},
-            dates          = {{ dates|safe }},
-            timeFrame      = {{ dates|length }},
-            closes         = {{ closes|safe }},
-            scores_by_date = {{ scores_by_date|safe }},
-            avg_sentiment  = {{ avg_sentiment|safe }},
-            moving_sentiment  = {{ moving_avg_sentiment|safe }},
-            moving_price    = {{ moving_avg_price|safe }},
-            bins            = {{ bins|safe }};
+        var SYMBOL           = "{{ current_stock }}",
+            SYMBOLS          = {{ symbols|safe }},
+            dates            = {{ dates|safe }},
+            timeFrame        = {{ dates|length }},
+            closes           = {{ closes|safe }},
+            scores_by_date   = {{ scores_by_date|safe }},
+            avg_sentiment    = {{ avg_sentiment|safe }},
+            moving_sentiment = {{ moving_avg_sentiment|safe }},
+            moving_price     = {{ moving_avg_price|safe }},
+            bins             = {{ bins|safe }};
 
         {% for d in dates %}
             {% if forloop.last %}
@@ -111,13 +111,13 @@
             addIntervalButtonClickEvents();
             populateDropDownMenu("ticker-dropdown-2", SYMBOLS);
             addGoButtonClickEvent();
-            addLineGraph();
+            addStackedBarChart();
 
             //debug mode
             if(DEBUG_UNIVERSE) {
 
                 //test
-                console.log(SYMBOL, SYMBOLS, dates, timeFrame, closes, scores_by_date, avg_sentiment,moving_sentiment, bins);
+                console.log(SYMBOL, SYMBOLS, dates, timeFrame, closes, scores_by_date, avg_sentiment, moving_sentiment, bins);
             }
         }());
     </script>
