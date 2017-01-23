@@ -2,6 +2,4 @@ USE THIS FILE TO SHARE ANY NOTES OR COMMENTS DURING DEVELOPMENT
 =====================================================================================================================================================
 
 
-- There should be a '404' error page to handle situations where requested data isn't contained in the DB - currently some of this functionality is being handled by the 'printUniverseInfo()' method in 'stock_sentiment_universe.js'
-
-- Add date functionality to the home page
+- There should be a '404' error page

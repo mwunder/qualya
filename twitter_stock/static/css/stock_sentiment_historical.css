@@ -39,12 +39,25 @@
   background-color: #444444;
 }
 
-#stacked-bar-chart-container {
-  text-align: center;
+#line-charts-container {
+  height: 300;
+  width: 600;
+  margin: 25px auto;
+  background-color: #f4f7fb;
+  border: 1px solid #555555;
 }
 
+#line-charts,
 #stacked-bar-chart {
-  margin: 50px 0 25px 0;
+  margin: 10px;
+}
+
+#stacked-bar-chart-container {
+  height: 1000;
+  width: 600;
+  margin: 25px auto 50px auto;
+  background-color: #f4f7fb;
+  border: 1px solid #555555;
 }
 
 /* ELIMINATE */
@@ -54,4 +67,3 @@
 /*           */
 
 /* media queries ==================================================================================================================================*/
-

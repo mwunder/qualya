@@ -27,52 +27,102 @@ var addGoButtonClickEvent = function() {
     }
 }
 
-var addStackedBarChart = function() {
+//removes the year from all date strings
+var createMonthDayLabels = function() {
 
-    //add 'chartist.js' stacked bar chart to the page
+    var obj = [];
+
+    for(var i=0; i<DATES.length; i++) {
+
+        var splitDate = DATES[i].split("-");
+
+        obj[i] = splitDate[1]+"-"+splitDate[2];
+    }
+
+    return obj;
+}
+
+var addLineCharts = function() {
+
     var chartData = {
 
-            labels: ['Q1', 'Q2', 'Q3', 'Q4'],
-
-            series: [  [800000, 1200000, 1400000, 1300000],
-                       [200000,  400000,  500000,  300000],
-                       [100000,  200000,  400000,  600000],
-                       [100000,  200000,  400000,  600000],
-                       [200000,  400000,  500000,  300000]  ]
+            labels: createMonthDayLabels(),
+            series: [CLOSES, MOV_CLOSES]
         },
 
         chartOptions = {
 
-            width: 640,
-
-            height: 480,
-
-            stackBars: true,
-
             axisX: {
 
-                labelInterpolationFnc: function(value) { return }
             },
 
             axisY: {
 
-
             },
 
-            //showPoint: false,
-
+            showPoint: false
             //lineSmooth: Chartist.Interpolation.monotoneCubic()
-        };
+        },
 
-    var chart = new Chartist.Bar('.ct-chart', chartData, chartOptions);
+        chart = new Chartist.Line('#line-charts', chartData, chartOptions);
 
-    //more chart options
+    //specify more options before the chart is displayed 
     chart.on('draw', function(data) {
 
-        ////remove gridlines
+        //remove gridlines
+        //if(data.type === 'grid' && data.index !== 0) { data.element.remove() }
+    });
+}
+
+var addStackedBarChart = function() {
+
+    //creates a stacked bar chart bins object
+    var createStackedBarBins = function() {
+    
+        var obj = [];
+    
+        for(var i=0; i<BINS[0].length; i++) { obj.push([]) }
+
+        for(var i=0; i<BINS.length; i++) {
+
+            for(var j=0; j<obj.length; j++) { obj[j].push(BINS[i][j]) }
+        }
+
+        return obj;
+    }
+    
+    //specify chart data and options, create chart object
+    var chartData = {
+
+            labels: createMonthDayLabels(),
+            series: createStackedBarBins()
+        },
+
+        chartOptions = {
+
+            stackBars: true,
+            horizontalBars: true,
+
+            axisX: {
+
+                showLabel: false
+            },
+
+            axisY: {
+
+                showGrid: false
+            }
+        },
+
+        chart = new Chartist.Bar('#stacked-bar-chart', chartData, chartOptions);
+
+    //specify more options before the chart is displayed 
+    chart.on('draw', function(data) {
+
+        //remove gridlines
         if(data.type === 'grid' && data.index !== 0) { data.element.remove() }
 
         //set stacked bar width
-        if(data.type === 'bar') { data.element.attr({style: 'stroke-width: 100px'}) }
+        if(data.type === 'bar') { data.element.attr({style: 'stroke-width: 125px'}) }
     });
 }

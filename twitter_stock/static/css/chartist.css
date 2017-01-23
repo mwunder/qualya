@@ -2,8 +2,8 @@
   margin-top: 3px;
   fill: rgba(0, 0, 0, 1);
   color: rgba(0, 0, 0, 1);
-  font-size: 9px;
-  line-height: 3px; }
+  font-size: 14px;
+  line-height: 14px; }
 
 .ct-chart-line .ct-label,
 .ct-chart-bar .ct-label {
@@ -17,6 +17,10 @@
 .ct-chart-pie .ct-label,
 .ct-chart-donut .ct-label {
   dominant-baseline: central; }
+
+/* prevent "label smush" on the historical page */
+.ct-label.ct-vertical {
+  white-space: nowrap; }
 
 .ct-label.ct-horizontal.ct-start {
   -webkit-box-align: flex-end;
@@ -139,7 +143,7 @@
   text-anchor: end; }
 
 .ct-grid {
-  stroke: rgba(0, 0, 0, 1);
+  stroke: rgba(0, 0, 0, 0.5);
   stroke-width: 1px;
   stroke-dasharray: none; }
 
@@ -166,6 +170,16 @@
   fill: none;
   stroke-width: 60px; }
 
+/* custom line colors for the historical page */
+.ct-series-a .ct-line {
+  stroke: orange;
+}
+
+.ct-series-b .ct-line {
+  stroke: rgba(255,125,0,0.5);
+}
+/* end custom line colors */
+
 
 /* custom stacked bar colors for the historical page */
 .ct-series-a .ct-bar {
@@ -190,13 +204,13 @@
 /* end custom stacked bar colors */
 
 
-.ct-series-a .ct-point, .ct-series-a .ct-line, .ct-series-a .ct-slice-donut {
+.ct-series-a .ct-point, .ct-series-a .ct-slice-donut {
   stroke: #d70206; }
 
 .ct-series-a .ct-slice-pie, .ct-series-a .ct-area {
   fill: #d70206; }
 
-.ct-series-b .ct-point, .ct-series-b .ct-line, .ct-series-b .ct-slice-donut {
+.ct-series-b .ct-point, .ct-series-b .ct-slice-donut {
   stroke: #f05b4f; }
 
 .ct-series-b .ct-slice-pie, .ct-series-b .ct-area {
