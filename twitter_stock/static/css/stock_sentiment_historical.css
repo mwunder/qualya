@@ -20,7 +20,6 @@
   font: 700 12px "Arial", sans-serif;
 }
 
-
 #zoom-in-button,
 #zoom-out-button {
   height: 35px;
@@ -39,25 +38,26 @@
   background-color: #444444;
 }
 
-#line-charts-container {
-  height: 300;
+#line-charts-container,
+#stacked-bar-chart-container {
   width: 600;
-  margin: 25px auto;
   background-color: #f4f7fb;
   border: 1px solid #555555;
+}
+
+#line-charts-container {
+  height: 300;
+  margin: 50px auto 25px auto;
+}
+
+#stacked-bar-chart-container {
+  height: 1000;
+  margin: 25px auto 50px auto;
 }
 
 #line-charts,
 #stacked-bar-chart {
   margin: 10px;
-}
-
-#stacked-bar-chart-container {
-  height: 1000;
-  width: 600;
-  margin: 25px auto 50px auto;
-  background-color: #f4f7fb;
-  border: 1px solid #555555;
 }
 
 /* ELIMINATE */

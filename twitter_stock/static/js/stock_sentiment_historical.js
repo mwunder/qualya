@@ -44,34 +44,99 @@ var createMonthDayLabels = function() {
 
 var addLineCharts = function() {
 
-    var chartData = {
+    var addPriceChart = function() {
 
-            labels: createMonthDayLabels(),
-            series: [CLOSES, MOV_CLOSES]
-        },
+        var chartData = {
 
-        chartOptions = {
+                labels: createMonthDayLabels(),
 
-            axisX: {
-
+                series: [
+                          { name: 'CLOSES', data: CLOSES },
+                          { name: 'MOV_CLOSES', data: MOV_CLOSES }
+                        ]
             },
 
-            axisY: {
+            chartOptions = {
 
+                series: {
+
+                    'CLOSES': { lineSmooth: Chartist.Interpolation.none() },
+                    'MOV_CLOSES': { lineSmooth: Chartist.Interpolation.monotoneCubic() }
+                },
+
+                axisX: {
+
+                },
+
+                axisY: {
+
+                    labelInterpolationFnc: function(value) { return '$' + value }
+                },
+
+                fullWidth: true,
+                showPoint: false,
+
+                chartPadding: {
+                    top: 15,
+                    right: 30,
+                    bottom: 15,
+                    left: 15
+                }
             },
 
-            showPoint: false
-            //lineSmooth: Chartist.Interpolation.monotoneCubic()
-        },
+            chart = new Chartist.Line('#line-charts', chartData, chartOptions);
 
-        chart = new Chartist.Line('#line-charts', chartData, chartOptions);
+        //specify more options before the chart is displayed
+        chart.on('draw', function(data){
 
-    //specify more options before the chart is displayed 
-    chart.on('draw', function(data) {
+            //label size
+            if (data.type === 'label') { data.element._node.childNodes[0].style.fontSize = '11px' }
+        });
+    }();
 
-        //remove gridlines
-        //if(data.type === 'grid' && data.index !== 0) { data.element.remove() }
-    });
+    /*
+    var addSentimentChart = function() {
+
+        var chartData = {
+
+                labels: [],
+
+                series: [
+
+                        ]
+            },
+
+            chartOptions = {
+
+                axisX: {
+
+                },
+
+                axisY: {
+
+                },
+
+                fullWidth: true,
+                showPoint: false,
+
+                chartPadding: {
+                    top: 15,
+                    right: 30,
+                    bottom: 15,
+                    left: 15
+                }
+            },
+
+            chart = new Chartist.Line('#line-charts', chartData, chartOptions);
+
+        //specify more options before the chart is displayed
+        chart.on('draw', function(data){
+
+            //label size
+            if (data.type === 'label') { data.element._node.childNodes[0].style.fontSize = '11px' }
+        });
+    }();
+    */
 }
 
 var addStackedBarChart = function() {
@@ -122,7 +187,10 @@ var addStackedBarChart = function() {
         //remove gridlines
         if(data.type === 'grid' && data.index !== 0) { data.element.remove() }
 
-        //set stacked bar width
+        //stacked bar width
         if(data.type === 'bar') { data.element.attr({style: 'stroke-width: 125px'}) }
+
+        //label size
+        if (data.type === 'label') { data.element._node.childNodes[0].style.fontSize = '14px' }
     });
 }

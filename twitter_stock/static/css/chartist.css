@@ -2,8 +2,8 @@
   margin-top: 3px;
   fill: rgba(0, 0, 0, 1);
   color: rgba(0, 0, 0, 1);
-  font-size: 14px;
-  line-height: 14px; }
+  font-size: 12px;
+  line-height: 12px; }
 
 .ct-chart-line .ct-label,
 .ct-chart-bar .ct-label {
@@ -18,9 +18,12 @@
 .ct-chart-donut .ct-label {
   dominant-baseline: central; }
 
-/* prevent "label smush" on the historical page */
-.ct-label.ct-vertical {
-  white-space: nowrap; }
+/* no label wrap on the historical page */
+.ct-label.ct-vertical,
+.ct-label.ct-horizontal {
+  white-space: nowrap;
+}
+/* end no label wrap */
 
 .ct-label.ct-horizontal.ct-start {
   -webkit-box-align: flex-end;
@@ -55,8 +58,8 @@
   -webkit-justify-content: flex-end;
   -ms-flex-pack: flex-end;
   justify-content: flex-end;
-  text-align: right;
-  text-anchor: end; }
+  text-align: center;
+  text-anchor: middle; }
 
 .ct-label.ct-vertical.ct-end {
   -webkit-box-align: flex-end;
@@ -143,7 +146,7 @@
   text-anchor: end; }
 
 .ct-grid {
-  stroke: rgba(0, 0, 0, 0.5);
+  stroke: rgba(0, 0, 0, 0.15);
   stroke-width: 1px;
   stroke-dasharray: none; }
 
@@ -180,7 +183,6 @@
 }
 /* end custom line colors */
 
-
 /* custom stacked bar colors for the historical page */
 .ct-series-a .ct-bar {
   stroke: darkred;
@@ -202,7 +204,6 @@
   stroke: darkgreen;
 }
 /* end custom stacked bar colors */
-
 
 .ct-series-a .ct-point, .ct-series-a .ct-slice-donut {
   stroke: #d70206; }
