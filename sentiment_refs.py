@@ -175,7 +175,7 @@ def process_prices(price_file='stock_prices.csv'):
             # print prices[(prices.trading_day==row['trading_day']-timedelta(minutes=4*1440))]
             continue
         if last_price.shape[0]>1:
-            print last_price.shape 
+            print(last_price.shape )
         last_price = last_price.ix[last_price.index[0],:]
         # print last_price,row
         prices.loc[i,'price_return'] = (row.close-last_price.close)/last_price.close

@@ -196,8 +196,8 @@ def stock_sentiment_historical(request):
                'scores_by_date': scores_by_date[-w:],
                'bins':           normalized_bins[-w:],
                'avg_sentiment':  avg_sentiment[-w:],
-               'moving_avg_sentiment':  list(moving_avg_sentiment),
-               'moving_avg_price':  list(moving_avg_price)
+               'moving_avg_sentiment':  list(moving_avg_sentiment[-w:]),
+               'moving_avg_price':  list(moving_avg_price[-w:])
            })
 
 #HELPERS
