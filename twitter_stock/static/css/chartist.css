@@ -1,5 +1,4 @@
 .ct-label {
-  margin-top: 3px;
   fill: rgba(0, 0, 0, 1);
   color: rgba(0, 0, 0, 1);
   font-size: 12px;
@@ -38,6 +37,10 @@
   text-anchor: start; }
 
 .ct-label.ct-horizontal.ct-end {
+  /* add x-axis label spacing to the historical page */
+  display: inline-block;
+  margin-top: 5px;
+  /* end x-axis label spacing */
   -webkit-box-align: flex-start;
   -webkit-align-items: flex-start;
   -ms-flex-align: flex-start;
@@ -173,45 +176,33 @@
   fill: none;
   stroke-width: 60px; }
 
-/* custom line colors for the historical page */
-.ct-series-a .ct-line {
-  stroke: orange;
-}
-
-.ct-series-b .ct-line {
-  stroke: rgba(255,125,0,0.5);
-}
-/* end custom line colors */
 
 /* custom stacked bar colors for the historical page */
 .ct-series-a .ct-bar {
   stroke: darkred;
 }
-
 .ct-series-b .ct-bar {
   stroke: rgba(255,0,0,1);
 }
-
 .ct-series-c .ct-bar {
   stroke: silver;
 }
-
 .ct-series-d .ct-bar {
   stroke: rgba(0,255,0,1);
 }
-
 .ct-series-e .ct-bar {
   stroke: darkgreen;
 }
 /* end custom stacked bar colors */
 
-.ct-series-a .ct-point, .ct-series-a .ct-slice-donut {
+
+.ct-series-a .ct-point, .ct-series-a .ct-line, .ct-series-a .ct-slice-donut {
   stroke: #d70206; }
 
 .ct-series-a .ct-slice-pie, .ct-series-a .ct-area {
   fill: #d70206; }
 
-.ct-series-b .ct-point, .ct-series-b .ct-slice-donut {
+.ct-series-b .ct-point, .ct-series-b .ct-line, .ct-series-b .ct-slice-donut {
   stroke: #f05b4f; }
 
 .ct-series-b .ct-slice-pie, .ct-series-b .ct-area {

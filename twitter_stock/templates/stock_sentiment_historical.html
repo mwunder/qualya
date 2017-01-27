@@ -47,7 +47,15 @@
 
     <!-- CHARTS -->
     <div id="line-charts-container">
-        <div id="line-charts" class="ct-chart"></div>
+        <div id="price-chart" class="ct-chart line-charts"></div>
+        <div id="sentiment-chart" class="ct-chart line-charts"></div>
+
+        <div id="line-charts-legend">
+            <b>Closing Price</b> = 'orange', &nbsp
+            <b>Moving Avg. Closing Price</b> = 'light orange', &nbsp
+            <b>Avg. Sentiment</b> = 'blue', &nbsp
+            <b>Moving Avg. Sentiment</b> = 'light blue'
+        </div>
     </div>
 
     <div id="stacked-bar-chart-container">
@@ -92,21 +100,22 @@
         'use strict';
 
         //GLOBAL VARS
-        var SYMBOL           = "{{ current_stock }}",
-            SYMBOLS          = {{ symbols|safe }},
-            DATES            = {{ dates|safe }},
-            dates            = {{ dates|safe }},
-            timeFrame        = {{ dates|length }},
-            CLOSES           = {{ closes|safe }},
-            closes           = {{ closes|safe }},
-            MOV_CLOSES       = {{ moving_avg_price|safe }},
-            moving_price     = {{ moving_avg_price|safe }},
-            scores_by_date   = {{ scores_by_date|safe }},
-            AVG_SENTIMENT    = {{ avg_sentiment|safe }},
-            avg_sentiment    = {{ avg_sentiment|safe }},
-            moving_sentiment = {{ moving_avg_sentiment|safe }},
-            BINS             = {{ bins|safe }},
-            bins             = {{ bins|safe }};
+        var SYMBOL            = "{{ current_stock }}",
+            SYMBOLS           = {{ symbols|safe }},
+            DATES             = {{ dates|safe }},
+            dates             = {{ dates|safe }},
+            timeFrame         = {{ dates|length }},
+            CLOSES            = {{ closes|safe }},
+            closes            = {{ closes|safe }},
+            MOV_CLOSES        = {{ moving_avg_price|safe }},
+            moving_price      = {{ moving_avg_price|safe }},
+            scores_by_date    = {{ scores_by_date|safe }},
+            AVG_SENTIMENT     = {{ avg_sentiment|safe }},
+            avg_sentiment     = {{ avg_sentiment|safe }},
+            MOV_AVG_SENTIMENT = {{ moving_avg_sentiment|safe }},
+            moving_sentiment  = {{ moving_avg_sentiment|safe }},
+            BINS              = {{ bins|safe }},
+            bins              = {{ bins|safe }};
 
         {% for d in dates %}
             {% if forloop.last %}
@@ -131,7 +140,7 @@
             if(DEBUG_UNIVERSE) {
 
                 //test
-                console.log(SYMBOL, SYMBOLS, DATES, timeFrame, CLOSES, MOV_CLOSES, scores_by_date, AVG_SENTIMENT, moving_sentiment, BINS);
+                console.log(SYMBOL, SYMBOLS, DATES, timeFrame, CLOSES, MOV_CLOSES, scores_by_date, AVG_SENTIMENT, MOV_AVG_SENTIMENT, BINS);
             }
         }());
     </script>

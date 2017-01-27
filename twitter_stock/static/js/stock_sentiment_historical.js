@@ -44,16 +44,18 @@ var createMonthDayLabels = function() {
 
 var addLineCharts = function() {
 
+    //padding
+    var chartPad = { top: 30, right: 45, bottom: 5, left: 15 };
+
+    //closing prices
     var addPriceChart = function() {
 
         var chartData = {
 
                 labels: createMonthDayLabels(),
 
-                series: [
-                          { name: 'CLOSES', data: CLOSES },
-                          { name: 'MOV_CLOSES', data: MOV_CLOSES }
-                        ]
+                series: [ { name: 'CLOSES', data: CLOSES, className: 'closes' },
+                          { name: 'MOV_CLOSES', data: MOV_CLOSES, className: 'movCloses' } ]
             },
 
             chartOptions = {
@@ -64,79 +66,116 @@ var addLineCharts = function() {
                     'MOV_CLOSES': { lineSmooth: Chartist.Interpolation.monotoneCubic() }
                 },
 
-                axisX: {
+                axisX: { 
 
+                    //determine label display
+                    labelInterpolationFnc: function(value, index) {
+                        
+                        switch(true) {
+
+                            case DATES.length <= 9:
+                                return value;
+
+                            //TO DO: case when 'DATES' > 145 and odd?
+                            case DATES.length > 9 && DATES.length % 2 != 0:
+                                switch(index) {
+
+                                    case 0:
+                                    case Math.floor((DATES.length-1)/4):
+                                    case Math.floor((DATES.length-1)/2):
+                                    case Math.floor(3*(DATES.length-1)/4):
+                                    case DATES.length-1:
+                                        return value;
+
+                                    default:
+                                        return null;
+                                }
+
+                            //TO DO: case when 'DATES' is large && even
+                            default:
+                                return value;
+                        }
+                    }
                 },
 
                 axisY: {
 
+                    //add USD symbol to closing price labels
                     labelInterpolationFnc: function(value) { return '$' + value }
                 },
 
                 fullWidth: true,
                 showPoint: false,
-
-                chartPadding: {
-                    top: 15,
-                    right: 30,
-                    bottom: 15,
-                    left: 15
-                }
+                chartPadding: chartPad
             },
 
-            chart = new Chartist.Line('#line-charts', chartData, chartOptions);
+            chart = new Chartist.Line('#price-chart', chartData, chartOptions);
 
         //specify more options before the chart is displayed
         chart.on('draw', function(data){
 
             //label size
-            if (data.type === 'label') { data.element._node.childNodes[0].style.fontSize = '11px' }
+            if (data.type === 'label') { data.element._node.childNodes[0].style.fontSize = '10px' }
+
+            //re-position last x-axis label
+            if (data.type === 'label' && data.axis.units.pos === 'x' && data.index == DATES.length-1) {
+
+                data.element._node.childNodes[0].style.marginLeft = '-27px';
+            }
         });
     }();
 
-    /*
+    //average sentiment
     var addSentimentChart = function() {
 
         var chartData = {
 
                 labels: [],
 
-                series: [
-
-                        ]
+                series: [ { name: 'AVG_SENTIMENT', data: AVG_SENTIMENT, className: 'avgSentiment' },
+                          { name: 'MOV_AVG_SENTIMENT', data: MOV_AVG_SENTIMENT, className: 'movAvgSentiment' } ]
             },
 
             chartOptions = {
 
+                series: {
+
+                    'AVG_SENTIMENT': { lineSmooth: Chartist.Interpolation.none() },
+                    'MOV_AVG_SENTIMENT': { lineSmooth: Chartist.Interpolation.monotoneCubic() }
+                },
+
                 axisX: {
 
+                    showGrid: false
                 },
 
                 axisY: {
 
+                    type: Chartist.FixedScaleAxis,
+                    divisor: 9,
+                    high: 1,
+                    low: -1,
+                    ticks: [-1, -.75, -.5, -.25, 0, .25, .5, .75, 1],
+                    showGrid: false
                 },
 
                 fullWidth: true,
                 showPoint: false,
-
-                chartPadding: {
-                    top: 15,
-                    right: 30,
-                    bottom: 15,
-                    left: 15
-                }
+                chartPadding: chartPad
             },
 
-            chart = new Chartist.Line('#line-charts', chartData, chartOptions);
+            chart = new Chartist.Line('#sentiment-chart', chartData, chartOptions);
 
         //specify more options before the chart is displayed
         chart.on('draw', function(data){
 
             //label size
-            if (data.type === 'label') { data.element._node.childNodes[0].style.fontSize = '11px' }
+            if (data.type === 'label') { data.element._node.childNodes[0].style.fontSize = '10px' }
+
+            //position y-axis labels on right side
+            if(data.type === 'label' && data.axis.units.pos === 'y') { data.element.attr({ x: data.axis.chartRect.width() + 55 }) }
         });
     }();
-    */
 }
 
 var addStackedBarChart = function() {
