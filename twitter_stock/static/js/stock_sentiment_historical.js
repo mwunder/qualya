@@ -6,9 +6,9 @@ var DEBUG_UNIVERSE = true;
 
 var addIntervalButtonClickEvents = function() {
 
-    ["zoom-in-button", "zoom-out-button"].forEach(function(button, index) {
+    ["zoom-out-button", "zoom-in-button"].forEach(function(button, index) {
 
-        var w = index == 0 ? Math.round(2*timeFrame,0) : Math.round(0.5*timeFrame,0);
+        var w = index == 0 ? Math.round(2*TIME_FRAME,0) : Math.round(0.5*TIME_FRAME,0);
 
         document.getElementById(button).onclick = function() {
 
@@ -23,7 +23,7 @@ var addGoButtonClickEvent = function() {
 
         var selected = document.getElementById("ticker-dropdown-2").value;
 
-        location.href = "/stock_sentiment_historical/?symbol="+selected+"&w="+timeFrame+"&date="+DATE;
+        location.href = "/stock_sentiment_historical/?symbol="+selected+"&w="+TIME_FRAME+"&date="+DATE;
     }
 }
 
@@ -32,7 +32,7 @@ var createMonthDayLabels = function() {
 
     var obj = [];
 
-    for(var i=0; i<DATES.length; i++) {
+    for(var i=0; i<TIME_FRAME; i++) {
 
         var splitDate = DATES[i].split("-");
 
@@ -42,6 +42,7 @@ var createMonthDayLabels = function() {
     return obj;
 }
 
+//LINE CHARTS
 var addLineCharts = function() {
 
     //padding
@@ -68,32 +69,43 @@ var addLineCharts = function() {
 
                 axisX: { 
 
-                    //determine label display
+                    //responsive x-axis label display
                     labelInterpolationFnc: function(value, index) {
-                        
+
                         switch(true) {
 
-                            case DATES.length <= 9:
+                            //small # of dates
+                            case TIME_FRAME <= 8:
                                 return value;
 
-                            //TO DO: case when 'DATES' > 145 and odd?
-                            case DATES.length > 9 && DATES.length % 2 != 0:
-                                switch(index) {
-
-                                    case 0:
-                                    case Math.floor((DATES.length-1)/4):
-                                    case Math.floor((DATES.length-1)/2):
-                                    case Math.floor(3*(DATES.length-1)/4):
-                                    case DATES.length-1:
-                                        return value;
-
-                                    default:
-                                        return null;
-                                }
-
-                            //TO DO: case when 'DATES' is large && even
+                            //large # of dates
                             default:
-                                return value;
+                                if(TIME_FRAME % 2 != 0) {
+                                    //odd # of dates
+                                    switch(index) {
+                                        case 0:
+                                        case Math.floor(TIME_FRAME/4):
+                                        case 2*(TIME_FRAME-1)/4:
+                                        case Math.floor(3*TIME_FRAME/4):
+                                        case TIME_FRAME-1:
+                                            return value;
+
+                                        default:
+                                            return null;
+                                    }
+                                } else {
+                                    //even # of dates
+                                    switch(index) {
+                                        case 0:
+                                        case Math.floor((TIME_FRAME-1)/3):
+                                        case Math.floor(2*TIME_FRAME/3):
+                                        case TIME_FRAME-1:
+                                            return value;
+
+                                        default:
+                                            return null;
+                                    }                        
+                                }
                         }
                     }
                 },
@@ -118,7 +130,7 @@ var addLineCharts = function() {
             if (data.type === 'label') { data.element._node.childNodes[0].style.fontSize = '10px' }
 
             //re-position last x-axis label
-            if (data.type === 'label' && data.axis.units.pos === 'x' && data.index == DATES.length-1) {
+            if (data.type === 'label' && data.axis.units.pos === 'x' && data.index == TIME_FRAME-1) {
 
                 data.element._node.childNodes[0].style.marginLeft = '-27px';
             }
@@ -173,14 +185,15 @@ var addLineCharts = function() {
             if (data.type === 'label') { data.element._node.childNodes[0].style.fontSize = '10px' }
 
             //position y-axis labels on right side
-            if(data.type === 'label' && data.axis.units.pos === 'y') { data.element.attr({ x: data.axis.chartRect.width() + 55 }) }
+            if(data.type === 'label' && data.axis.units.pos === 'y') { data.element.attr({ x: data.axis.chartRect.width()+55 }) }
         });
     }();
 }
 
+//STACKED BAR CHART
 var addStackedBarChart = function() {
 
-    //creates a stacked bar chart bins object
+    //creates a bins object
     var createStackedBarBins = function() {
     
         var obj = [];
@@ -194,7 +207,7 @@ var addStackedBarChart = function() {
 
         return obj;
     }
-    
+
     //specify chart data and options, create chart object
     var chartData = {
 
@@ -204,9 +217,6 @@ var addStackedBarChart = function() {
 
         chartOptions = {
 
-            stackBars: true,
-            horizontalBars: true,
-
             axisX: {
 
                 showLabel: false
@@ -215,7 +225,11 @@ var addStackedBarChart = function() {
             axisY: {
 
                 showGrid: false
-            }
+            },
+
+            stackBars: true,
+            horizontalBars: true,
+            chartPadding: { top: 7, right: 10, bottom: -13, left: null }
         },
 
         chart = new Chartist.Bar('#stacked-bar-chart', chartData, chartOptions);
@@ -223,13 +237,53 @@ var addStackedBarChart = function() {
     //specify more options before the chart is displayed 
     chart.on('draw', function(data) {
 
+        //responsive stacked bar width
+        if(data.type === 'bar') { data.element.attr({ style: 'stroke-width: '+Math.floor(800/TIME_FRAME)+'px' }) }
+
+        //responsive label size
+        if (data.type === 'label') {
+
+            switch(true) {
+
+                case TIME_FRAME <= 30:
+                    data.element._node.childNodes[0].style.fontSize = '14px';
+                    break;
+
+                case TIME_FRAME > 30 && TIME_FRAME <= 50:
+                    data.element._node.childNodes[0].style.fontSize = '11px';
+                    break;
+
+                case TIME_FRAME > 50 && TIME_FRAME <= 80:
+                    data.element._node.childNodes[0].style.fontSize = '9px';
+                    break;
+
+                case TIME_FRAME > 80 && TIME_FRAME <= 120:
+                    data.element._node.childNodes[0].style.fontSize = '7px';
+                    break;
+
+                default:
+                    data.element._node.childNodes[0].style.fontSize = '5px';
+                    break;
+            }
+        }
+
         //remove gridlines
         if(data.type === 'grid' && data.index !== 0) { data.element.remove() }
-
-        //stacked bar width
-        if(data.type === 'bar') { data.element.attr({style: 'stroke-width: 125px'}) }
-
-        //label size
-        if (data.type === 'label') { data.element._node.childNodes[0].style.fontSize = '14px' }
     });
+
+    //responsive chart padding
+    switch(true) {
+
+        case TIME_FRAME <= 30:
+            chart.update(null, {chartPadding: { left: 10 }}, true);
+            break;
+
+        case TIME_FRAME > 30 && TIME_FRAME <= 50:
+            chart.update(null, {chartPadding: { left: 5 }}, true);
+            break;
+
+        default:
+            chart.update(null, {chartPadding: { left: 0 }}, true);
+            break;
+    }
 }

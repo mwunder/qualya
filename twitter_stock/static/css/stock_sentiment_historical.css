@@ -6,7 +6,7 @@
 
 #historical-container {
   width: 260px;
-  margin: 5px 15px;
+  margin: 4px 15px;
   padding: 0 0 7px 0;
 }
 
@@ -24,8 +24,7 @@
 #zoom-out-button {
   height: 35px;
   width: 40px;
-  margin: 5px 0;
-  padding: 5px 0;
+  padding: 3px 4px 4px 4px;
   font: 700 22px "Arial", sans-serif;
   background-color: #b3d9ff;
 }
@@ -45,13 +44,13 @@
   border: 1px solid #555555;
 }
 
-#line-charts-container {
+#line-charts-container { /* compound charts work-around */
   position: relative;
   height: 350;
   margin: 50px auto 25px auto;
 }
 
-#line-charts-container > * {
+#line-charts-container > * { /* cont... */
   position: absolute;
   top: 0;
   left: 0;
@@ -59,7 +58,7 @@
   height: 93.75%;
 }
 
-.closes {
+.closes { /* line charts series colors */
   stroke: orange;
 }
 
@@ -89,13 +88,7 @@
 }
 
 #stacked-bar-chart {
-  margin: 10px;
+  margin: 5px;
 }
-
-/* ELIMINATE */
-#chart {
-  margin: 25px 0;
-}
-/*           */
 
 /* media queries ==================================================================================================================================*/

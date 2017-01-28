@@ -1,7 +1,7 @@
 .ct-label {
   fill: rgba(0, 0, 0, 1);
   color: rgba(0, 0, 0, 1);
-  font-size: 12px;
+  font: 300 12px "Arial", sans-serif;
   line-height: 12px; }
 
 .ct-chart-line .ct-label,

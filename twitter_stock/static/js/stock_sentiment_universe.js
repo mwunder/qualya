@@ -22,7 +22,7 @@ var printUniverseInfo = function() {
 
     universe.id = "universe";
 
-    if(SYMBOLS.length>0) {
+    if(SYMBOLS.length > 0) {
 
         //pluralize string if necessary
         var stk = SYMBOLS.length == 1 ? ' stock' : ' stocks';
@@ -48,9 +48,8 @@ var addSentimentGraphics = function() {
     var width     = 500,
         height    = 125,
         cols      = ['darkred', 'rgba(255,0,0,1)', 'silver', 'rgba(0,255,0,1)', 'darkgreen'],
-        textColor = 'black', //'rgb(0,135,255)',
+        textColor = 'black',
         bordBot   = '1px solid rgb(125,125,125)',
-        //bordRad   = '5px',
         sortedData,
         sortedBins;
 
@@ -105,7 +104,7 @@ var addSentimentGraphics = function() {
     }
 
 
-    //dynamic sizing on page load only; sentiment bars will not adapt if window is resized 
+    //responsive sentiment bar dimensions on page load; bars will not adapt if window is resized
     switch(true) {
 
         case window.innerWidth >= 240 && window.innerWidth < 375:
@@ -146,7 +145,7 @@ var addSentimentGraphics = function() {
         s_bar.className = 'sentiment-bar';
         s_bar.width     = width;
         s_bar.height    = height*sortedData[i][1];
-        s_bar.onclick   = (function(i) { return function() { location.href = "/stock_sentiment_historical/?symbol="+sortedData[i][0]+"&w=7"+"&date="+DATE } }(i));
+        s_bar.onclick   = sentimentBarClicked('universe', s_bar.id);
 
         //add color stops to the gradient
         for(var j=0; j<indices.length; j++) {
@@ -173,26 +172,11 @@ var addSentimentGraphics = function() {
         context.textAlign    = 'center';
         context.textBaseline = 'middle';
 
-        //write text to the canvas 
-        context.fillText(sortedData[i][0], width/2, height*sortedData[i][1]/2);
+        //write symbol to the canvas 
+        context.fillText(s_bar.id, width/2, height*sortedData[i][1]/2);
 
-        //add border radius and border bottom styles
-        switch(i) {
-
-            case 0:
-                style.borderBottom = bordBot;
-                //style.borderTopLeftRadius  = bordRad;
-                //style.borderTopRightRadius = bordRad;
-                break;
-
-            case SYMBOLS.length-1:
-                //style.borderBottomLeftRadius  = bordRad;
-                //style.borderBottomRightRadius = bordRad;
-                break;
-
-            default:
-                style.borderBottom = bordBot;
-        }
+        //add border bottom styles
+        if(i !== SYMBOLS.length-1) { style.borderBottom = bordBot }
 
         wrapper.appendChild(s_bar);
         document.getElementById("sentiment-bars-container").appendChild(wrapper);
@@ -234,4 +218,3 @@ var toggleHistogram = function() {
 
     if(histCont.display == 'block') { histCont.display = 'none' } else { histCont.display = 'block' }
 }
-

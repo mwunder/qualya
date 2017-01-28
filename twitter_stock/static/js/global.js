@@ -29,10 +29,20 @@ var populateDropDownMenu = function(id, items) {
 
         var callback = function() {
 
-            if(id == "ticker-dropdown-2") {
-
-                elem.value = SYMBOL;
-            }
+            if(id == "ticker-dropdown-2") { elem.value = SYMBOL }
         }();
     }());
+}
+
+var sentimentBarClicked = function(page, identifier) {
+
+    switch(page) {
+
+        case 'universe':
+            return function() { location.href = "/stock_sentiment_historical/?symbol="+identifier+"&w=45&date="+DATE };
+
+        case 'historical':
+            //TO DO
+            return;
+    }
 }

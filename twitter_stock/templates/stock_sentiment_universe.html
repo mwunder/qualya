@@ -35,6 +35,7 @@
     <div id="sentiment-bars-container"></div>
 
     <script src='{% static "js/chartist.js" %}'></script>
+    <script src='{% static "js/global.js" %}'></script>
     <script src='{% static "js/stock_sentiment_universe.js" %}'></script>
 
     <script>
@@ -44,8 +45,6 @@
         var DATE    = "{{ date }}",
             SYMBOLS = {{ symbols|safe }},
             SCORES  = {{ scores |safe }},
-            VOLUMES = {{ volumes|safe }},
-            CLOSES  = {{ closes |safe }},
             BINS    = {{ bins   |safe }};
 
         //METHODS in 'js/stock_sentiment_universe.js'
@@ -65,7 +64,7 @@
                 document.getElementById("universe-container").onclick = toggleHistogram;
 
                 //test
-                console.log(DATE, SYMBOLS, SCORES, VOLUMES, CLOSES, BINS);
+                console.log(DATE, SYMBOLS, SCORES, BINS);
             }
         }());
     </script>

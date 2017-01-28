@@ -12,7 +12,7 @@ var addSearchButtonClickEvent = function() {
 
         } else {
 
-            location.href = "/stock_sentiment_historical/?symbol="+selected+"&w=7&date="+DATE;
+            location.href = "/stock_sentiment_historical/?symbol="+selected+"&w=45&date="+DATE;
         }
     }
 }

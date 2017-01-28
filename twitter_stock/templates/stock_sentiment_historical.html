@@ -8,11 +8,6 @@
     <link rel="stylesheet" href="{% static 'css/global.css' %}" />
     <link rel="stylesheet" href="{% static 'css/stock_sentiment_historical.css' %}" />
 
-    <!-- ELIMINATE -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'css/c3.min.css' %}">
-    <!--           -->
-
     <title>Qualya | Stock Sentiment | Historical Data</title>
 </head>
 
@@ -26,8 +21,8 @@
     </div><!-- /nav -->
 
     <div id="sub-nav">
-        <div id="zoom-in-button" class="button">
-            <p id="minus">-</p>
+        <div id="zoom-out-button" class="button">
+            <img src="{% static 'img/zoom_out.png' %}" />
         </div>
 
         <div id="historical-container" class="container">
@@ -40,14 +35,15 @@
             <button id="go-button" class="button">&#8594;</button>
         </div>
 
-        <div id="zoom-out-button" class="button">
-            <p id="plus">+</p>
+        <div id="zoom-in-button" class="button">
+            <img src="{% static 'img/zoom_in.png' %}" />
         </div>
     </div><!-- /sub-nav -->
 
     <!-- CHARTS -->
     <div id="line-charts-container">
         <div id="price-chart" class="ct-chart line-charts"></div>
+
         <div id="sentiment-chart" class="ct-chart line-charts"></div>
 
         <div id="line-charts-legend">
@@ -63,35 +59,6 @@
     </div>
     <!-- END CHARTS -->
 
-    <!-- ELIMINATE -->
-    <div class="chart-container">
-        <div class="row">
-            <div class="col-md-12"></div>
-        </div>
-
-        <div class="row dateselector">
-            <div class="col-sm-12 center">
-                <form class="row form-inline" name="rangeform"></form>
-            </div>
-        </div>
-
-        <div class="row chart">
-            <div class="col-md-12">
-                <figure>
-                    <div id="chart"></div>
-                </figure>
-            </div>
-        </div>
-    </div><!-- /chart-container -->
-    <!--           -->
-
-    <!-- ELIMINATE -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <script src='//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js'></script>
-    <!--          -->
-
     <script src='{% static "js/chartist.js" %}'></script>
     <script src='{% static "js/global.js" %}'></script>
     <script src='{% static "js/stock_sentiment_historical.js" %}'></script>
@@ -103,19 +70,13 @@
         var SYMBOL            = "{{ current_stock }}",
             SYMBOLS           = {{ symbols|safe }},
             DATES             = {{ dates|safe }},
-            dates             = {{ dates|safe }},
-            timeFrame         = {{ dates|length }},
+            TIME_FRAME        = {{ dates|length }},
             CLOSES            = {{ closes|safe }},
-            closes            = {{ closes|safe }},
             MOV_CLOSES        = {{ moving_avg_price|safe }},
-            moving_price      = {{ moving_avg_price|safe }},
-            scores_by_date    = {{ scores_by_date|safe }},
+            SCORES_BY_DATE    = {{ scores_by_date|safe }},
             AVG_SENTIMENT     = {{ avg_sentiment|safe }},
-            avg_sentiment     = {{ avg_sentiment|safe }},
             MOV_AVG_SENTIMENT = {{ moving_avg_sentiment|safe }},
-            moving_sentiment  = {{ moving_avg_sentiment|safe }},
-            BINS              = {{ bins|safe }},
-            bins              = {{ bins|safe }};
+            BINS              = {{ bins|safe }};
 
         {% for d in dates %}
             {% if forloop.last %}
@@ -140,14 +101,10 @@
             if(DEBUG_UNIVERSE) {
 
                 //test
-                console.log(SYMBOL, SYMBOLS, DATES, timeFrame, CLOSES, MOV_CLOSES, scores_by_date, AVG_SENTIMENT, MOV_AVG_SENTIMENT, BINS);
+                console.log(SYMBOL, SYMBOLS, DATES, TIME_FRAME, CLOSES, MOV_CLOSES, SCORES_BY_DATE, AVG_SENTIMENT, MOV_AVG_SENTIMENT, BINS);
             }
         }());
     </script>
-
-    <!-- ELIMINATE -->
-    <script src='{% static "js/plotting_time.js" %}'></script>
-    <!--           -->
 
     <script>window.onload = function() { document.getElementById("load-screen").style.display = "none" }</script>
 </body>

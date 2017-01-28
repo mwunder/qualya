@@ -800,7 +800,7 @@ var Chartist = {
     function safeIncrement(value, increment) {
       // If increment is too small use *= (1+EPSILON) as a simple nextafter
       if (value === (value += increment)) {
-      	value *= (1 + (increment > 0 ? EPSILON : -EPSILON));
+        value *= (1 + (increment > 0 ? EPSILON : -EPSILON));
       }
       return value;
     }
@@ -809,10 +809,10 @@ var Chartist = {
     newMin = bounds.min;
     newMax = bounds.max;
     while (newMin + bounds.step <= bounds.low) {
-    	newMin = safeIncrement(newMin, bounds.step);
+      newMin = safeIncrement(newMin, bounds.step);
     }
     while (newMax - bounds.step >= bounds.high) {
-    	newMax = safeIncrement(newMax, -bounds.step);
+      newMax = safeIncrement(newMax, -bounds.step);
     }
     bounds.min = newMin;
     bounds.max = newMax;
@@ -3021,7 +3021,10 @@ var Chartist = {
         // If we don't have a label ahead and we have only two labels in total, we just take the remaining distance to
         // on the whole axis length. We limit that to a minimum of 30 pixel, so that labels close to the border will
         // still be visible inside of the chart padding.
-        labelLength = Math.max(this.axisLength - projectedValue, 30);
+
+        /* custom minimum label length for responsive stacked bar charts on the historical page */
+        labelLength = Math.max(this.axisLength - projectedValue, 0);
+        /* end custom minimum label length */
       }
 
       // Skip grid lines and labels where interpolated label values are falsey (execpt for 0)
