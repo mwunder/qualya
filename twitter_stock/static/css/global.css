@@ -43,15 +43,24 @@ body {
   display: inline-block;
 }
 
+label {
+  color: #aaaaaa;
+}
+
 .dropdown {
-  margin: 10px 0 0 0;
   padding: 0 5px;
   background-color: #f4f7fb;
   border: 2px solid #b3d9ff;
 }
 
 .button {
+  color: white;
+  background-color: #444444;
   border: none;
+}
+
+.button:hover {
+  opacity: .7;
 }
 
 /* media queries ==================================================================================================================================*/

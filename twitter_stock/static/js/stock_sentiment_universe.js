@@ -6,7 +6,7 @@ var DEBUG_UNIVERSE = true;
 
 var addDateButtonClickEvents = function() {
 
-    ["date-button-back", "date-button-forward"].forEach(function(button, index) {
+    ["date-back-button", "date-forward-button"].forEach(function(button, index) {
 
         var inc = index == 0 ? -1 : 1;
 

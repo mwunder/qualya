@@ -16,16 +16,20 @@
 
     <div id="nav">
         <a href="/home">
-            <img id="nav-logo" alt="Qualya Logo" src="{% static 'img/logo.png' %}" />
+            <img id="nav-logo" alt="Qualya Logo" src="{% static 'img/logos/logo.png' %}" />
         </a>
     </div><!-- /nav -->
 
     <div id="sub-nav">
-        <button id="date-button-back" class="button">&#171;</button>
+        <div class="button">
+            <img id="date-back-button" src="{% static 'img/buttons/date_back.png' %}" />
+        </div>
 
         <div id="universe-container" class="container"></div>
 
-        <button id="date-button-forward" class="button">&#187;</button>
+        <div class="button">
+            <img id="date-forward-button" src="{% static 'img/buttons/date_forward.png' %}" />
+        </div>
     </div><!-- /sub-nav -->
 
     <div id="histogram-container">

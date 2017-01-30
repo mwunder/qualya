@@ -12,17 +12,6 @@
   border: 1px solid #555555;
 }
 
-label {
-  color: #aaaaaa;
-}
-
-#search-button {
-  margin: 15px 0 20px 0;
-  padding: 10px 0;
-  color: white;
-  background-color: #444444;
-}
-
 /* media queries ==================================================================================================================================*/
 
 @media only screen and (min-width: 240px) {
@@ -35,17 +24,20 @@ label {
     padding: 7px;
   }
 
-  label {
-    font: 200 19px Trebuchet MS, sans-serif;
-  }
-
+  label,
   #ticker-dropdown-1,
   #search-button {
     font: 100 17px Trebuchet MS, sans-serif;
   }
 
+  #ticker-dropdown-1 {
+    margin: 9px 0 0 5px;
+  }
+
   #search-button {
     width: 160px;
+    margin: 15px 0 20px 0;
+    padding: 10px 0;
   }
 
   #main-img {
@@ -65,19 +57,6 @@ label {
     padding: 10px;
   }
 
-  label {
-    font: 200 20px Trebuchet MS, sans-serif;
-  }
-
-  #ticker-dropdown-1,
-  #search-button {
-    font: 100 18px Trebuchet MS, sans-serif;
-  }
-
-  #search-button {
-    width: 175px;
-  }
-
   #main-img {
     max-width: 90px;
     margin: 40px 0 0 0;
@@ -95,10 +74,7 @@ label {
     padding: 15px;
   }
 
-  label {
-    font: 300 21px Trebuchet MS, sans-serif;
-  }
-
+  label,
   #ticker-dropdown-1,
   #search-button {
     font: 200 20px Trebuchet MS, sans-serif;

@@ -1,17 +1,7 @@
-#universe,
-#histogram-container,
-#sentiment-bars-container {
-  text-align: center;
-}
-
-#date-button-back,
-#date-button-forward {
-  background-color: #b3d9ff;
-}
-
 #histogram-container,
 #sentiment-bars-container {
   display: none;
+  text-align: center;
 }
 
 #histogram-container {
@@ -36,12 +26,11 @@
 
 @media only screen and (min-width: 240px) {
 
-  #date-button-back,
-  #date-button-forward {
-    height: 25px;
-    width: 25px;
-    margin: 5px 0;
-    font: 700 18px "Arial", sans-serif;
+  #date-back-button,
+  #date-forward-button {
+    height: 21px;
+    width: 24px;
+    vertical-align: middle;
   }
 
   #universe-container{
@@ -49,7 +38,6 @@
   }
 
   #universe {
-    padding: 10px 5px;
     font: 700 9px "Arial", sans-serif;
   }
 
@@ -63,20 +51,18 @@
 
 @media only screen and (min-width: 375px) {
 
-  #date-button-back,
-  #date-button-forward {
-    width: 30px;
-    margin: 5px;
-    padding: 0 0 2px 0;
-    font: 700 20px "Arial", sans-serif;
+  #date-back-button,
+  #date-forward-button {
+    height: 28px;
+    width: 32px;
   }
 
   #universe-container{
-    width: 270px;
+    width: 265px;
   }
 
   #universe {
-    font: 700 10px "Arial", sans-serif;
+    margin-top: 8px;
   }
 
   #sentiment-bars-container {
@@ -89,19 +75,13 @@
 
 @media only screen and (min-width: 475px) {
 
-  #date-button-back,
-  #date-button-forward {
-    height: 30px;
-    width: 35px;
-    font: 700 22px "Arial", sans-serif;
-  }
-
   #universe-container{
-    width: 325px;
+    width: 300px;
   }
 
   #universe {
-    font: 700 11px "Arial", sans-serif;
+    margin-top: 9px;
+    font: 700 10px "Arial", sans-serif;
   }
 
   #sentiment-bars-container {
@@ -113,17 +93,6 @@
 
 @media only screen and (min-width: 575px) {
 
-  #date-button-back,
-  #date-button-forward {
-    height: 35px;
-    width: 40px;
-    font: 700 24px "Arial", sans-serif;
-  }
-
-  #universe {
-    font: 700 12px "Arial", sans-serif;
-  }
-
   #sentiment-bars-container {
     max-width: 430px;
     margin: 45px auto;
@@ -132,6 +101,21 @@
 
 
 @media only screen and (min-width: 700px) {
+
+  #date-back-button,
+  #date-forward-button {
+    height: 35px;
+    width: 40px;
+  }
+
+  #universe-container{
+    width: 350px;
+  }
+
+  #universe {
+    margin-top: 10px;
+    font: 700 12px "Arial", sans-serif;
+  }
 
   #sentiment-bars-container {
     max-width: 530px;
