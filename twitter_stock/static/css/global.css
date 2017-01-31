@@ -63,6 +63,11 @@ label {
   opacity: .7;
 }
 
+.chart-container {
+  background-color: #f4f7fb;
+  border: 1px solid #555555;
+}
+
 /* media queries ==================================================================================================================================*/
 
 @media only screen and (min-width: 240px) {

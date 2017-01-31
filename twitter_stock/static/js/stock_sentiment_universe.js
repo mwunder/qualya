@@ -192,24 +192,19 @@ var addHistogram = function() {
     var chartData = {
 
             labels: ['0', '1', '2', '3', '4'],
-
             series: BINS
         },
 
         chartOptions = {
 
-            width: .9*window.innerWidth,
-
-            height: .5*window.innerHeight,
-
+            width: .75*window.innerWidth,
+            height: .75*window.innerHeight,
             high: 1,
-
             low: 0
-        };
+        },
 
-    new Chartist.Bar('.ct-chart', chartData, chartOptions);
+        chart = new Chartist.Bar('.ct-chart', chartData, chartOptions);
 }
-
 
 var toggleHistogram = function() {
 

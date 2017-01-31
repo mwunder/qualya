@@ -5,12 +5,8 @@
 }
 
 #histogram-container {
-  margin: 15px 0;
-}
-
-#sentiment-bars-container {
-  background-color: #f4f7fb;
-  border: 1px solid #555555;
+  margin: 25px auto;
+  padding: 15px 10px 5px 10px;
 }
 
 .sentiment-bar {
