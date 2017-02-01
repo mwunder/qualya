@@ -39,7 +39,70 @@
 
 /* media queries ==================================================================================================================================*/
 
-@media only screen and (min-width: 700px) {
+@media only screen and (min-width: 240px) {
+
+}
+
+
+@media only screen and (min-width: 375px) {
+
+}
+
+
+@media only screen and (min-width: 475px) {
+
+  #historical-container {
+    width: 250px;
+    margin: 2px 0 3px 0;
+    font: 700 10px Arial, sans-serif;
+  }
+
+  #zoom-out-button,
+  #zoom-in-button {
+    height: 28px;
+    width: 32px;
+  }
+
+  #hist-text {
+    margin-right: 7px;
+  }
+
+  #go-button {
+    height: 16px;
+    width: 20px;
+    bottom: 1px;
+    margin-left: 8px;
+    padding: 0 1px 2px 0;
+  }
+
+  #line-charts-container,
+  #stacked-bar-chart-container {
+    width: 450px;
+  }
+
+  #line-charts-container {
+    height: 275px;
+    margin: 30px auto 0 auto;
+  }
+
+  #line-charts-legend {
+    height: 18px;
+    margin-top: 257px;
+    font: 200 7px sans-serif;
+  }
+
+  #stacked-bar-chart-container {
+    height: 950px;
+    margin: 25px auto 50px auto;
+  }
+
+  #stacked-bar-chart {
+    margin: 5px;
+  }
+}
+
+
+@media only screen and (min-width: 575px) {
 
   #historical-container {
     width: 275px;
@@ -53,17 +116,33 @@
     width: 40px;
   }
 
-  #hist-text {
-    margin-right: 7px;
-  }
-
   #go-button {
     height: 18px;
     width: 25px;
-    bottom: 1px;
     margin-left: 7px;
     padding: 0 1px 1px 0;
   }
+
+  #line-charts-container,
+  #stacked-bar-chart-container {
+    width: 525px;
+  }
+
+  #line-charts-container {
+    height: 300px;
+    margin: 35px auto 0 auto;
+  }
+
+  #line-charts-legend {
+    height: 25px;
+    margin-top: 275px;
+    padding-top: 5px;
+    font: 100 8px sans-serif;
+  }
+}
+
+
+@media only screen and (min-width: 700px) {
 
   #line-charts-container,
   #stacked-bar-chart-container {
@@ -72,22 +151,16 @@
 
   #line-charts-container {
     height: 350px;
-    margin: 50px auto 25px auto;
+    margin: 50px auto 0 auto;
   }
 
   #line-charts-legend {
-    height: 25px;
     margin-top: 325px;
     padding-top: 4px;
     font: 200 9px sans-serif;
   }
 
   #stacked-bar-chart-container {
-    height: 950px;
-    margin: 25px auto 50px auto;
-  }
-
-  #stacked-bar-chart {
-    margin: 5px;
+    margin: 35px auto 50px auto;
   }
 }
