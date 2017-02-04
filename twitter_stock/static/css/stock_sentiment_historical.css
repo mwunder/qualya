@@ -46,11 +46,6 @@
 
 @media only screen and (min-width: 375px) {
 
-}
-
-
-@media only screen and (min-width: 475px) {
-
   #historical-container {
     width: 250px;
     margin: 2px 0 3px 0;
@@ -77,6 +72,36 @@
 
   #line-charts-container,
   #stacked-bar-chart-container {
+    width: 350px;
+  }
+
+  #line-charts-container {
+    height: 250px;
+    margin: 25px auto 0 auto;
+  }
+
+  #line-charts-legend {
+    height: 23px;
+    margin-top: 227px;
+    padding: 0 15px;
+    font: 200 7px sans-serif;
+  }
+
+  #stacked-bar-chart-container {
+    height: 950px;
+    margin: 25px auto;
+  }
+
+  #stacked-bar-chart {
+    margin: 5px;
+  }
+}
+
+
+@media only screen and (min-width: 475px) {
+
+  #line-charts-container,
+  #stacked-bar-chart-container {
     width: 450px;
   }
 
@@ -88,16 +113,6 @@
   #line-charts-legend {
     height: 18px;
     margin-top: 257px;
-    font: 200 7px sans-serif;
-  }
-
-  #stacked-bar-chart-container {
-    height: 950px;
-    margin: 25px auto 50px auto;
-  }
-
-  #stacked-bar-chart {
-    margin: 5px;
   }
 }
 
@@ -161,6 +176,6 @@
   }
 
   #stacked-bar-chart-container {
-    margin: 35px auto 50px auto;
+    margin: 35px auto;
   }
 }

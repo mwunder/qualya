@@ -45,8 +45,13 @@ var createMonthDayLabels = function() {
 //LINE CHARTS
 var addLineCharts = function() {
 
-    //padding
-    var chartPad = { top: 30, right: 45, bottom: 5, left: 15 };
+    //responsive line chart options 
+    var responsiveOptions = [
+
+            [ 'screen and (min-width: 240px)', { chartPadding: { top: 0, right: 0, bottom: 0, left: 0 } }    ],
+            [ 'screen and (min-width: 375px)', { chartPadding: { top: 23, right: 43, bottom: 3, left: 12 } } ],
+            [ 'screen and (min-width: 475px)', { chartPadding: { top: 30, right: 45, bottom: 5, left: 15 } } ]
+        ];
 
     //closing prices
     var addPriceChart = function() {
@@ -117,11 +122,10 @@ var addLineCharts = function() {
                 },
 
                 fullWidth: true,
-                showPoint: false,
-                chartPadding: chartPad
+                showPoint: false
             },
 
-            chart = new Chartist.Line('#price-chart', chartData, chartOptions);
+            chart = new Chartist.Line('#price-chart', chartData, chartOptions, responsiveOptions);
 
         //specify more options before the chart is displayed
         chart.on('draw', function(data){
@@ -172,11 +176,10 @@ var addLineCharts = function() {
                 },
 
                 fullWidth: true,
-                showPoint: false,
-                chartPadding: chartPad
+                showPoint: false
             },
 
-            chart = new Chartist.Line('#sentiment-chart', chartData, chartOptions);
+            chart = new Chartist.Line('#sentiment-chart', chartData, chartOptions, responsiveOptions);
 
         //specify more options before the chart is displayed
         chart.on('draw', function(data){
