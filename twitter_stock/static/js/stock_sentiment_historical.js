@@ -4,7 +4,8 @@ var DEBUG_UNIVERSE = true;
 
 /* METHODS ========================================================================================================================================*/
 
-var addIntervalButtonClickEvents = function() {
+//zoom buttons logic
+var addZoomButtonsClickEvents = function() {
 
     ["zoom-out-button", "zoom-in-button"].forEach(function(button, index) {
 
@@ -17,6 +18,7 @@ var addIntervalButtonClickEvents = function() {
     });
 }
 
+//go button logic
 var addGoButtonClickEvent = function() {
 
     document.getElementById("go-button").onclick = function() {
@@ -48,8 +50,8 @@ var addLineCharts = function() {
     //responsive line chart options 
     var responsiveOptions = [
 
-            [ 'screen and (min-width: 240px)', { chartPadding: { top: 0, right: 0, bottom: 0, left: 0 } }    ],
-            [ 'screen and (min-width: 375px)', { chartPadding: { top: 23, right: 43, bottom: 3, left: 12 } } ],
+            [ 'screen and (min-width: 240px)', { chartPadding: { top: 22, right: 28, bottom: 0, left: 2  } } ],
+            [ 'screen and (min-width: 375px)', { chartPadding: { top: 24, right: 33, bottom: 0, left: 4  } } ],
             [ 'screen and (min-width: 475px)', { chartPadding: { top: 30, right: 45, bottom: 5, left: 15 } } ]
         ];
 
@@ -74,7 +76,7 @@ var addLineCharts = function() {
 
                 axisX: { 
 
-                    //responsive x-axis label display
+                    //responsive x-axis gridline and label display
                     labelInterpolationFnc: function(value, index) {
 
                         switch(true) {
@@ -130,13 +132,21 @@ var addLineCharts = function() {
         //specify more options before the chart is displayed
         chart.on('draw', function(data){
 
-            //label size
-            if (data.type === 'label') { data.element._node.childNodes[0].style.fontSize = '10px' }
+            //responsive label size, last x-axis label position
+            if (data.type === 'label') {
 
-            //re-position last x-axis label
-            if (data.type === 'label' && data.axis.units.pos === 'x' && data.index == TIME_FRAME-1) {
+                //screen widths of 475 pixels or greater
+                if(window.matchMedia("(min-width: 475px)").matches) {
 
-                data.element._node.childNodes[0].style.marginLeft = '-27px';
+                    data.element._node.childNodes[0].style.fontSize = '10px';
+                    if(data.axis.units.pos === 'x' && data.index == TIME_FRAME-1) { data.element._node.childNodes[0].style.marginLeft = '-27px' }
+
+                //all other smaller screen widths
+                } else {
+
+                    data.element._node.childNodes[0].style.fontSize = '7px';
+                    if(data.axis.units.pos === 'x' && data.index == TIME_FRAME-1) { data.element._node.childNodes[0].style.marginLeft = '-18px' }
+                }
             }
         });
     }();
@@ -184,11 +194,22 @@ var addLineCharts = function() {
         //specify more options before the chart is displayed
         chart.on('draw', function(data){
 
-            //label size
-            if (data.type === 'label') { data.element._node.childNodes[0].style.fontSize = '10px' }
+            //responsive label size, right-hand side y-axis label position
+            if (data.type === 'label') {
 
-            //position y-axis labels on right side
-            if(data.type === 'label' && data.axis.units.pos === 'y') { data.element.attr({ x: data.axis.chartRect.width()+55 }) }
+                //screen widths of 475 pixels or greater
+                if(window.matchMedia("(min-width: 475px)").matches) {
+
+                    data.element._node.childNodes[0].style.fontSize = '10px';
+                    if(data.axis.units.pos === 'y') { data.element.attr({ x: data.axis.chartRect.width()+55 }) }
+
+                //all other smaller screen widths
+                } else {
+
+                    data.element._node.childNodes[0].style.fontSize = '7px';
+                    if(data.axis.units.pos === 'y') { data.element.attr({ x: data.axis.chartRect.width()+34 }) }
+                }
+            }
         });
     }();
 }

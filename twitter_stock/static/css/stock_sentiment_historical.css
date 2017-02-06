@@ -41,6 +41,59 @@
 
 @media only screen and (min-width: 240px) {
 
+  #historical-container {
+    width: 215px;
+    font: 400 9px Arial, sans-serif;
+  }
+
+  #zoom-out-button,
+  #zoom-in-button {
+    height: 21px;
+    width: 24px;
+  }
+
+  #hist-text {
+    margin-right: 3px;
+  }
+
+  #ticker-dropdown-2 {
+    font-size: 9px;
+  }
+
+  #go-button {
+    height: 13px;
+    width: 18px;
+    bottom: 1px;
+    margin-left: 6px;
+    padding-bottom: 1px;
+    font-size: 10px;
+  }
+
+  #line-charts-container,
+  #stacked-bar-chart-container {
+    width: 300px;
+  }
+
+  #line-charts-container {
+    height: 235px;
+    margin: 20px auto 0 auto;
+  }
+
+  #line-charts-legend {
+    height: 21px;
+    margin-top: 214px;
+    padding: 0 20px;
+    font: 200 6px sans-serif;
+  }
+
+  #stacked-bar-chart-container {
+    height: 950px;
+    margin: 15px auto;
+  }
+
+  #stacked-bar-chart {
+    margin: 5px;
+  }
 }
 
 
@@ -48,7 +101,7 @@
 
   #historical-container {
     width: 250px;
-    margin: 2px 0 3px 0;
+    margin: 2px 0;
     font: 700 10px Arial, sans-serif;
   }
 
@@ -59,15 +112,20 @@
   }
 
   #hist-text {
-    margin-right: 7px;
+    margin-right: 6px;
+  }
+
+  #ticker-dropdown-2 {
+    font-size: 13px;
   }
 
   #go-button {
     height: 16px;
     width: 20px;
-    bottom: 1px;
+    bottom: 2px;
     margin-left: 8px;
-    padding: 0 1px 2px 0;
+    padding-bottom: 2px;
+    font-size: 11px;
   }
 
   #line-charts-container,
@@ -84,16 +142,11 @@
     height: 23px;
     margin-top: 227px;
     padding: 0 15px;
-    font: 200 7px sans-serif;
+    font-size: 7px;
   }
 
   #stacked-bar-chart-container {
-    height: 950px;
     margin: 25px auto;
-  }
-
-  #stacked-bar-chart {
-    margin: 5px;
   }
 }
 
@@ -122,13 +175,17 @@
   #historical-container {
     width: 275px;
     margin: 2px 15px 0 15px;
-    font: 700 12px Arial, sans-serif;
+    font-size: 12px;
   }
 
   #zoom-out-button,
   #zoom-in-button {
     height: 35px;
     width: 40px;
+  }
+
+  #ticker-dropdown-2 {
+    font-size: 14px;
   }
 
   #go-button {
@@ -152,7 +209,7 @@
     height: 25px;
     margin-top: 275px;
     padding-top: 5px;
-    font: 100 8px sans-serif;
+    font-weight: 600;
   }
 }
 
