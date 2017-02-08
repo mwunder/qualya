@@ -122,7 +122,7 @@ def stock_sentiment_historical(request):
     # Fetch the statuses from stock_status given the date constraints
     multiplier   = 1 if 'mult' not in request.GET or not is_num(request.GET['mult']) else float(request.GET['mult'])
     rolling_window = 3
-    w            = int(multiplier*(7 if 'w' not in request.GET or not is_num(request.GET['w']) else int(request.GET['w'])))
+    w            = max(2,min(150,int(multiplier*(7 if 'w' not in request.GET or not is_num(request.GET['w']) else int(request.GET['w'])))))
     interval     = 1440*w
     current_date = datetime.now() # datetime.strptime('2016-08-08','%Y-%m-%d') <-- placeholder date
     end_date     = get_date_from(request.GET,current_date)
