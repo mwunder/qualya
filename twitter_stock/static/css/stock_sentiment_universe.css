@@ -38,9 +38,9 @@
   }
 
   #sentiment-bars-container {
-    padding: 12px 0;
     max-width: 305px;
     margin: 30px auto;
+    padding: 12px 0;
   }
 }
 
@@ -62,9 +62,9 @@
   }
 
   #sentiment-bars-container {
-    padding: 15px 0;
     max-width: 355px;
     margin: 35px auto;
+    padding: 15px 0;
   }
 }
 

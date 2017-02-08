@@ -281,12 +281,8 @@ var addStackedBarChart = function() {
                     data.element._node.childNodes[0].style.fontSize = '9px';
                     break;
 
-                case TIME_FRAME > 80 && TIME_FRAME <= 120:
-                    data.element._node.childNodes[0].style.fontSize = '7px';
-                    break;
-
                 default:
-                    data.element._node.childNodes[0].style.fontSize = '5px';
+                    data.element._node.childNodes[0].style.fontSize = '7px';
                     break;
             }
         }

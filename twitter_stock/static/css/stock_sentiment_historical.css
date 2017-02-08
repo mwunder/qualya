@@ -41,15 +41,15 @@
 
 @media only screen and (min-width: 240px) {
 
-  #historical-container {
-    width: 215px;
-    font: 400 9px Arial, sans-serif;
-  }
-
   #zoom-out-button,
   #zoom-in-button {
     height: 21px;
     width: 24px;
+  }
+
+  #historical-container {
+    width: 240px;
+    font: 400 9px Arial, sans-serif;
   }
 
   #hist-text {
@@ -71,12 +71,12 @@
 
   #line-charts-container,
   #stacked-bar-chart-container {
-    width: 300px;
+    width: 305px;
   }
 
   #line-charts-container {
     height: 235px;
-    margin: 20px auto 0 auto;
+    margin: 30px auto 0 auto;
   }
 
   #line-charts-legend {
@@ -99,16 +99,16 @@
 
 @media only screen and (min-width: 375px) {
 
-  #historical-container {
-    width: 250px;
-    margin: 2px 0;
-    font: 700 10px Arial, sans-serif;
-  }
-
   #zoom-out-button,
   #zoom-in-button {
     height: 28px;
     width: 32px;
+  }
+
+  #historical-container {
+    width: 265px;
+    margin: 2px 0;
+    font: 700 10px Arial, sans-serif;
   }
 
   #hist-text {
@@ -130,18 +130,17 @@
 
   #line-charts-container,
   #stacked-bar-chart-container {
-    width: 350px;
+    width: 355px;
   }
 
   #line-charts-container {
     height: 250px;
-    margin: 25px auto 0 auto;
+    margin: 35px auto 0 auto;
   }
 
   #line-charts-legend {
     height: 23px;
     margin-top: 227px;
-    padding: 0 15px;
     font-size: 7px;
   }
 
@@ -153,35 +152,61 @@
 
 @media only screen and (min-width: 475px) {
 
+  #historical-container {
+    width: 300px;
+  }
+
   #line-charts-container,
   #stacked-bar-chart-container {
-    width: 450px;
+    width: 395px;
   }
 
   #line-charts-container {
     height: 275px;
-    margin: 30px auto 0 auto;
+    margin: 40px auto 0 auto;
   }
 
   #line-charts-legend {
-    height: 18px;
-    margin-top: 257px;
+    height: 23px;
+    margin-top: 252px;
+    padding: 0 40px;
   }
 }
 
 
 @media only screen and (min-width: 575px) {
 
-  #historical-container {
-    width: 275px;
-    margin: 2px 15px 0 15px;
-    font-size: 12px;
+  #line-charts-container,
+  #stacked-bar-chart-container {
+    width: 430px;
   }
+
+  #line-charts-container {
+    height: 300px;
+    margin: 45px auto 0 auto;
+  }
+
+  #line-charts-legend {
+    height: 24px;
+    margin-top: 276px;
+    padding: 0 55px;
+    font-weight: 600;
+  }
+}
+
+
+@media only screen and (min-width: 700px) {
 
   #zoom-out-button,
   #zoom-in-button {
     height: 35px;
     width: 40px;
+  }
+
+  #historical-container {
+    width: 350px;
+    margin: 2px 0 0 0;
+    font-size: 12px;
   }
 
   #ticker-dropdown-2 {
@@ -197,28 +222,7 @@
 
   #line-charts-container,
   #stacked-bar-chart-container {
-    width: 525px;
-  }
-
-  #line-charts-container {
-    height: 300px;
-    margin: 35px auto 0 auto;
-  }
-
-  #line-charts-legend {
-    height: 25px;
-    margin-top: 275px;
-    padding-top: 5px;
-    font-weight: 600;
-  }
-}
-
-
-@media only screen and (min-width: 700px) {
-
-  #line-charts-container,
-  #stacked-bar-chart-container {
-    width: 600px;
+    width: 530px;
   }
 
   #line-charts-container {
@@ -227,8 +231,8 @@
   }
 
   #line-charts-legend {
-    margin-top: 325px;
-    padding-top: 4px;
+    height: 27px;
+    margin-top: 323px;
     font: 200 9px sans-serif;
   }
 
