@@ -43,6 +43,11 @@ body {
   display: inline-block;
 }
 
+.sub-nav-container,
+.sub-nav-button {
+  vertical-align: middle;
+}
+
 label {
   color: #aaaaaa;
 }
@@ -77,6 +82,15 @@ label {
     width: 69px;
     margin: 5px 5px 4px 5px;
   }
+
+  .sub-nav-container {
+    width: 240px;
+  }
+
+  .sub-nav-button {
+    height: 21px;
+    width: 24px;
+  }
 }
 
 
@@ -87,6 +101,15 @@ label {
     width: 75px;
     margin: 6px 6px 5px 6px;
   }
+
+  .sub-nav-container {
+    width: 265px;
+  }
+
+  .sub-nav-button {
+    height: 28px;
+    width: 32px;
+  }
 }
 
 
@@ -96,5 +119,21 @@ label {
     height: 28px;
     width: 84px;
     margin: 7px 7px 6px 7px;
+  }
+
+  .sub-nav-container {
+    width: 300px;
+  }
+}
+
+@media only screen and (min-width: 700px) {
+
+  .sub-nav-container {
+    width: 350px;
+  }
+
+  .sub-nav-button {
+    height: 35px;
+    width: 40px;
   }
 }

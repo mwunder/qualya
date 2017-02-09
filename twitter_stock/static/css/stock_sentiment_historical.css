@@ -1,9 +1,3 @@
-#historical-container,
-#zoom-out-button,
-#zoom-in-button {
-  vertical-align: middle;
-}
-
 #go-button,
 #line-charts-container {
   position: relative;
@@ -41,14 +35,7 @@
 
 @media only screen and (min-width: 240px) {
 
-  #zoom-out-button,
-  #zoom-in-button {
-    height: 21px;
-    width: 24px;
-  }
-
   #historical-container {
-    width: 240px;
     font: 400 9px Arial, sans-serif;
   }
 
@@ -99,14 +86,7 @@
 
 @media only screen and (min-width: 375px) {
 
-  #zoom-out-button,
-  #zoom-in-button {
-    height: 28px;
-    width: 32px;
-  }
-
   #historical-container {
-    width: 265px;
     margin: 2px 0;
     font: 700 10px Arial, sans-serif;
   }
@@ -152,10 +132,6 @@
 
 @media only screen and (min-width: 475px) {
 
-  #historical-container {
-    width: 300px;
-  }
-
   #line-charts-container,
   #stacked-bar-chart-container {
     width: 395px;
@@ -197,14 +173,7 @@
 
 @media only screen and (min-width: 700px) {
 
-  #zoom-out-button,
-  #zoom-in-button {
-    height: 35px;
-    width: 40px;
-  }
-
   #historical-container {
-    width: 350px;
     margin: 2px 0 0 0;
     font-size: 12px;
   }

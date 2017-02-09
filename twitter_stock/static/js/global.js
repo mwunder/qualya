@@ -27,10 +27,7 @@ var populateDropDownMenu = function(id, items) {
             elem.appendChild(option);
         }
 
-        var callback = function() {
-
-            if(id == "ticker-dropdown-2") { elem.value = SYMBOL }
-        }();
+        var callback = function() { if(id == "ticker-dropdown-2") { elem.value = SYMBOL } }();
     }());
 }
 
@@ -42,7 +39,6 @@ var sentimentBarClicked = function(page, identifier) {
             return function() { location.href = "/stock_sentiment_historical/?symbol="+identifier+"&w=45&date="+DATE };
 
         case 'historical':
-            //TO DO
-            return;
+            return function() { location.href = "/stock_sentiment_universe/?symbol=All&date="+identifier };
     }
 }

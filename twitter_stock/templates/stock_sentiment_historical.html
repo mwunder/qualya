@@ -20,10 +20,10 @@
 
     <div id="sub-nav">
         <div class="button">
-            <img id="zoom-out-button" src="{% static 'img/buttons/zoom_out.png' %}" />
+            <img id="zoom-out-button" class="sub-nav-button" src="{% static 'img/buttons/zoom_out.png' %}" />
         </div>
 
-        <div id="historical-container" class="container">
+        <div id="historical-container" class="container sub-nav-container">
             <div id="dropdown-container" class="container">
                 <p id="hist-text" class="text">Historical data for</p>
 
@@ -34,7 +34,7 @@
         </div><!-- /historical-container -->
 
         <div class="button">
-            <img id="zoom-in-button" src="{% static 'img/buttons/zoom_in.png' %}" />
+            <img id="zoom-in-button" class="sub-nav-button" src="{% static 'img/buttons/zoom_in.png' %}" />
         </div>
     </div><!-- /sub-nav -->
 
@@ -91,6 +91,7 @@
             addZoomButtonsClickEvents();
             populateDropDownMenu("ticker-dropdown-2", SYMBOLS);
             addGoButtonClickEvent();
+
             //charts
             addLineCharts();
             addStackedBarChart();

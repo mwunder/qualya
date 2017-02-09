@@ -47,13 +47,10 @@ var createMonthDayLabels = function() {
 //LINE CHARTS
 var addLineCharts = function() {
 
-    //responsive line chart options 
-    var responsiveOptions = [
-
-            [ 'screen and (min-width: 240px)', { chartPadding: { top: 22, right: 28, bottom: 0, left: 2  } } ],
-            [ 'screen and (min-width: 375px)', { chartPadding: { top: 24, right: 33, bottom: 0, left: 4  } } ],
-            [ 'screen and (min-width: 475px)', { chartPadding: { top: 30, right: 45, bottom: 5, left: 15 } } ]
-        ];
+    //responsive line chart options
+    var responsiveOptions = [ [ 'screen and (min-width: 240px)', { chartPadding: { top: 22, right: 28, bottom: 0, left: 2  } } ],
+                              [ 'screen and (min-width: 375px)', { chartPadding: { top: 24, right: 33, bottom: 0, left: 4  } } ],
+                              [ 'screen and (min-width: 475px)', { chartPadding: { top: 30, right: 45, bottom: 5, left: 15 } } ] ];
 
     //closing prices
     var addPriceChart = function() {
@@ -62,7 +59,7 @@ var addLineCharts = function() {
 
                 labels: createMonthDayLabels(),
 
-                series: [ { name: 'CLOSES', data: CLOSES, className: 'closes' },
+                series: [ { name: 'CLOSES',     data: CLOSES,     className: 'closes'    },
                           { name: 'MOV_CLOSES', data: MOV_CLOSES, className: 'movCloses' } ]
             },
 
@@ -70,7 +67,7 @@ var addLineCharts = function() {
 
                 series: {
 
-                    'CLOSES': { lineSmooth: Chartist.Interpolation.none() },
+                    'CLOSES':     { lineSmooth: Chartist.Interpolation.none() },
                     'MOV_CLOSES': { lineSmooth: Chartist.Interpolation.monotoneCubic() }
                 },
 
@@ -158,7 +155,7 @@ var addLineCharts = function() {
 
                 labels: [],
 
-                series: [ { name: 'AVG_SENTIMENT', data: AVG_SENTIMENT, className: 'avgSentiment' },
+                series: [ { name: 'AVG_SENTIMENT',     data: AVG_SENTIMENT,     className: 'avgSentiment'    },
                           { name: 'MOV_AVG_SENTIMENT', data: MOV_AVG_SENTIMENT, className: 'movAvgSentiment' } ]
             },
 
@@ -166,7 +163,7 @@ var addLineCharts = function() {
 
                 series: {
 
-                    'AVG_SENTIMENT': { lineSmooth: Chartist.Interpolation.none() },
+                    'AVG_SENTIMENT':     { lineSmooth: Chartist.Interpolation.none() },
                     'MOV_AVG_SENTIMENT': { lineSmooth: Chartist.Interpolation.monotoneCubic() }
                 },
 
@@ -195,7 +192,7 @@ var addLineCharts = function() {
         chart.on('draw', function(data){
 
             //responsive label size, right-hand side y-axis label position
-            if (data.type === 'label') {
+            if(data.type === 'label') {
 
                 //screen widths of 475 pixels or greater
                 if(window.matchMedia("(min-width: 475px)").matches) {
@@ -261,11 +258,17 @@ var addStackedBarChart = function() {
     //specify more options before the chart is displayed 
     chart.on('draw', function(data) {
 
-        //responsive stacked bar width
-        if(data.type === 'bar') { data.element.attr({ style: 'stroke-width: '+Math.floor(800/TIME_FRAME)+'px' }) }
+        if(data.type === 'bar') {
+
+            //responsive stacked bar width
+            data.element.attr({ style: 'stroke-width: '+Math.floor(800/TIME_FRAME)+'px' });
+
+            //add 'onclick' functionality
+            data.element._node.onclick = sentimentBarClicked('historical', DATES[data.index]);
+        } 
 
         //responsive label size
-        if (data.type === 'label') {
+        if(data.type === 'label') {
 
             switch(true) {
 

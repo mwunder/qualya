@@ -20,13 +20,13 @@
 
     <div id="sub-nav">
         <div class="button">
-            <img id="date-back-button" src="{% static 'img/buttons/date_back.png' %}" />
+            <img id="date-back-button" class="sub-nav-button" src="{% static 'img/buttons/date_back.png' %}" />
         </div>
 
-        <div id="universe-container" class="container"></div>
+        <div id="universe-container" class="container sub-nav-container"></div>
 
         <div class="button">
-            <img id="date-forward-button" src="{% static 'img/buttons/date_forward.png' %}" />
+            <img id="date-forward-button" class="sub-nav-button" src="{% static 'img/buttons/date_forward.png' %}" />
         </div>
     </div><!-- /sub-nav -->
 
@@ -54,8 +54,11 @@
         //MAIN
         (function() {
 
+            //sub-nav menu
             addDateButtonClickEvents();
             printUniverseInfo();
+
+            //graphics
             addSentimentGraphics();
 
             //debug mode
