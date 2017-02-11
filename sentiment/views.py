@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from sentiment.models import *
 from twitter_refs import *
 from collections import defaultdict, Counter
-import datetime, re
+import datetime, re, math
 from datetime import *
 
 
@@ -117,8 +117,8 @@ def stock_sentiment_historical(request):
 
     # Fetch the statuses from stock_status given the date constraints
     multiplier     = 1 if 'mult' not in request.GET or not is_num(request.GET['mult']) else float(request.GET['mult'])
-    rolling_window = 3
     w              = max(2,min(120,int(multiplier*(7 if 'w' not in request.GET or not is_num(request.GET['w']) else int(request.GET['w'])))))
+    rolling_window = int(math.ceil(w**0.5))
     interval       = 1440*w
     current_date   = datetime.now() # datetime.strptime('2016-08-08','%Y-%m-%d') <-- placeholder date
     end_date       = get_date_from(request.GET,current_date)
