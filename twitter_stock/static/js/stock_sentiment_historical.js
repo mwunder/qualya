@@ -229,6 +229,9 @@ var addStackedBarChart = function() {
         return obj;
     }
 
+    //stacked bar width
+    var barWidth = Math.floor(800/TIME_FRAME)+'px';
+
     //specify chart data and options, create chart object
     var chartData = {
 
@@ -255,17 +258,21 @@ var addStackedBarChart = function() {
 
         chart = new Chartist.Bar('#stacked-bar-chart', chartData, chartOptions);
 
-    //specify more options before the chart is displayed 
+    //specify more options before the chart's displayed
     chart.on('draw', function(data) {
+
+        //local vars
+        var day  = DATES[data.index],
+            node = data.element._node;
 
         if(data.type === 'bar') {
 
-            //responsive stacked bar width
-            data.element.attr({ style: 'stroke-width: '+Math.floor(800/TIME_FRAME)+'px' });
+            //responsive stacked bar width, add class
+            data.element.attr({ style: 'stroke-width: '+barWidth, class: 'ct-bar '+day });
 
             //add 'onclick' functionality
-            data.element._node.onclick = sentimentBarClicked('historical', DATES[data.index]);
-        } 
+            node.onclick = sentimentBarClicked('historical', day);
+        }
 
         //responsive label size
         if(data.type === 'label') {
@@ -273,25 +280,55 @@ var addStackedBarChart = function() {
             switch(true) {
 
                 case TIME_FRAME <= 30:
-                    data.element._node.childNodes[0].style.fontSize = '14px';
+                    node.childNodes[0].style.fontSize = '14px';
                     break;
 
                 case TIME_FRAME > 30 && TIME_FRAME <= 50:
-                    data.element._node.childNodes[0].style.fontSize = '11px';
+                    node.childNodes[0].style.fontSize = '11px';
                     break;
 
                 case TIME_FRAME > 50 && TIME_FRAME <= 80:
-                    data.element._node.childNodes[0].style.fontSize = '9px';
+                    node.childNodes[0].style.fontSize = '9px';
                     break;
 
                 default:
-                    data.element._node.childNodes[0].style.fontSize = '7px';
+                    node.childNodes[0].style.fontSize = '7px';
                     break;
             }
         }
 
         //remove gridlines
         if(data.type === 'grid' && data.index !== 0) { data.element.remove() }
+    });
+
+    //specify more options after the chart's been created
+    chart.on('created', function() {
+
+        //highlight stacked bars on mouseover
+        var addHoverEffect = function() {
+
+            for(var i=0; i<DATES.length; i++) {
+
+                //keep loop variable in scope
+                (function(i) {
+
+                    var bars = Array.from(document.getElementsByClassName('ct-bar '+DATES[i]));
+
+                    for(var j=0; j<bars.length; j++) {
+
+                        bars[j].addEventListener('mouseover', function(e) {
+
+                            bars.forEach(function(component) { component.setAttribute('style', 'opacity: 0.5; stroke-width: '+barWidth) });
+                        });
+
+                        bars[j].addEventListener('mouseout', function(e) {
+
+                            bars.forEach(function(component) { component.setAttribute('style', 'opacity: 1; stroke-width: '+barWidth) });
+                        });
+                    }
+                })(i);
+            }
+        }();
     });
 
     //responsive chart padding
