@@ -56,11 +56,6 @@
     font-size: 10px;
   }
 
-  #line-charts-container,
-  #stacked-bar-chart-container {
-    width: 305px;
-  }
-
   #line-charts-container {
     height: 235px;
     margin: 30px auto 0 auto;
@@ -108,11 +103,6 @@
     font-size: 11px;
   }
 
-  #line-charts-container,
-  #stacked-bar-chart-container {
-    width: 355px;
-  }
-
   #line-charts-container {
     height: 250px;
     margin: 35px auto 0 auto;
@@ -132,11 +122,6 @@
 
 @media only screen and (min-width: 475px) {
 
-  #line-charts-container,
-  #stacked-bar-chart-container {
-    width: 395px;
-  }
-
   #line-charts-container {
     height: 275px;
     margin: 40px auto 0 auto;
@@ -151,11 +136,6 @@
 
 
 @media only screen and (min-width: 575px) {
-
-  #line-charts-container,
-  #stacked-bar-chart-container {
-    width: 430px;
-  }
 
   #line-charts-container {
     height: 300px;
@@ -187,11 +167,6 @@
     width: 25px;
     margin-left: 7px;
     padding: 0 1px 1px 0;
-  }
-
-  #line-charts-container,
-  #stacked-bar-chart-container {
-    width: 530px;
   }
 
   #line-charts-container {

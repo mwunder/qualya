@@ -27,7 +27,6 @@
   }
 
   #sentiment-bars-container {
-    width: 305px;
     margin: 30px auto;
     padding: 12px 0;
   }
@@ -37,7 +36,6 @@
 @media only screen and (min-width: 375px) {
 
   #sentiment-bars-container {
-    width: 355px;
     margin: 35px auto;
     padding: 15px 0;
   }
@@ -51,7 +49,6 @@
   }
 
   #sentiment-bars-container {
-    width: 395px;
     margin: 40px auto;
   }
 }
@@ -60,7 +57,6 @@
 @media only screen and (min-width: 575px) {
 
   #sentiment-bars-container {
-    width: 430px;
     margin: 45px auto;
   }
 }
@@ -73,7 +69,6 @@
   }
 
   #sentiment-bars-container {
-    width: 530px;
     margin: 50px auto;
   }
 }

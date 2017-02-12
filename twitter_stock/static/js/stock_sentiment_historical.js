@@ -229,9 +229,6 @@ var addStackedBarChart = function() {
         return obj;
     }
 
-    //stacked bar width
-    var barWidth = Math.floor(800/TIME_FRAME)+'px';
-
     //specify chart data and options, create chart object
     var chartData = {
 
@@ -258,6 +255,9 @@ var addStackedBarChart = function() {
 
         chart = new Chartist.Bar('#stacked-bar-chart', chartData, chartOptions);
 
+    //stacked bar width
+    var barWidth = Math.floor(800/TIME_FRAME)+'px';
+
     //specify more options before the chart's displayed
     chart.on('draw', function(data) {
 
@@ -277,24 +277,29 @@ var addStackedBarChart = function() {
         //responsive label size
         if(data.type === 'label') {
 
-            switch(true) {
+            var setLabel = function() {
 
-                case TIME_FRAME <= 30:
-                    node.childNodes[0].style.fontSize = '14px';
-                    break;
+                var updateFont = function(size) { node.childNodes[0].style.fontSize = size+'px' }
 
-                case TIME_FRAME > 30 && TIME_FRAME <= 50:
-                    node.childNodes[0].style.fontSize = '11px';
-                    break;
+                switch(true) {
 
-                case TIME_FRAME > 50 && TIME_FRAME <= 80:
-                    node.childNodes[0].style.fontSize = '9px';
-                    break;
+                    case TIME_FRAME <= 30:
+                        updateFont(14);
+                        break;
 
-                default:
-                    node.childNodes[0].style.fontSize = '7px';
-                    break;
-            }
+                    case TIME_FRAME > 30 && TIME_FRAME <= 50:
+                        updateFont(11);
+                        break;
+
+                    case TIME_FRAME > 50 && TIME_FRAME <= 80:
+                        updateFont(9);
+                        break;
+
+                    default:
+                        updateFont(7);
+                        break;
+                }
+            }();
         }
 
         //remove gridlines
@@ -312,18 +317,18 @@ var addStackedBarChart = function() {
                 //keep loop variable in scope
                 (function(i) {
 
-                    var bars = Array.from(document.getElementsByClassName('ct-bar '+DATES[i]));
+                    var bar = Array.from(document.getElementsByClassName('ct-bar '+DATES[i]));
 
-                    for(var j=0; j<bars.length; j++) {
+                    for(var j=0; j<bar.length; j++) {
 
-                        bars[j].addEventListener('mouseover', function(e) {
+                        bar[j].addEventListener('mouseover', function(e) {
 
-                            bars.forEach(function(component) { component.setAttribute('style', 'opacity: 0.5; stroke-width: '+barWidth) });
+                            bar.forEach(function(component) { component.setAttribute('style', 'opacity: 0.5; stroke-width: '+barWidth) });
                         });
 
-                        bars[j].addEventListener('mouseout', function(e) {
+                        bar[j].addEventListener('mouseout', function(e) {
 
-                            bars.forEach(function(component) { component.setAttribute('style', 'opacity: 1; stroke-width: '+barWidth) });
+                            bar.forEach(function(component) { component.setAttribute('style', 'opacity: 1; stroke-width: '+barWidth) });
                         });
                     }
                 })(i);
@@ -332,18 +337,23 @@ var addStackedBarChart = function() {
     });
 
     //responsive chart padding
-    switch(true) {
+    var setPadding = function() {
 
-        case TIME_FRAME <= 30:
-            chart.update(null, {chartPadding: { left: 10 }}, true);
-            break;
+        var updateLeft = function(pad) { chart.update(null, {chartPadding: { left: pad }}, true) }
 
-        case TIME_FRAME > 30 && TIME_FRAME <= 50:
-            chart.update(null, {chartPadding: { left: 5 }}, true);
-            break;
+        switch(true) {
 
-        default:
-            chart.update(null, {chartPadding: { left: 0 }}, true);
-            break;
-    }
+            case TIME_FRAME <= 30:
+                updateLeft(10);
+                break;
+
+            case TIME_FRAME > 30 && TIME_FRAME <= 50:
+                updateLeft(5);
+                break;
+
+            default:
+                updateLeft(0);
+                break;
+        }
+    }();
 }

@@ -26,14 +26,23 @@ body {
   z-index: 99;
 }
 
-#nav {
+#nav,
+.button {
   background-color: #444444;
+}
+
+#nav {
   border-bottom: 4px solid #b3d9ff;
+}
+
+#sub-nav,
+.dropdown,
+.chart-container {
+  background-color: #f4f7fb;
 }
 
 #sub-nav {
   text-align: center;
-  background-color: #f4f7fb;
   border-bottom: 1px solid #b3d9ff;
 }
 
@@ -54,13 +63,11 @@ label {
 
 .dropdown {
   padding: 0 5px;
-  background-color: #f4f7fb;
   border: 2px solid #b3d9ff;
 }
 
 .button {
   color: white;
-  background-color: #444444;
   border: none;
 }
 
@@ -69,7 +76,6 @@ label {
 }
 
 .chart-container {
-  background-color: #f4f7fb;
   border: 1px solid #555555;
 }
 
@@ -91,6 +97,10 @@ label {
     height: 21px;
     width: 24px;
   }
+
+  .chart-container {
+    width: 305px;
+  }
 }
 
 
@@ -110,6 +120,10 @@ label {
     height: 28px;
     width: 32px;
   }
+
+  .chart-container {
+    width: 355px;
+  }
 }
 
 
@@ -124,7 +138,20 @@ label {
   .sub-nav-container {
     width: 300px;
   }
+
+  .chart-container {
+    width: 395px;
+  }
 }
+
+
+@media only screen and (min-width: 575px) {
+
+  .chart-container {
+    width: 430px;
+  }
+}
+
 
 @media only screen and (min-width: 700px) {
 
@@ -135,5 +162,9 @@ label {
   .sub-nav-button {
     height: 35px;
     width: 40px;
+  }
+
+  .chart-container {
+    width: 530px;
   }
 }
