@@ -18,15 +18,12 @@ var addZoomButtonsClickEvents = function() {
     });
 }
 
-//go button logic
-var addGoButtonClickEvent = function() {
+//dropdown-2 logic
+var dropdown2ChangeEvent = function() {
 
-    document.getElementById("go-button").onclick = function() {
+    var selected = document.getElementById("ticker-dropdown-2").value;
 
-        var selected = document.getElementById("ticker-dropdown-2").value;
-
-        location.href = "/stock_sentiment_historical/?symbol="+selected+"&w="+TIME_FRAME+"&date="+DATE;
-    }
+    location.href = "/stock_sentiment_historical/?symbol="+selected+"&w="+TIME_FRAME+"&date="+DATE;
 }
 
 //removes the year from all date strings

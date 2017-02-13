@@ -183,12 +183,11 @@ var addSentimentGraphics = function() {
     }
 }
 
-
 /* DEBUG METHODS ==================================================================================================================================*/
 
+//add histogram of bins data
 var addHistogram = function() {
 
-    //add 'chartist.js' chart to the page
     var chartData = {
 
             labels: ['0', '1', '2', '3', '4'],
@@ -206,9 +205,9 @@ var addHistogram = function() {
         chart = new Chartist.Bar('.ct-chart', chartData, chartOptions);
 }
 
+//hide or unhide the histogram
 var toggleHistogram = function() {
 
-    //hide or unhide the histogram
     var histCont = document.getElementById("histogram-container").style;
 
     if(histCont.display == 'block') { histCont.display = 'none' } else { histCont.display = 'block' }

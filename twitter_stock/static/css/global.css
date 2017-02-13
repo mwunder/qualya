@@ -35,26 +35,26 @@ body {
   border-bottom: 4px solid #b3d9ff;
 }
 
-#sub-nav,
+.sub-nav,
 .dropdown,
 .chart-container {
   background-color: #f4f7fb;
 }
 
-#sub-nav {
+.sub-nav {
   text-align: center;
   border-bottom: 1px solid #b3d9ff;
+}
+
+.sub-nav-container {
+  position: relative;
+  bottom: 40%;
 }
 
 .container,
 .text,
 .button {
   display: inline-block;
-}
-
-.sub-nav-container,
-.sub-nav-button {
-  vertical-align: middle;
 }
 
 label {
@@ -89,12 +89,16 @@ label {
     margin: 5px 5px 4px 5px;
   }
 
+  .sub-nav,
+  .sub-nav-button {
+    height: 21px;
+  }
+
   .sub-nav-container {
     width: 240px;
   }
 
   .sub-nav-button {
-    height: 21px;
     width: 24px;
   }
 
@@ -112,12 +116,16 @@ label {
     margin: 6px 6px 5px 6px;
   }
 
+  .sub-nav,
+  .sub-nav-button {
+    height: 28px;
+  }
+
   .sub-nav-container {
     width: 265px;
   }
 
   .sub-nav-button {
-    height: 28px;
     width: 32px;
   }
 
@@ -155,12 +163,16 @@ label {
 
 @media only screen and (min-width: 700px) {
 
+  .sub-nav,
+  .sub-nav-button {
+    height: 35px;
+  }
+
   .sub-nav-container {
     width: 350px;
   }
 
   .sub-nav-button {
-    height: 35px;
     width: 40px;
   }
 

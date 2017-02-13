@@ -19,7 +19,7 @@
         <a href="/"><img id="nav-logo" alt="Qualya Logo" src="{% static 'img/logos/logo.png' %}" /></a>
     </div><!-- /nav -->
 
-    <div id="sub-nav">
+    <div class="sub-nav">
         <div class="button">
             <img id="zoom-out-button" class="sub-nav-button" src="{% static 'img/buttons/zoom_out.png' %}" />
         </div>
@@ -28,10 +28,8 @@
             <div id="dropdown-container" class="container">
                 <p id="hist-text" class="text">Historical data for</p>
 
-                <select id="ticker-dropdown-2" class="dropdown" name="symbol" tabindex="1"></select>
+                <select id="ticker-dropdown-2" class="dropdown" name="symbol" tabindex="1" onchange="dropdown2ChangeEvent()"></select>
             </div>
-
-            <button id="go-button" class="button">&#8594;</button>
         </div><!-- /historical-container -->
 
         <div class="button">
@@ -46,10 +44,10 @@
         <div id="sentiment-chart" class="ct-chart line-charts"></div>
 
         <div id="line-charts-legend">
-            <b>Closing Price</b> = 'orange', &nbsp
-            <b>Moving Avg. Closing Price</b> = 'light orange', &nbsp
-            <b>Avg. Sentiment</b> = 'blue', &nbsp
-            <b>Moving Avg. Sentiment</b> = 'light blue'
+            <b>Closing Price</b> = <hr style="background-color: orange;" /><pre>  </pre>
+            <b>Moving Average of Closing Price</b> = <hr style="background-color: rgba(255,125,0,0.5);" /></br>
+            <b>Average Sentiment</b> = <hr style="background-color: rgba(0,0,255,0.8);" /><pre>  </pre>
+            <b>Moving Average of Average Sentiment</b> = <hr style="background-color: rgba(0,0,255,0.5);" />
         </div>
     </div>
 
@@ -91,7 +89,6 @@
             //sub-nav menu
             addZoomButtonsClickEvents();
             populateDropDownMenu("ticker-dropdown-2", SYMBOLS);
-            addGoButtonClickEvent();
 
             //charts
             addLineCharts();
