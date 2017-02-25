@@ -49,11 +49,16 @@
             //METHODS in 'js/home.js'
 
             //MAIN
-            (function() {
+            renderContent("home");
 
-                populateDropDownMenu("ticker-dropdown-1", SYMBOLS);
-                addSearchButtonClickEvent();
-            }());
+            //debug mode
+            if(DEBUG) {
+
+                debug('home');
+
+                //test
+                console.log(DATE, SYMBOLS);
+            }
         </script>
 
         <script>window.onload = function() { document.getElementById("load-screen").style.display = "none" }</script>

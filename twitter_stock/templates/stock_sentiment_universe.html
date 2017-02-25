@@ -31,11 +31,13 @@
         </div>
     </div><!-- /sub-nav -->
 
+    <!-- CHARTS -->
     <div id="histogram-container">
         <div id="histogram" class="ct-chart"></div>
     </div>
 
     <div id="sentiment-bars-container" class="chart-container"></div>
+    <!-- END CHARTS -->
 
     <script src='{% static "js/chartist.js" %}'></script>
     <script src='{% static "js/global.js" %}'></script>
@@ -53,26 +55,16 @@
         //METHODS in 'js/stock_sentiment_universe.js'
 
         //MAIN
-        (function() {
+        renderContent("universe");
 
-            //sub-nav menu
-            addDateButtonClickEvents();
-            printUniverseInfo();
+        //debug mode
+        if(DEBUG) {
 
-            //graphics
-            addSentimentGraphics();
+            debug('universe');
 
-            //debug mode
-            if(DEBUG_UNIVERSE) {
-
-                //add histogram and toggle functionality
-                addHistogram();
-                document.getElementById("universe-container").onclick = toggleHistogram;
-
-                //test
-                console.log(DATE, SYMBOLS, SCORES, BINS);
-            }
-        }());
+            //test
+            console.log(DATE, SYMBOLS, SCORES, BINS);
+        }
     </script>
 
     <script>window.onload = function() { document.getElementById("load-screen").style.display = "none" }</script>

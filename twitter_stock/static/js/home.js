@@ -1,5 +1,9 @@
 'use strict';
 
+var DEBUG = true;
+
+/* METHODS ========================================================================================================================================*/
+
 var addSearchButtonClickEvent = function() {
 
     document.getElementById("search-button").onclick = function() {

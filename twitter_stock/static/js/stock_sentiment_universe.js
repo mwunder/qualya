@@ -1,46 +1,8 @@
 'use strict';
 
-var DEBUG_UNIVERSE = true;
+var DEBUG = true;
 
 /* METHODS ========================================================================================================================================*/
-
-var addDateButtonClickEvents = function() {
-
-    ["date-back-button", "date-forward-button"].forEach(function(button, index) {
-
-        var inc = index == 0 ? -1 : 1;
-
-        document.getElementById(button).onclick = function() { location.href = "/stock_sentiment_universe/?symbol=All&inc="+inc+"&date="+DATE }
-    });
-}
-
-
-var printUniverseInfo = function() {
-
-    //print info about the stock universe to the page
-    var universe = document.createElement("p");
-
-    universe.id = "universe";
-
-    if(SYMBOLS.length > 0) {
-
-        //pluralize string if necessary
-        var stk = SYMBOLS.length == 1 ? ' stock' : ' stocks';
-
-        //add text to the universe container
-        universe.appendChild(document.createTextNode("The Universe contains "+SYMBOLS.length+stk+" on "+DATE+"."));
-
-        //display sentiment bars
-        document.getElementById("sentiment-bars-container").style.display = 'block';
-
-    } else {
-
-        universe.appendChild(document.createTextNode("Sorry, there are no stocks in the Universe on this date."));
-    }
-
-    document.getElementById("universe-container").appendChild(universe);
-}
-
 
 var addSentimentGraphics = function() {
 
@@ -52,7 +14,6 @@ var addSentimentGraphics = function() {
         bordBot   = '1px solid rgb(125,125,125)',
         sortedData,
         sortedBins;
-
 
     var sortData = function() {
 
@@ -81,7 +42,6 @@ var addSentimentGraphics = function() {
         return sortObj();
     }
 
-
     var sortBins = function() {
 
         sortedBins = [],
@@ -92,7 +52,6 @@ var addSentimentGraphics = function() {
         return sortedBins;
     }
 
-
     var filterBins = function(num) {
 
         var binIndices = [],
@@ -102,7 +61,6 @@ var addSentimentGraphics = function() {
 
         return binIndices;
     }
-
 
     //responsive sentiment bar dimensions on page load; bars will not adapt if window is resized
     switch(true) {

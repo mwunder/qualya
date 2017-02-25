@@ -47,10 +47,6 @@ pre {
     font: 700 9px "Arial", sans-serif;
   }
 
-  #hist-text {
-    margin-right: 3px;
-  }
-
   #line-charts-container {
     height: 235px;
     margin: 30px auto 0 auto;
@@ -75,10 +71,6 @@ pre {
 
 
 @media only screen and (min-width: 375px) {
-
-  #hist-text {
-    margin-right: 6px;
-  }
 
   #line-charts-container {
     height: 250px;

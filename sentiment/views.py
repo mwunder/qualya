@@ -151,6 +151,7 @@ def stock_sentiment_historical(request):
         if not status.status_sentiment or status.status_sentiment < -1 or status.status_sentiment > 1: continue
         stock_sentiment_history[datetime.date(status.created_at-offset)].append(status.status_sentiment)
         bins[datetime.date(status.created_at-offset)].append(status.sentiment_bin)
+
     print [len(v) for v in stock_sentiment_history.values()]
 
     for day,history in stock_sentiment_history.items():
@@ -186,6 +187,7 @@ def stock_sentiment_historical(request):
                'current_stock':        symbol,
                'symbols':              sorted(map(str, symbols)),
                'dates':                dates[-w:],
+               'end_date':             sql_full_datetime(end_date),
                'closes':               closes[-w:],
                'moving_avg_price':     list(moving_avg_price[-w:]),
                'scores_by_date':       scores_by_date[-w:],

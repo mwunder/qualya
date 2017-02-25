@@ -1,30 +1,8 @@
 'use strict';
 
-var DEBUG_UNIVERSE = true;
+var DEBUG = true;
 
 /* METHODS ========================================================================================================================================*/
-
-//zoom buttons logic
-var addZoomButtonsClickEvents = function() {
-
-    ["zoom-out-button", "zoom-in-button"].forEach(function(button, index) {
-
-        var w = index == 0 ? Math.round(2*TIME_FRAME,0) : Math.round(0.5*TIME_FRAME,0);
-
-        document.getElementById(button).onclick = function() {
-
-            location.href = "/stock_sentiment_historical/?symbol="+SYMBOL+"&w="+w+"&date="+DATE;
-        }
-    });
-}
-
-//dropdown-2 logic
-var dropdown2ChangeEvent = function() {
-
-    var selected = document.getElementById("ticker-dropdown-2").value;
-
-    location.href = "/stock_sentiment_historical/?symbol="+selected+"&w="+TIME_FRAME+"&date="+DATE;
-}
 
 //removes the year from all date strings
 var createMonthDayLabels = function() {
@@ -135,7 +113,7 @@ var addLineCharts = function() {
                     data.element._node.childNodes[0].style.fontSize = '10px';
                     if(data.axis.units.pos === 'x' && data.index == TIME_FRAME-1) { data.element._node.childNodes[0].style.marginLeft = '-27px' }
 
-                //all other smaller screen widths
+                //all other smaller screens
                 } else {
 
                     data.element._node.childNodes[0].style.fontSize = '7px';
@@ -197,7 +175,7 @@ var addLineCharts = function() {
                     data.element._node.childNodes[0].style.fontSize = '10px';
                     if(data.axis.units.pos === 'y') { data.element.attr({ x: data.axis.chartRect.width()+55 }) }
 
-                //all other smaller screen widths
+                //all other smaller screens
                 } else {
 
                     data.element._node.childNodes[0].style.fontSize = '7px';

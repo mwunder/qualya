@@ -25,12 +25,8 @@
         </div>
 
         <div id="historical-container" class="container sub-nav-container">
-            <div id="dropdown-container" class="container">
-                <p id="hist-text" class="text">Historical data for</p>
-
-                <select id="ticker-dropdown-2" class="dropdown" name="symbol" tabindex="1" onchange="dropdown2ChangeEvent()"></select>
-            </div>
-        </div><!-- /historical-container -->
+            <div id="dropdown-container" class="container"></div>
+        </div>
 
         <div class="button">
             <img id="zoom-in-button" class="sub-nav-button" src="{% static 'img/buttons/zoom_in.png' %}" />
@@ -66,8 +62,9 @@
         //GLOBAL VARS
         var SYMBOL            = "{{ current_stock }}",
             SYMBOLS           = {{ symbols|safe }},
-            DATES             = {{ dates|safe }},
             TIME_FRAME        = {{ dates|length }},
+            DATES             = {{ dates|safe }},
+            DATE              = "{{ end_date|safe }}",
             CLOSES            = {{ closes|safe }},
             MOV_CLOSES        = {{ moving_avg_price|safe }},
             SCORES_BY_DATE    = {{ scores_by_date|safe }},
@@ -75,32 +72,19 @@
             MOV_AVG_SENTIMENT = {{ moving_avg_sentiment|safe }},
             BINS              = {{ bins|safe }};
 
-        {% for d in dates %}
-            {% if forloop.last %}
-                var DATE = "{{ d|safe }}";
-            {% endif %}
-        {% endfor %}
-
         //METHODS in 'js/stock_sentiment_historical.js'
  
         //MAIN
-        (function() {
+        renderContent("historical");
 
-            //sub-nav menu
-            addZoomButtonsClickEvents();
-            populateDropDownMenu("ticker-dropdown-2", SYMBOLS);
+        //debug mode
+        if(DEBUG) {
 
-            //charts
-            addLineCharts();
-            addStackedBarChart();
+            debug('historical');
 
-            //debug mode
-            if(DEBUG_UNIVERSE) {
-
-                //test
-                console.log(SYMBOL, SYMBOLS, DATES, TIME_FRAME, CLOSES, MOV_CLOSES, SCORES_BY_DATE, AVG_SENTIMENT, MOV_AVG_SENTIMENT, BINS);
-            }
-        }());
+            //test
+            console.log(SYMBOL, SYMBOLS, TIME_FRAME, DATES, DATE, CLOSES, MOV_CLOSES, SCORES_BY_DATE, AVG_SENTIMENT, MOV_AVG_SENTIMENT, BINS);
+        }
     </script>
 
     <script>window.onload = function() { document.getElementById("load-screen").style.display = "none" }</script>
