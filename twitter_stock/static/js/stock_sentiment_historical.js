@@ -149,11 +149,6 @@ var addLineCharts = function() {
 
                 axisY: {
 
-                    type: Chartist.FixedScaleAxis,
-                    divisor: 9,
-                    high: 1,
-                    low: -1,
-                    ticks: [-1, -.75, -.5, -.25, 0, .25, .5, .75, 1],
                     showGrid: false
                 },
 
