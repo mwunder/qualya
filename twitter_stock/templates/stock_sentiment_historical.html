@@ -60,7 +60,7 @@
         'use strict';
 
         //GLOBAL VARS
-        var SYMBOL            = "{{ current_stock }}",
+        var SYMBOL            = "{{ current_stock }}".toUpperCase(),
             SYMBOLS           = {{ symbols|safe }},
             TIME_FRAME        = {{ dates|length }},
             DATES             = {{ dates|safe }},
