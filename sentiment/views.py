@@ -109,8 +109,8 @@ def stock_sentiment_universe(request):
 def stock_sentiment_historical(request):
     ''' The main function for displaying the sentiment scores for a single stock over time in the DB
     '''
-
     symbol = request.GET['symbol']
+
 
     if 'symbol' not in request.GET:
         return HttpResponse("<html><body>'No stock symbol found'</body></html>")
@@ -123,7 +123,16 @@ def stock_sentiment_historical(request):
     current_date   = datetime.now() # datetime.strptime('2016-08-08','%Y-%m-%d') <-- placeholder date
     end_date       = get_date_from(request.GET,current_date)
     end_date       = datetime(end_date.year,end_date.month,end_date.day)
+    empty_d = {'current_stock':        symbol,
+               'symbols':              [],  'dates':                [],
+               'end_date':             sql_full_datetime(end_date),
+               'closes':               [],  'moving_avg_price':     [],
+               'scores_by_date':       [],  'avg_sentiment':        [],
+               'moving_avg_sentiment': [],  'bins':                 [] }
+
     stock          = Stock.objects.filter(symbol=symbol.lower())
+    if not stock  :
+        return  render(request,'stock_sentiment_historical.html', empty_d )
     statuses       = Stock_status.objects.filter(stock=stock,created_at__gte=end_date-timedelta(minutes=rolling_window*1440+interval-1440), 
                                                    created_at__lt=end_date+timedelta(minutes=1140))
     if not statuses:
@@ -165,6 +174,9 @@ def stock_sentiment_historical(request):
 
     for day in closes.keys():
         if day not in stock_sentiment_history: del closes[day]
+
+    if not stock_sentiment_history: 
+        return render(request,'stock_sentiment_historical.html', empty_d )
 
     dates, scores_by_date = zip(* sorted(stock_sentiment_history.items()))
     dates, bins           = zip(* sorted(bins.items()))
