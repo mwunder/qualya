@@ -19,7 +19,7 @@
         <a href="/"><img id="nav-logo" alt="Qualya Logo" src="{% static 'img/logos/logo.png' %}" /></a>
     </div><!-- /nav -->
 
-    <div class="sub-nav">
+    <div id="hist-sub-nav" class="sub-nav">
         <div class="button">
             <img id="zoom-out-button" class="sub-nav-button" src="{% static 'img/buttons/zoom_out.png' %}" />
         </div>
@@ -31,7 +31,7 @@
         <div class="button">
             <img id="zoom-in-button" class="sub-nav-button" src="{% static 'img/buttons/zoom_in.png' %}" />
         </div>
-    </div><!-- /sub-nav -->
+    </div><!-- /hist-sub-nav -->
 
     <!-- CHARTS -->
     <div id="line-charts-container" class="chart-container">
@@ -81,8 +81,6 @@
         if(DEBUG) {
 
             debug('historical');
-
-            //test
             console.log(SYMBOL, SYMBOLS, TIME_FRAME, DATES, DATE, CLOSES, MOV_CLOSES, SCORES_BY_DATE, AVG_SENTIMENT, MOV_AVG_SENTIMENT, BINS);
         }
     </script>

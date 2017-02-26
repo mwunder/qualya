@@ -1,29 +1,27 @@
 'use strict';
 
+//debug mode
 var debug = function(page) {
 
     switch(page) {
 
         case 'home':
+        case 'historical':
             break;
 
         case 'universe':
-            //add histogram and toggle functionality
-            addHistogram();
-            document.getElementById("universe-container").onclick = toggleHistogram;
-            break;
-
-        case 'historical':
+            addHistogram(); //add histogram
+            document.getElementById("universe-container").onclick = toggleHistogram; //add toggle functionality
             break;
     }
 }
 
+//button logic for the sub-nav menu
 var updateSubNav = function(page) {
 
     switch(page) {
 
         case 'universe':
-            //date buttons logic
             ["date-back-button", "date-forward-button"].forEach(function(button, index) {
                 var inc = index == 0 ? -1 : 1;
                 document.getElementById(button).onclick = function() { location.href = "/stock_sentiment_universe/?symbol=All&inc="+inc+"&date="+DATE }
@@ -31,7 +29,6 @@ var updateSubNav = function(page) {
             break;
 
         case 'historical':
-            //zoom buttons logic
             ["zoom-out-button", "zoom-in-button"].forEach(function(button, index) {
                 var w = index == 0 ? Math.round(2*TIME_FRAME,0) : Math.round(0.5*TIME_FRAME,0);
                 document.getElementById(button).onclick = function() { location.href = "/stock_sentiment_historical/?symbol="+SYMBOL+"&w="+w+"&date="+DATE }
@@ -40,6 +37,7 @@ var updateSubNav = function(page) {
     }
 }
 
+//add dropdown options
 var populateDropDownMenu = function(id, items) {
 
     //local var
@@ -71,6 +69,7 @@ var populateDropDownMenu = function(id, items) {
     }());
 }
 
+//click logic for the sentiment bars
 var sentimentBarClicked = function(page, identifier) {
 
     switch(page) {
@@ -83,52 +82,51 @@ var sentimentBarClicked = function(page, identifier) {
     }
 }
 
+//render content
 var renderContent = function(page) {
 
     switch(page) {
 
+        //HOME PAGE
         case 'home':
-            populateDropDownMenu("ticker-dropdown-1", SYMBOLS);
-            addSearchButtonClickEvent();
+            populateDropDownMenu("ticker-dropdown-1", SYMBOLS); //add dropdown options
+            addSearchButtonClickEvent(); //search button logic
             break;
 
+        //UNIVERSE DATA
         case 'universe':
-            //sub-nav menu
-            updateSubNav(page);
-
-            //print universe info
-            var universe = document.createElement("p");
+            var universe = document.createElement("p"); //text element
             universe.id = "universe";
 
             if(SYMBOLS.length > 0) {
                 var stk = SYMBOLS.length == 1 ? ' stock' : ' stocks'; //pluralize string if necessary
-                universe.appendChild(document.createTextNode("The Universe contains "+SYMBOLS.length+stk+" on "+DATE)); //add text to the universe container
-                document.getElementById("sentiment-bars-container").style.display = 'block'; //display sentiment bars
+                universe.appendChild(document.createTextNode("The Universe contains "+SYMBOLS.length+stk+" on "+DATE)); //add text
+
+                updateSubNav(page); //sub-nav logic
+                addSentimentGraphics(); //graphics
             } else {
-                universe.appendChild(document.createTextNode("Sorry, there are no stocks in the Universe on this date"));
+                //handle date out of range
+                ["date-back-button", "date-forward-button"].forEach(function(button) { document.getElementById(button).style.display = "none" }); //remove date buttons
+                document.getElementById("universe-container").style.position = "static"; //position of text container
+                document.getElementById("univ-sub-nav").style.height = "20px"; //sub-nav height
+                universe.appendChild(document.createTextNode("Sorry, the Universe is empty on "+DATE)); //add text
             }
 
             document.getElementById("universe-container").appendChild(universe);
-
-            //graphics
-            addSentimentGraphics();
             break;
 
+        //HISTORICAL DATA
         case 'historical':
-            //sub-nav menu
-            updateSubNav(page);
+            var hist_text = document.createElement("p"); //text element
+            hist_text.id = "hist-text"; //attributes
+            hist_text.className = "text";
+            hist_text.style.marginRight = '7px';
 
-            if(DATES.length > 0) {
-                //print historical info
-                var hist_text = document.createElement("p");
-                hist_text.id = "hist-text"; 
-                hist_text.className = "text";
-                hist_text.style.marginRight = '7px';        
-                hist_text.appendChild(document.createTextNode("Historical data for"));
-                document.getElementById("dropdown-container").appendChild(hist_text);
+            if(DATES.length > 0) { 
+                hist_text.appendChild(document.createTextNode("Historical data for")); //add text
 
-                var select = document.createElement("select");
-                select.id = "ticker-dropdown-2";
+                var select = document.createElement("select"); //dropdown element
+                select.id = "ticker-dropdown-2"; //attributes
                 select.className = "dropdown";
                 select.name = "symbol";
                 select.tabIndex = "1";
@@ -137,14 +135,24 @@ var renderContent = function(page) {
                     location.href = "/stock_sentiment_historical/?symbol="+selected+"&w="+TIME_FRAME+"&date="+DATE;            
                 }
 
-                document.getElementById("dropdown-container").appendChild(select);
-                populateDropDownMenu("ticker-dropdown-2", SYMBOLS);
-
-                //graphics
-                addLineCharts();
+                updateSubNav(page); //sub-nav logic
+                addLineCharts(); //graphics
                 addStackedBarChart();
             } else {
-                console.log("this is what happens when you've got no dates to unpack...");
+                //handle symbol, date out of range
+                var remove = ["zoom-out-button", "zoom-in-button", "line-charts-container", "stacked-bar-chart-container"]; 
+                remove.forEach(function(elem) { document.getElementById(elem).style.display = "none" }); //remove elements
+                document.getElementById("historical-container").style.position = "static"; //position of container
+                document.getElementById("hist-sub-nav").style.height = "20px"; //sub-nav height
+                hist_text.appendChild(document.createTextNode("Sorry, no history for "+SYMBOL+" on "+DATE)); //add text
+            }
+
+            //append elements, add dropdown options
+            document.getElementById("dropdown-container").appendChild(hist_text);
+
+            if(select) {
+                document.getElementById("dropdown-container").appendChild(select);
+                populateDropDownMenu("ticker-dropdown-2", SYMBOLS);
             }
             break;
     }

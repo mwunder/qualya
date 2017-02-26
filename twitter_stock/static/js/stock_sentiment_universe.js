@@ -139,6 +139,8 @@ var addSentimentGraphics = function() {
         wrapper.appendChild(s_bar);
         document.getElementById("sentiment-bars-container").appendChild(wrapper);
     }
+
+    document.getElementById("sentiment-bars-container").style.display = 'block'; //display sentiment bars
 }
 
 /* DEBUG METHODS ==================================================================================================================================*/
