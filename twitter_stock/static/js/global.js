@@ -100,7 +100,7 @@ var renderContent = function(page) {
 
             if(SYMBOLS.length > 0) {
                 var stk = SYMBOLS.length == 1 ? ' stock' : ' stocks'; //pluralize string if necessary
-                universe.appendChild(document.createTextNode("The Universe contains "+SYMBOLS.length+stk+" on "+DATE)); //add text
+                universe.appendChild(document.createTextNode("The universe contains "+SYMBOLS.length+stk+" on "+DATE)); //add text
 
                 updateSubNav(page); //sub-nav logic
                 addSentimentGraphics(); //graphics
@@ -109,7 +109,7 @@ var renderContent = function(page) {
                 ["date-back-button", "date-forward-button"].forEach(function(button) { document.getElementById(button).style.display = "none" }); //remove date buttons
                 document.getElementById("universe-container").style.position = "static"; //position of text container
                 document.getElementById("univ-sub-nav").style.height = "20px"; //sub-nav height
-                universe.appendChild(document.createTextNode("Sorry, the Universe is empty on "+DATE)); //add text
+                universe.appendChild(document.createTextNode("Sorry, the universe is empty on "+DATE)); //add text
             }
 
             document.getElementById("universe-container").appendChild(universe);
@@ -123,7 +123,7 @@ var renderContent = function(page) {
             hist_text.style.marginRight = '7px';
 
             if(DATES.length > 0) { 
-                hist_text.appendChild(document.createTextNode("Historical data for")); //add text
+                hist_text.appendChild(document.createTextNode(TIME_FRAME+"-day historical data for")); //add text
 
                 var select = document.createElement("select"); //dropdown element
                 select.id = "ticker-dropdown-2"; //attributes
