@@ -23,9 +23,8 @@ The model used to evaluate sentiment was trained on a wide variety of tagged seg
 
 Search for the latest sentiment across the universe of stocks by selecting the 'All' option from the dropdown menu. Choose any other option from the menu to view sentiment for that symbol in a historical context.
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-
 ---
+
 ### <a name="universe-data"></a>Universe Data<br>
 
 <img alt="Universe Data - mobile" align="right" src="https://drive.google.com/uc?export=download&id=0B3rehuqgDPeVcFhtZkxCU05OVjA">
@@ -36,9 +35,8 @@ Symbols are ranked according to a smoothed function of the number of scores coll
 
 Touch or click the arrow buttons in the sub-navigation menu to advance backward or forward one day in time. Do the same to any bar to view historical data for that symbol. Users can also adjust the date parameter in the URL directly.
 
-<br><br><br><br><br><br>
-
 ---
+
 ### <a name="historical-data"></a>Historical Data<br>
 
 <img alt="Historical Data - mobile" align="right" src="https://drive.google.com/uc?export=download&id=0B3rehuqgDPeVckdHemhsbG1aTTg">
