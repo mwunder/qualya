@@ -14,19 +14,19 @@
 &nbsp; Qualya is a <a href="https://github.com/django/django">Django</a>-based application whose front-end depends on <a href="https://github.com/gionkunz/chartist-js">Chartist.js</a>.
 
 &nbsp; The model used to evaluate sentiment was trained on a wide variety of tagged segments. Keyword and keyword combinations compose the features, which are then weighted by the number and position of other keywords in the input status. The ultimate feature set is selected by the ordered information content. Finally, there are several component results in the ensemble that are then synthesized into a final score. The distribution over sentiment closely matches the actual tagged data.
-<br><br>
+<br>
 
 ---
-### <a name="home-page"></a>Home Page
+### <a name="home-page"></a>Home Page<br>
 
 <img alt="Home Page - mobile" align="left" src="https://drive.google.com/uc?export=download&id=0B3rehuqgDPeVajEtbEctaEJ4c0U">&nbsp;
 
 &nbsp; Search for the latest sentiment across the universe of stocks by selecting the 'All' option from the dropdown menu. Choose any other option from the menu to view sentiment for that symbol in a historical context.
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 ---
-### <a name="universe-data"></a>Universe Data
+### <a name="universe-data"></a>Universe Data<br>
 
 <img alt="Universe Data - mobile" align="left" src="https://drive.google.com/uc?export=download&id=0B3rehuqgDPeVcFhtZkxCU05OVjA">&nbsp;
 
@@ -36,10 +36,10 @@
 
 &nbsp; Touch or click the arrow buttons in the sub-navigation menu to advance backward or forward one day in time. Do the same to any bar to view historical data for that symbol. Users can also adjust the date parameter in the URL directly.
 
-<br><br><br><br><br>
+<br><br><br><br>
 
 ---
-### <a name="historical-data"></a>Historical Data
+### <a name="historical-data"></a>Historical Data<br>
 
 <img alt="Historical Data - mobile" align="left" src="https://drive.google.com/uc?export=download&id=0B3rehuqgDPeVckdHemhsbG1aTTg">&nbsp;
 
