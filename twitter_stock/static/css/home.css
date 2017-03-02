@@ -1,15 +1,29 @@
+#main,
+#repo {
+  text-align: center;
+}
+
 #main {
   max-width: 700px;
   min-width: 320px;
   margin: 0 auto; /* left and right margins set to auto to horizontally center this element within the body */
   padding: 25px;
-  text-align: center;
 }
 
 #search-div {
   margin: 30px 0 10px 0;
   background-color: #f4f7fb;
   border: 1px solid #555555;
+}
+
+#repo-container {
+  margin: 35px 0;
+  text-align: right;
+}
+
+#repo {
+  height: 22px;
+  width: 45px;
 }
 
 /* media queries ==================================================================================================================================*/

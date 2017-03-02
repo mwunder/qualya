@@ -20,7 +20,7 @@
         </div><!-- /nav -->
 
         <div id="main">
-            <p id="main-heading">Sentiment for the most-followed stocks.</p>
+            <p id="main-heading">Stock sentiment based on text analysis of social media.</p>
 
             <div id="search-div">
                 <div id="ticker-dropdown-1-container" class="search-div-child">
@@ -35,6 +35,10 @@
 
             <img id="main-img" alt="Sentiment Tesseract" src="{% static 'img/logos/sentiment_tesseract.png' %}" />
         </div><!-- /main -->
+
+        <div id="repo-container">
+            <div id="repo" class="button" onclick="window.open('http://github.com/mwunder/twitter_stock', '_blank')">repo</div>
+        </div>
 
         <script src='{% static "js/global.js" %}'></script>
         <script src='{% static "js/home.js" %}'></script>
