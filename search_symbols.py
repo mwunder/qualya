@@ -5,10 +5,10 @@ from twitter_refs import *
 from sentiment.models import *
 from twitter_data_interface import *
 
-symbols = ['$AAPL', '$GOOG','$AMZN', '$MSFT', '$FB','$NFLX' ,'$TSLA','$GOOGL','$TWTR','$GDX','$QQQ','$SPY']
+symbols = ['$AAPL', '$GOOG','$AMZN', '$MSFT', '$FB','$NFLX' ,'$TSLA','$GOOGL','$TWTR','$GDX','$QQQ','$SPY','$SNAP']
 symbol_dict = {'$AAPL':'apple', '$GOOGL':'google','$AMZN':'amazon', '$QQQ':'qqq','$SPY':'spy',
 '$MSFT':'microsoft', '$FB':'facebook','$NFLX':'netflix' ,'$TSLA':'tesla',
-'$XOM':'exxon','$TWTR':'twitter','$GDX':'gdx'}
+'$XOM':'exxon','$TWTR':'twitter','$GDX':'gdx','$SNAP':'snapchat'}
 symbol_index = dict((v,k) for k,v in symbol_dict.items())
 replace_strings = ['\n','amp;','&gt;']
 def rep_str(p): return lambda s: s.replace(p,'')
