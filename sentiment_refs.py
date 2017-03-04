@@ -11,7 +11,7 @@ st = SnowballStemmer("english")
 
 symbol_dict = {'$AAPL':'apple', '$GOOGL':'alphabet', '$GOOG':'google','$AMZN':'amazon', 
 '$MSFT':'microsoft', '$FB':'facebook','$NFLX':'netflix' ,'$TSLA':'tesla','$QQQ':'qqq',
-'$GS':'goldman','$TWTR':'twitter','$XOM':'exxon','$SPY':'spy','$GDX':'gdx','$WMT':'walmart'
+'$GS':'goldman','$TWTR':'twitter','$XOM':'exxon','$SPY':'spy','$GDX':'gdx','$WMT':'walmart',
 '$SNAP':'snapchat'}
 symbols = [k[1:].lower() for k in symbol_dict.keys()]
 symbol_index = dict((v,k) for k,v in symbol_dict.items())
