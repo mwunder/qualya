@@ -197,6 +197,7 @@ def stock_sentiment_historical(request):
     bins            = list(bins)
     normalized_bins = list([b*1./sum(bin_counts) for b in bin_counts] for bin_counts in bins)
     avg_sentiment   = [sum(f*b for b,f in zip([-1,-0.5,0,0.5,1],bin) if b)*1.0/(sum(bin[:2]+bin[3:])+1*(sum(bin)==bin[2])) for bin in normalized_bins]
+
     if len(avg_sentiment)<=rolling_window:
         moving_avg_sentiment, moving_avg_price = [],[]
     else: 

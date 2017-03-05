@@ -122,17 +122,19 @@ var renderContent = function(page) {
             hist_text.className = "text";
             hist_text.style.marginRight = '7px';
 
-            if(DATES.length > 0) { 
+            if(DATES.length > 1) { 
                 hist_text.appendChild(document.createTextNode(TIME_FRAME+"-day historical data for")); //add text
 
-                var select = document.createElement("select"); //dropdown element
+                var select = document.createElement("select"), //dropdown element
+                    w = TIME_FRAME < 10 ? 10 : TIME_FRAME;
+
                 select.id = "ticker-dropdown-2"; //attributes
                 select.className = "dropdown";
                 select.name = "symbol";
                 select.tabIndex = "1";
                 select.onchange = function() {
                     var selected = document.getElementById("ticker-dropdown-2").value;
-                    location.href = "/stock_sentiment_historical/?symbol="+selected+"&w="+TIME_FRAME+"&date="+DATE;            
+                    location.href = "/stock_sentiment_historical/?symbol="+selected+"&w="+w+"&date="+DATE;
                 }
 
                 updateSubNav(page); //sub-nav logic
