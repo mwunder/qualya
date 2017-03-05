@@ -11,19 +11,19 @@
 }
 
 .closes {
-  stroke: rgb(55,126,184);
-}
-
-.movCloses {
-  stroke: rgba(55,126,184,0.5);
-}
-
-.avgSentiment {
   stroke: rgb(255,127,0);
 }
 
-.movAvgSentiment {
+.movCloses {
   stroke: rgba(255,127,0,0.5);
+}
+
+.avgSentiment {
+  stroke: rgb(55,126,184);
+}
+
+.movAvgSentiment {
+  stroke: rgba(55,126,184,0.5);
 }
 
 hr {
