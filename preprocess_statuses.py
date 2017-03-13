@@ -37,21 +37,29 @@ if 1:
     word_index = model_object['word_index']
     clm = model_object['clm']
     lasso = model_object['lasso']
-    # forest = model_object['forest']
+    forest = [] if 'forest' not in model_object else model_object['forest']
     sorted_scores = model_object['sorted_scores']
     reverse_dict = model_object['reverse_dict']
+    lm_models = {'clm':model_object['clm']} if 'lm_models' not in model_object else model_object['lm_models']
     if not update_all: 
         statuses = Stock_status.objects.filter(status_sentiment=0, created_at__gte=datetime.date(datetime.now()-timedelta(minutes=1440))) 
     else:
         statuses = Stock_status.objects.filter(status_sentiment=0, created_at__gte=datetime.date(datetime.now()-timedelta(minutes=7*1440)),\
                         created_at__lte=datetime.date(datetime.now()-timedelta(minutes=1440))) 
     for status in statuses:
+        print [stocks.shape[0]]
+        # print stocks.append(pd.DataFrame({ 'id':status.id, 'status_id':status.status_id,
+        #             'created_at': status.created_at,
+        #             'status_text':status.status_text, 
+        #             'status_sentiment':0,'stock_id':status.stock_id,'symbol':status.symbol},
+        #             index=[stocks.shape[0]]))
         # if status.status_sentiment != 0: continue
         stocks = stocks.append(pd.DataFrame({ 'id':status.id, 'status_id':status.status_id,
                     'created_at': status.created_at,
                     'status_text':status.status_text, 'symbol':status.symbol,
-                    'stock_id':status.stock_id,
-                    'status_sentiment':0},index=[stocks.shape[0]]))
+                    'stock_id':status.stock_id, 
+                    'status_sentiment':0.0},#index=np.array([stocks.shape[0]],dtype='int64')))
+                    index=[stocks.shape[0]]))
 # except:
 #     stocks = pd.read_csv('stock_scores.csv')
 #     stock_test = pd.read_csv('sent_test.csv')
@@ -103,7 +111,7 @@ stocks['bag_of_words']= stocks.apply(series_union('bag_of_words','bigrams'),axis
 stocks['nonstopwords'] = stocks.indexed_words.apply(unindex(reverse_dict))
 stocks.index = np.arange(stocks.shape[0])
 stocks = stocks.sort_index()
-stocks['bigrams'] = stocks['bigrams'].apply(list)
+stocks['bigrams'] = stocks['bigrams'].apply(list) 
 
 # dictionary = pickle.load('models/dictionary.p') 
 # word_index = pickle.load('models/word_index.p')

@@ -6,6 +6,12 @@
 import preprocess_statuses
 from preprocess_statuses import *
 
+try: 
+    from sklearn import linear_model
+    from sklearn import tree
+except: 
+    print 'sklearn not found'
+
 def predict_score(words):
     if not [w for w in words if w in sorted_scores and is_num(w) and reverse_dict[w] not in symbols]:
         return 0.55
@@ -50,8 +56,27 @@ stocks['clm_predicted'] = (stocks['clm_predicted']<=1)*stocks['clm_predicted'] +
 # stocks['lasso'] = lasso.predict(X)
 stocks['lasso'] = X.dot(lasso[0])+lasso[1]
 stocks['predicted_scores'] = stocks['indexed_words'].apply(predict_score)
+stocks['sym_lm_predicted'] = stocks['clm_predicted']
 
-stocks['ensemble'] = (stocks['lasso']+stocks['clm_predicted']+stocks['predicted_scores'])/3.0 #stocks['forest']+
+try: 
+    if forest: 
+        stocks['forest_predicted'] = forest.predict(X)
+    for s in stocks.symbol.unique():
+        if s not in lm_models: 
+            continue 
+        stocks.loc[stocks.symbol==s,'sym_lm_predicted'] =  lm_models[s].predict(X[np.array((stocks.symbol==s)),:])
+except:
+    stocks['forest_predicted'] = stocks['clm_predicted']
+
+
+stocks['sym_lm_predicted'] = stocks['sym_lm_predicted'].fillna(0)
+stocks['sym_lm_predicted'] = (stocks['sym_lm_predicted']<=1)*stocks['sym_lm_predicted'] + 1*(stocks['sym_lm_predicted']>1)
+
+if forest and 'clm' not in lm_models:
+    stocks['ensemble'] = (stocks['lasso']+stocks['clm_predicted']+stocks['predicted_scores']+stocks['forest']+stocks['sym_lm_predicted'] )/5.0 #
+else: 
+    stocks['ensemble'] = (stocks['lasso']+stocks['clm_predicted']+stocks['predicted_scores'])/3.0 
+
 stocks['ensemble'] = (stocks['ensemble']>=0)*stocks['ensemble']
 stocks['ensemble'] = (stocks['ensemble']<=1)*stocks['ensemble'] + 1*(stocks['ensemble']>1)
 
