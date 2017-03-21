@@ -24,7 +24,9 @@
 &nbsp; Search for the latest sentiment across the universe of stocks by selecting the 'All' option from the dropdown menu. Choose any other option to view sentiment for that symbol in a historical context.
 
 <br>
-<img width="300" alt="Home Page - mobile" src="https://drive.google.com/uc?export=download&id=0B3rehuqgDPeVdFlTemU3ZFpoSUk">
+<p align="center">
+  <img width="300" alt="Home Page - mobile" src="https://drive.google.com/uc?export=download&id=0B3rehuqgDPeVdFlTemU3ZFpoSUk">
+</p>
 
 ---
 ### <a name="universe-data"></a>Universe Data
@@ -36,7 +38,9 @@
 &nbsp; Touch or click the arrow buttons in the sub-navigation menu to advance backward or forward one day in time. Do the same to any bar to view historical data for that symbol. Users can also adjust the 'date' parameter in the URL directly.
 
 <br>
-<img width="300" alt="Universe Data - mobile" src="https://drive.google.com/uc?export=download&id=0B3rehuqgDPeVam44ZzgtZVlmMFk">
+<p align="center">
+  <img width="300" alt="Universe Data - mobile" src="https://drive.google.com/uc?export=download&id=0B3rehuqgDPeVam44ZzgtZVlmMFk">
+</p>
 
 ---
 ### <a name="historical-data"></a>Historical Data
@@ -48,4 +52,6 @@
 &nbsp; The default lookback window is 45 days, but this value can be halved or doubled via the magnifying glass buttons. Alternatively, the 'w' parameter in the URL can be manipulated for a greater degree of specificity. The dropdown menu allows for easy transition to historical data for other symbols in the universe. 
 
 <br>
-<img width= "300" alt="Historical Data - mobile" src="https://drive.google.com/uc?export=download&id=0B3rehuqgDPeVLW1Gc2RVWFQ0WlE">
+<p align="center">
+  <img width= "300" alt="Historical Data - mobile" src="https://drive.google.com/uc?export=download&id=0B3rehuqgDPeVLW1Gc2RVWFQ0WlE">
+</p>
