@@ -8,7 +8,7 @@
 ---
 ### About
 
-&nbsp; Qualya is a <a href="https://github.com/django/django">Django</a>-based application whose front-end depends on <a href="https://github.com/gionkunz/chartist-js">Chartist.js</a>. The project was designed primarily as an application for the mobile web, but it's responsive to desktop and tablet devices as well.
+&nbsp; This project is a <a href="https://github.com/django/django">Django</a>-based application whose front-end depends on <a href="https://github.com/gionkunz/chartist-js">Chartist.js</a>. It was designed primarily for the mobile web, but it's responsive to desktop and tablet devices as well.
 
 &nbsp; Text sourced from social media forms the baseline for evaluating sentiment. Each unit of text is mapped to a number, the 'sentiment score', which lies in the interval [-1, 1]. A set of scores is generated daily for each symbol.
 
