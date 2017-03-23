@@ -1,17 +1,14 @@
 <a href="http://www.qualya.us">Qualya</a>
 ===
 
-&nbsp; A sentiment visualizer for a subset of popular US equities and exchange-traded funds. Designed primarily as an application for the mobile web, it's also responsive to desktop and tablet devices as well.
-
-* <a href="#about">About</a>
 * <a href="#home-page">Home Page</a>
 * <a href="#universe-data">Universe Data</a>
 * <a href="#historical-data">Historical Data</a>
 
 ---
-### <a name="about"></a>About
+### About
 
-&nbsp; Qualya is a <a href="https://github.com/django/django">Django</a>-based application whose front-end depends on <a href="https://github.com/gionkunz/chartist-js">Chartist.js</a>.
+&nbsp; Qualya is a <a href="https://github.com/django/django">Django</a>-based application whose front-end depends on <a href="https://github.com/gionkunz/chartist-js">Chartist.js</a>. The project was designed primarily as an application for the mobile web, but it's responsive to desktop and tablet devices as well.
 
 &nbsp; Text sourced from social media forms the baseline for evaluating sentiment. Each unit of text is mapped to a number, the 'sentiment score', which lies in the interval [-1, 1]. A set of scores is generated daily for each symbol.
 
