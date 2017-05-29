@@ -4,6 +4,7 @@ Created on Sun Jul 12 23:00:52 2015
 
 @author: mwunder
 """
+from __future__ import print_function
 import nltk 
 import datetime, re
 from datetime import * 
@@ -143,8 +144,8 @@ def get_date_from(request):
         if len(request['date'])>4:
             return datetime.strptime(request['date'],'%Y-%m-%d')
         else:
-            print id_to_datetime(str(datetime.now().year)+
-                request['date'].replace('/','')+'000000')
+            print (id_to_datetime(str(datetime.now().year)+
+                request['date'].replace('/','')+'000000'))
             return id_to_datetime(str(datetime.now().year)+
                 request['date'].replace('/','')+'000000')
     except: 

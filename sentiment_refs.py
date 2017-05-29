@@ -75,7 +75,10 @@ def find_symbol(row):
 
 def series_union(c1,c2): return lambda row:  row[c1] | row[c2]
 
-def rsquared(prediction,target): return 1.0- sum((prediction-target)**2) / sum((np.mean(target)-target)**2) 
+def rsquared(prediction,target): 
+    # print target.shape
+    # print prediction.shape
+    return 1.0- sum((prediction-target)**2) / sum((np.mean(target)-target)**2) 
 
 def sign (t,x): return 1*(x>t) - 1*(x<-t)
 def logistic (x) : return 1/(1+np.exp(-x))
@@ -211,6 +214,28 @@ def replace_status_with_signal(status):
     # else: return 'strong_pos_signal'
     return status_text
 
+def embedding_string(stocks):
+    ''' Insert randomly a positive or negative indicator if the content is positive or negative. 
+    '''
+    stocks['status_text'] = stocks['status_text'].str.replace('num_string|hyperlink',' ')
+    embed_string = ''
+    #sent_str = {}
+    #return ' '.join(s for s in stocks['status_text'])
+    for i,row in stocks.iterrows():
+        if row['score'] == 0.5:
+            embed_string  = embed_string + ' '+ row['status_text']
+            continue
+        sent_str = ' strong_pos ' if row['score'] == 1 else (' weak_pos ' if row['score'] == 0.75 else (' strong_neg ' if row['score'] == 0 else (' weak_neg ' if row['score'] == 0.25 else ' ')))
+        end_found = 0
+        position = i*7773 % (len(row['status_text'])-10)
+        for p in range(position,len(row['status_text'])):
+            if end_found: continue
+            if  row['status_text'][p]==' ' or p==len(row['status_text'])-1:
+                embed_string = embed_string + ' '+  row['status_text'][:p] + sent_str + row['status_text'][p:]
+                end_found = 1
+    return embed_string
+
+
 def status_preprocessing(stocks,use_negations=0):
     stocks['status_text'] = stocks['status_text'].str.replace('[A-Z][a-z]{4,12} [lL][lL][cC]\.?',' Institution_name ')
     stocks['status_text'] = stocks['status_text'].str.replace('[A-Z][a-z]{4,12} [iI][n][c]\.?',' Institution_name ')
@@ -224,11 +249,13 @@ def status_preprocessing(stocks,use_negations=0):
     stocks['status_text'] = stocks['status_text'].str.replace('\$[0-9,]+',' num_cash ') 
     stocks['status_text'] = stocks['status_text'].str.replace('[0-9]+','       num_string ') 
 
-    for p,r in replace_pairs.items() + replace_strings.items() : #symbol_index.items()+
+    for p,r in replace_pairs.items()   : #symbol_index.items()+
+        stocks['status_text'] = stocks['status_text'].str.replace(p,r.lower())
+    for p,r in replace_strings.items() : #symbol_index.items()+
         stocks['status_text'] = stocks['status_text'].str.replace(p,r.lower())
     for sym in symbols:
         stocks['status_text'] = stocks['status_text'].str.replace(sym,' '+sym+' ')
-    for sym,stock_name in symbol_dict.iteritems():
+    for sym,stock_name in symbol_dict.items():
         stocks['status_text'] = stocks['status_text'].str.replace(stock_name,' '+sym[1:].lower()+' ')
     stocks['symbol'] = stocks['symbol'].str.lower()
     stocks = stocks[stocks.status_text.apply(remove_encodings)]

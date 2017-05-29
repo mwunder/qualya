@@ -47,13 +47,6 @@ if 1:
         statuses = Stock_status.objects.filter(status_sentiment=0, created_at__gte=datetime.date(datetime.now()-timedelta(minutes=7*1440)),\
                         created_at__lte=datetime.date(datetime.now()-timedelta(minutes=1440))) 
     for status in statuses:
-        print [stocks.shape[0]]
-        # print stocks.append(pd.DataFrame({ 'id':status.id, 'status_id':status.status_id,
-        #             'created_at': status.created_at,
-        #             'status_text':status.status_text, 
-        #             'status_sentiment':0,'stock_id':status.stock_id,'symbol':status.symbol},
-        #             index=[stocks.shape[0]]))
-        # if status.status_sentiment != 0: continue
         stocks = stocks.append(pd.DataFrame({ 'id':status.id, 'status_id':status.status_id,
                     'created_at': status.created_at,
                     'status_text':status.status_text, 'symbol':status.symbol,

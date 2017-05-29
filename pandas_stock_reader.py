@@ -1,15 +1,26 @@
-import pandas.io.data as web
 from datetime import *
 from sentiment.models import *
 from sentiment_refs import * 
 
-start = datetime.now() - timedelta(minutes=2*1440) # datetime(2016,1,1) # 
+try: 
+    import pandas.io.data as web
+except:
+    from pandas_datareader import data, wb
+    import pandas_datareader as pdr
+    import pandas_datareader.data as web
+
+
+
+start = datetime.now() - timedelta(minutes=30*1440) # datetime(2016,1,1) # 
 end = datetime.now() #(2016,10,7)
 
 
 toupper = lambda s: s.upper()
 
-stockDataYear = web.DataReader(map(toupper,symbols), 'yahoo', start, end).to_frame()
+try:
+    stockDataYear = web.DataReader(map(toupper,symbols), 'google', start, end).to_frame()
+except:
+    stockDataYear = web.DataReader(map(toupper,symbols), 'yahoo', start, end).to_frame()
 
 for i,row in stockDataYear.iterrows():
     day,symbol = row.name
