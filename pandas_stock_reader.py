@@ -9,11 +9,8 @@ except:
     import pandas_datareader as pdr
     import pandas_datareader.data as web
 
-
-
 start = datetime.now() - timedelta(minutes=30*1440) # datetime(2016,1,1) # 
 end = datetime.now() #(2016,10,7)
-
 
 toupper = lambda s: s.upper()
 
@@ -35,8 +32,3 @@ for i,row in stockDataYear.iterrows():
         close_price = row.Close,
         volume = row.Volume)
     stock_p.save()
-
-
-
-
-

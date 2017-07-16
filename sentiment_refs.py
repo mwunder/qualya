@@ -12,7 +12,7 @@ st = SnowballStemmer("english")
 symbol_dict = {'$AAPL':'apple', '$GOOGL':'alphabet', '$GOOG':'google','$AMZN':'amazon', 
 '$MSFT':'microsoft', '$FB':'facebook','$NFLX':'netflix' ,'$TSLA':'tesla','$QQQ':'qqq',
 '$GS':'goldman','$TWTR':'twitter','$XOM':'exxon','$SPY':'spy','$GDX':'gdx','$WMT':'walmart',
-'$SNAP':'snapchat'}
+'$BTC':'bitcoin', '$SNAP':'snapchat','$NVDA':'nvidia'}
 symbols = [k[1:].lower() for k in symbol_dict.keys()]
 symbol_index = dict((v,k) for k,v in symbol_dict.items())
 replace_strings = dict(zip(['\n','amp;','&gt;', '$'],[' ']*100))
@@ -31,6 +31,12 @@ replace_pairs= {'sold out':'sold_out', 'break out':'breakout' , 'all[ -]time':'a
 '[sS]hort.[sS]queeze':'shortsqueeze','[sS]queeze.[sS]hort':'shortsqueeze',
 'adfn investorshub':'institution_name', 'message board': 'institution_name',
 'jpmorgan':'institution_name'}
+
+replace_shorts = {"what's": "what is ", "\'s": " ", "\'ve": " have ", "can't": "cannot ",
+    "n't": " not ", "i'm": "i am ",  "\'re": " are ",   "\'d": " would ",   "\'ll": " will ",   "\/": " ", "\^": " ^ ",
+    "\+": " + ",  "\-": " - ",  "\=": " = ", "'": " " ,   ":": " : ",  " e g ": " eg ",
+    ",": " ", "\.": " ","'": " ",
+    " b g ": " bg ",  " u s ": " american ",  "\0s": "0" ,   "e - mail": "email",  "j k": "jk",   "\s{2,}": " "}
 
 stopwords.add('num_string')
 stopwords.add('hyperlink')
@@ -251,6 +257,8 @@ def status_preprocessing(stocks,use_negations=0):
 
     for p,r in replace_pairs.items()   : #symbol_index.items()+
         stocks['status_text'] = stocks['status_text'].str.replace(p,r.lower())
+    # for p,r in replace_shorts.items()   : #symbol_index.items()+
+    #     stocks['status_text'] = stocks['status_text'].str.replace(p,r.lower())
     for p,r in replace_strings.items() : #symbol_index.items()+
         stocks['status_text'] = stocks['status_text'].str.replace(p,r.lower())
     for sym in symbols:
