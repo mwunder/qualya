@@ -9,7 +9,7 @@ from collections import Counter, defaultdict
 
 st = SnowballStemmer("english")
 
-symbol_dict = {'$AAPL':'apple', '$GOOGL':'alphabet', '$GOOG':'google','$AMZN':'amazon', 
+symbol_dict = {'$AAPL':'apple', '$GOOGL':'google', '$GOOG':'google','$AMZN':'amazon', 
 '$MSFT':'microsoft', '$FB':'facebook','$NFLX':'netflix' ,'$TSLA':'tesla','$QQQ':'qqq',
 '$GS':'goldman','$TWTR':'twitter','$XOM':'exxon','$SPY':'spy','$GDX':'gdx','$WMT':'walmart',
 '$BTC':'bitcoin', '$SNAP':'snapchat','$NVDA':'nvidia'}

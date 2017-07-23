@@ -5,7 +5,7 @@ from twitter_refs import *
 from sentiment.models import *
 from twitter_data_interface import *
 
-symbols = ['$AAPL', '$GOOG','$AMZN', '$MSFT', '$FB','$NFLX' ,'$TSLA','$GOOGL','$TWTR','$GDX','$QQQ','$SPY','$SNAP']
+symbols = ['$AAPL', '$GOOG','$AMZN', '$MSFT', '$FB','$NFLX' ,'$TSLA','$GOOGL','$TWTR','$GDX','$QQQ','$SPY','$SNAP','$BTC','$NVDA']
 symbol_dict = {'$AAPL':'apple', '$GOOGL':'google','$AMZN':'amazon', '$QQQ':'qqq','$SPY':'spy',
 '$MSFT':'microsoft', '$FB':'facebook','$NFLX':'netflix' ,'$TSLA':'tesla',
 '$XOM':'exxon','$TWTR':'twitter','$GDX':'gdx','$SNAP':'snapchat','$BTC':'bitcoin','$NVDA':'nvidia'}
@@ -89,7 +89,7 @@ twitter_api = oauth_login()
 
 if 'results' not in locals():
     results = twitter_search(twitter_api,
-                q= ' OR '.join([s for i,s in enumerate(symbols) if (i%len(symbols))!=datetime.now().hour]), 
+                q= ' OR '.join([s for i,s in enumerate(symbols[datetime.now().hour%len(symbols):]+symbols[:datetime.now().hour%len(symbols)])[:10] #if (i%len(symbols))!=(datetime.now().hour%len(symbols)) and (i%len(symbols))!=(datetime.now().hour%len(symbols)) and ]), 
                     max_results=1000)
 
 record_statuses(results)
