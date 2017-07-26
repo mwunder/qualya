@@ -89,8 +89,8 @@ twitter_api = oauth_login()
 
 if 'results' not in locals():
     results = twitter_search(twitter_api,
-                q= ' OR '.join([s for i,s in enumerate(symbols[datetime.now().hour%len(symbols):]+symbols[:datetime.now().hour%len(symbols)])[:10] #if (i%len(symbols))!=(datetime.now().hour%len(symbols)) and (i%len(symbols))!=(datetime.now().hour%len(symbols)) and ]), 
-                    max_results=1000)
+                q= ' OR '.join([s for i,s in enumerate(symbols[datetime.now().hour%len(symbols):]+symbols[:datetime.now().hour%len(symbols)]) if i <10 ]),max_results=1000) #if (i%len(symbols))!=(datetime.now().hour%len(symbols)) and (i%len(symbols))!=(datetime.now().hour%len(symbols)) and ]), 
+                    
 
 record_statuses(results)
 
