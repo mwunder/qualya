@@ -44,7 +44,10 @@ if 1:
     clog = model_object['clog']
     lasso = model_object['lasso']
     forest = [] if 'forest' not in model_object else model_object['forest']
-    xtree = forest if 'xtree' not in model_object else model_object['xtree']
+    try: 
+        xtree = forest if 'xtree' not in model_object else model_object['xtree']
+    except:
+        xtree = forest 
     rnn = model_object['rnn']
     sorted_scores = model_object['sorted_scores']
     reverse_dict = model_object['reverse_dict']

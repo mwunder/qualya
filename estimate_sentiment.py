@@ -9,6 +9,8 @@ from preprocess_statuses import *
 try: 
     from sklearn import linear_model
     from sklearn import tree
+    import xgboost as xgb
+    from xgboost import XGBClassifier,XGBRegressor
 except: 
     print 'sklearn not found'
 
