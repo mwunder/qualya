@@ -58,7 +58,7 @@ for i,row in stocks.iterrows():
 try: 
     stocks['clm_predicted'] = clm.predict(X)
     stocks['lasso'] = lasso.predict(X)
-    stocks['clog_predicted'] = clog.predict(X) 
+    stocks['clog_predicted'] =  clog.predict_proba(X)[:,1]
     stocks['rnn_predicted'] = rnn.predict(X)
     stocks['forest_predicted'] = forest.predict(X) 
     stocks['xtree'] = xtree.predict(X)
@@ -89,9 +89,9 @@ except:
 
 stocks['sym_lm_predicted'] = stocks['sym_lm_predicted'].fillna(0)
 stocks['sym_lm_predicted'] = (stocks['sym_lm_predicted']<=1)*stocks['sym_lm_predicted'] + 1*(stocks['sym_lm_predicted']>1)
-if forest and 'clm' not in lm_models:
-    stocks['ensemble'] = (stocks['lasso']+stocks['clm_predicted']+stocks['clog_predicted']+stocks['predicted_scores']+stocks['forest']+stocks['rnn_predicted']+stocks['xtree'] )/7.0 #
-    stocks['max_dev'] = (stocks[['clog_predicted','lasso','clm_predicted','predicted_scores','forest','rnn_predicted','xtree']] -score_baseline).apply(maxCol,axis=1)+score_baseline
+if forest :
+    stocks['ensemble'] = (stocks['lasso']+stocks['clm_predicted']+stocks['clog_predicted']+stocks['predicted_scores']+stocks['forest_predicted']+stocks['rnn_predicted']+stocks['xtree'] )/7.0 #
+    stocks['max_dev'] = (stocks[['clog_predicted','lasso','clm_predicted','predicted_scores','forest_predicted','rnn_predicted','xtree']] -score_baseline).apply(maxCol,axis=1)+score_baseline
 else: 
     stocks['ensemble'] = (stocks['lasso']+stocks['clm_predicted']+stocks['predicted_scores'])/3.0 
     stocks['max_dev'] = (stocks[['lasso','clm_predicted','predicted_scores']] -score_baseline).apply(maxCol,axis=1)+score_baseline
@@ -101,15 +101,19 @@ stocks['ensemble'] = (stocks['ensemble']<=1)*stocks['ensemble'] + 1*(stocks['ens
 
 bin_edges = np.array([0.0,0.3,0.499,score_baseline+0.01,0.7,1.0])
 
+stocks['max_dev'] = (stocks['max_dev']<1.0)*stocks['max_dev'] + 1.0*(stocks['max_dev']>=1.0)
+stocks['max_dev'] = (stocks['max_dev']>=0.0)*stocks['max_dev'] + 0.0
+
 stocks['bin'] = 0 + -2*(stocks['ensemble']<=bin_edges[1]) - ((stocks['ensemble']>bin_edges[1])&(stocks['ensemble']<=bin_edges[2])) + \
-                        ((stocks['ensemble']>=bin_edges[3])&(stocks['ensemble']<bin_edges[4])) + 2*((stocks['ensemble']>=bin_edges[4])&(stocks['ensemble']<bin_edges[5]))
+                        ((stocks['ensemble']>=bin_edges[3])&(stocks['ensemble']<bin_edges[4])) + 2*((stocks['ensemble']>=bin_edges[4])&(stocks['ensemble']<=bin_edges[5]))
 stocks['bin'] = 0 + -2*(stocks['max_dev']<=bin_edges[1]) - ((stocks['max_dev']>bin_edges[1])&(stocks['max_dev']<=bin_edges[2])) + \
-                        ((stocks['max_dev']>=bin_edges[3])&(stocks['max_dev']<bin_edges[4])) + 2*((stocks['max_dev']>=bin_edges[4])&(stocks['max_dev']<bin_edges[5]))
+                        ((stocks['max_dev']>=bin_edges[3])&(stocks['max_dev']<bin_edges[4])) + 2*((stocks['max_dev']>=bin_edges[4])&(stocks['max_dev']<=bin_edges[5]))
 
 updated_count = 0 
 not_updated_count = 0 
 updated_ids = []
 for i,row in stocks.iterrows():
+    if not updated_count%500: print updated_count
     stock_status = Stock_status.objects.filter(id=row['id'], status_id=row['status_id'])
     if not stock_status or row['id'] in updated_ids: 
         not_updated_count+=1
