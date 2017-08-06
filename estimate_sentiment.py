@@ -3,8 +3,6 @@
 # from sklearn.linear_model import * 
 # from sklearn.feature_selection import *
 
-import preprocess_statuses
-from preprocess_statuses import *
 
 try: 
     import sklearn
@@ -15,6 +13,9 @@ try:
     from xgboost import XGBClassifier,XGBRegressor
 except: 
     print 'sklearn not found'
+
+import preprocess_statuses
+from preprocess_statuses import *
 
 def predict_score(words):
     if not [w for w in words if w in sorted_scores and is_num(w) and reverse_dict[w] not in symbols]:

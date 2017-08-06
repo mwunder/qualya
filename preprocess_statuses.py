@@ -38,6 +38,7 @@ if 1:
     except:
         model_object = pickle.load(open('twitter_stock/models/models.p'))
 
+    print model_object.keys()
     dictionary = model_object['dictionary']
     word_index = model_object['word_index']
     clm = model_object['clm']
