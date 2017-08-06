@@ -7,8 +7,10 @@ import preprocess_statuses
 from preprocess_statuses import *
 
 try: 
+    import sklearn
     from sklearn import linear_model
     from sklearn import tree
+    from sklearn.neighbors import *
     import xgboost as xgb
     from xgboost import XGBClassifier,XGBRegressor
 except: 
