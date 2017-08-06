@@ -18,6 +18,8 @@ def predict_score(words):
     return np.mean([sorted_scores[w] for w in words if w in sorted_scores \
         and is_num(w) and reverse_dict[w] not in symbols])
 
+maxCol = lambda x: max(x.min(),x.max(),key=abs)
+
 # stocks['score'] = stocks['score']/200.0+ 0.5
 
 # kw_counter = Counter(w for status in stocks['words'] for w in map(st.stem,status) if w not in stopwords and len(w)>=3)
@@ -48,42 +50,56 @@ for i,row in stocks.iterrows():
         X[i,word_index[w]] =X[i,word_index[w]]/2.0
         X[i,word_index[x]] =X[i,word_index[x]]/2.0
 
-# stocks['clm_predicted'] =  clm.predict(X)
-stocks['clm_predicted'] = X.dot(clm[0])+clm[1]
-stocks['clm_predicted'] = (stocks['clm_predicted']>=0)*stocks['clm_predicted']
-stocks['clm_predicted'] = (stocks['clm_predicted']<=1)*stocks['clm_predicted'] + 1*(stocks['clm_predicted']>1)
-# stocks['forest'] = forest.predict(X)
-# stocks['lasso'] = lasso.predict(X)
-stocks['lasso'] = X.dot(lasso[0])+lasso[1]
+try: 
+    stocks['clm_predicted'] = clm.predict(X)
+    stocks['lasso'] = lasso.predict(X)
+    stocks['clog_predicted'] = clog.predict(X) 
+    stocks['rnn_predicted'] = rnn.predict(X)
+    stocks['forest_predicted'] = forest.predict(X) 
+    stocks['xtree'] = xtree.predict(X)
+    score_baseline = 0.53 
+except e : 
+    print e 
+    # stocks['clm_predicted'] =  clm.predict(X)
+    stocks['clm_predicted'] = X.dot(clm[0])+clm[1]
+    score_baseline = clm[1]
+    stocks['clm_predicted'] = (stocks['clm_predicted']>=0)*stocks['clm_predicted']
+    stocks['clm_predicted'] = (stocks['clm_predicted']<=1)*stocks['clm_predicted'] + 1*(stocks['clm_predicted']>1)
+    # stocks['forest'] = forest.predict(X)
+    # stocks['lasso'] = lasso.predict(X)
+    stocks['lasso'] = X.dot(lasso[0])+lasso[1]
 stocks['predicted_scores'] = stocks['indexed_words'].apply(predict_score)
 stocks['sym_lm_predicted'] = stocks['clm_predicted']
 
 try: 
     if forest: 
         stocks['forest_predicted'] = forest.predict(X)
-    for s in stocks.symbol.unique():
-        if s not in lm_models: 
-            continue 
-        stocks.loc[stocks.symbol==s,'sym_lm_predicted'] =  lm_models[s].predict(X[np.array((stocks.symbol==s)),:])
+    # for s in stocks.symbol.unique():
+    #     if s not in lm_models: 
+    #         continue 
+    #     stocks.loc[stocks.symbol==s,'sym_lm_predicted'] =  lm_models[s].predict(X[np.array((stocks.symbol==s)),:])
 except:
     stocks['forest_predicted'] = stocks['clm_predicted']
 
 
 stocks['sym_lm_predicted'] = stocks['sym_lm_predicted'].fillna(0)
 stocks['sym_lm_predicted'] = (stocks['sym_lm_predicted']<=1)*stocks['sym_lm_predicted'] + 1*(stocks['sym_lm_predicted']>1)
-
 if forest and 'clm' not in lm_models:
-    stocks['ensemble'] = (stocks['lasso']+stocks['clm_predicted']+stocks['predicted_scores']+stocks['forest']+stocks['sym_lm_predicted'] )/5.0 #
+    stocks['ensemble'] = (stocks['lasso']+stocks['clm_predicted']+stocks['clog_predicted']+stocks['predicted_scores']+stocks['forest']+stocks['rnn_predicted']+stocks['xtree'] )/7.0 #
+    stocks['max_dev'] = (stocks[['clog_predicted','lasso','clm_predicted','predicted_scores','forest','rnn_predicted','xtree']] -score_baseline).apply(maxCol,axis=1)+score_baseline
 else: 
     stocks['ensemble'] = (stocks['lasso']+stocks['clm_predicted']+stocks['predicted_scores'])/3.0 
+    stocks['max_dev'] = (stocks[['lasso','clm_predicted','predicted_scores']] -score_baseline).apply(maxCol,axis=1)+score_baseline
 
 stocks['ensemble'] = (stocks['ensemble']>=0)*stocks['ensemble']
 stocks['ensemble'] = (stocks['ensemble']<=1)*stocks['ensemble'] + 1*(stocks['ensemble']>1)
 
-bin_edges = np.array([0.0,0.25,0.499,clm[1]+0.01,0.76,1.0])
+bin_edges = np.array([0.0,0.3,0.499,score_baseline+0.01,0.7,1.0])
 
 stocks['bin'] = 0 + -2*(stocks['ensemble']<=bin_edges[1]) - ((stocks['ensemble']>bin_edges[1])&(stocks['ensemble']<=bin_edges[2])) + \
                         ((stocks['ensemble']>=bin_edges[3])&(stocks['ensemble']<bin_edges[4])) + 2*((stocks['ensemble']>=bin_edges[4])&(stocks['ensemble']<bin_edges[5]))
+stocks['bin'] = 0 + -2*(stocks['max_dev']<=bin_edges[1]) - ((stocks['max_dev']>bin_edges[1])&(stocks['max_dev']<=bin_edges[2])) + \
+                        ((stocks['max_dev']>=bin_edges[3])&(stocks['max_dev']<bin_edges[4])) + 2*((stocks['max_dev']>=bin_edges[4])&(stocks['max_dev']<bin_edges[5]))
 
 updated_count = 0 
 not_updated_count = 0 
@@ -94,7 +110,7 @@ for i,row in stocks.iterrows():
         not_updated_count+=1
         continue
     stock_status = stock_status[0]
-    stock_status.status_sentiment = 2*(max(-0.5,min(0.5,row['ensemble']-clm[1])))
+    stock_status.status_sentiment = 2*(max(-0.5,min(0.5,row['max_dev']-score_baseline)))
     stock_status.sentiment_bin = row['bin']
     stock_status.save()
     updated_count += 1 

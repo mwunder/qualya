@@ -2,7 +2,7 @@ from collections import Counter, defaultdict
 import pickle 
 from sentiment_refs import *
 
-update_all = 0
+update_all = 0 if not datetime.now().hour else 1
 use_negations = 1
 vocab_size = 50000
 
@@ -28,31 +28,52 @@ def bigramize(word_indexes,bigram_stop_len = 0 ) : return [(w,x) for w,x in zip(
 # stock_test['trading_day'] = pd.to_datetime(stock_test.ix[:,'created_at']).apply(datetime.date)
 # stocks = pd.concat([stocks, stock_test]) 
 
-stocks = pd.DataFrame(columns=['id','status_id','created_at','status_text','status_sentiment','stock_id','symbol'])
+stocks = pd.DataFrame(columns=['id','status_id','status_text','status_sentiment','stock_id','symbol']) #'created_at',
 if 1: 
     from sentiment.models import *
+    try:
+        model_object = pickle.load(open('twitter_stock/models/sk_models.p'))
+        clm = model_object['clm']
 
-    model_object = pickle.load(open('twitter_stock/models/models.p'))
+    except:
+        model_object = pickle.load(open('twitter_stock/models/models.p'))
+
     dictionary = model_object['dictionary']
     word_index = model_object['word_index']
     clm = model_object['clm']
+    clog = model_object['clog']
     lasso = model_object['lasso']
     forest = [] if 'forest' not in model_object else model_object['forest']
+    xtree = forest if 'xtree' not in model_object else model_object['xtree']
+    rnn = model_object['rnn']
     sorted_scores = model_object['sorted_scores']
     reverse_dict = model_object['reverse_dict']
     lm_models = {'clm':model_object['clm']} if 'lm_models' not in model_object else model_object['lm_models']
     if not update_all: 
         statuses = Stock_status.objects.filter(status_sentiment=0, created_at__gte=datetime.date(datetime.now()-timedelta(minutes=1440))) 
     else:
-        statuses = Stock_status.objects.filter(status_sentiment=0, created_at__gte=datetime.date(datetime.now()-timedelta(minutes=7*1440)),\
+        statuses = Stock_status.objects.filter(created_at__gte=datetime.date(datetime.now()-timedelta(minutes=7*1440)),\
                         created_at__lte=datetime.date(datetime.now()-timedelta(minutes=1440))) 
+        # if not statuses or not len(statuses): 
+        #     statuses = Stock_status.objects.filter(status_sentiment=0, created_at__gte=datetime.date(datetime.now()-timedelta(minutes=7*1440)),\
+        #                 created_at__lte=datetime.date(datetime.now()-timedelta(minutes=1440)))  
+    status = statuses[0]
+    # print status.created_at.dtype
+    # print stocks.created_at.dtype
+    # print pd.DataFrame({ 'id':status.id, 'status_id':status.status_id,
+    #                 #'created_at': status.created_at,
+    #                 'status_text':status.status_text, 'symbol':status.symbol,
+    #                 'stock_id':status.stock_id, 
+    #                 'status_sentiment':0.0},#index=np.array([stocks.shape[0]],dtype='int64')))
+    #                 index=[stocks.shape[0]])
     for status in statuses:
         stocks = stocks.append(pd.DataFrame({ 'id':status.id, 'status_id':status.status_id,
-                    'created_at': status.created_at,
+                    #'created_at': status.created_at,
                     'status_text':status.status_text, 'symbol':status.symbol,
                     'stock_id':status.stock_id, 
                     'status_sentiment':0.0},#index=np.array([stocks.shape[0]],dtype='int64')))
                     index=[stocks.shape[0]]))
+
 # except:
 #     stocks = pd.read_csv('stock_scores.csv')
 #     stock_test = pd.read_csv('sent_test.csv')
