@@ -2,7 +2,7 @@ from collections import Counter, defaultdict
 import pickle 
 from sentiment_refs import *
 
-update_all = 0 if not datetime.now().hour else 1
+update_all = 0 if datetime.now().minute==15 else 1
 use_negations = 1
 vocab_size = 50000
 
