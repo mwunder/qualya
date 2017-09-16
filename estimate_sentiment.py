@@ -99,7 +99,7 @@ else:
 stocks['ensemble'] = (stocks['ensemble']>=0)*stocks['ensemble']
 stocks['ensemble'] = (stocks['ensemble']<=1)*stocks['ensemble'] + 1*(stocks['ensemble']>1)
 
-bin_edges = np.array([0.0,0.3,0.499,score_baseline+0.01,0.7,1.0])
+bin_edges = np.array([0.0,0.3,0.49,score_baseline+0.02,0.7,1.0])
 
 stocks['max_dev'] = (stocks['max_dev']<1.0)*stocks['max_dev'] + 1.0*(stocks['max_dev']>=1.0)
 stocks['max_dev'] = (stocks['max_dev']>=0.0)*stocks['max_dev'] + 0.0
@@ -109,13 +109,17 @@ stocks['bin'] = 0 + -2*(stocks['ensemble']<=bin_edges[1]) - ((stocks['ensemble']
 stocks['bin'] = 0 + -2*(stocks['max_dev']<=bin_edges[1]) - ((stocks['max_dev']>bin_edges[1])&(stocks['max_dev']<=bin_edges[2])) + \
                         ((stocks['max_dev']>=bin_edges[3])&(stocks['max_dev']<bin_edges[4])) + 2*((stocks['max_dev']>=bin_edges[4])&(stocks['max_dev']<=bin_edges[5]))
 
+stocks['bin'] = stocks['bin']*(X.sum(axis=0)!=0)
+
 updated_count = 0 
 not_updated_count = 0 
+not_found_count = 0 
 updated_ids = []
 for i,row in stocks.iterrows():
     if not updated_count%500: print updated_count
     stock_status = Stock_status.objects.filter(id=row['id'], status_id=row['status_id'])
     if not stock_status or row['id'] in updated_ids: 
+        if not stock_status : not_found_count+=1
         not_updated_count+=1
         continue
     stock_status = stock_status[0]
@@ -125,4 +129,4 @@ for i,row in stocks.iterrows():
     updated_count += 1 
     updated_ids.append(row['id'])
 
-print updated_count,not_updated_count
+print updated_count,not_updated_count,not_found_count
