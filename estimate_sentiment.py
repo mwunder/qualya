@@ -113,15 +113,14 @@ stocks['bin'] = stocks['bin']*(X.sum(axis=1)!=0)
 
 updated_count = 0 
 not_updated_count = 0 
-not_found_count = 0 
 updated_ids = []
 for i,row in stocks.iterrows():
     if not updated_count%500: print updated_count
-    stock_status = Stock_status.objects.filter(id=row['id'], status_id=row['status_id'])
+    stock_status = Stock_status.objects.filter(id=row['id'], status_id__gte=row['status_id']-100, status_id__lte=row['status_id']+100)
     if not stock_status or row['id'] in updated_ids: 
-        if not stock_status : not_found_count+=1
         not_updated_count+=1
         continue
+
     stock_status = stock_status[0]
     stock_status.status_sentiment = 2*(max(-0.5,min(0.5,row['max_dev']-score_baseline)))
     stock_status.sentiment_bin = row['bin']
