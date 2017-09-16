@@ -109,7 +109,7 @@ stocks['bin'] = 0 + -2*(stocks['ensemble']<=bin_edges[1]) - ((stocks['ensemble']
 stocks['bin'] = 0 + -2*(stocks['max_dev']<=bin_edges[1]) - ((stocks['max_dev']>bin_edges[1])&(stocks['max_dev']<=bin_edges[2])) + \
                         ((stocks['max_dev']>=bin_edges[3])&(stocks['max_dev']<bin_edges[4])) + 2*((stocks['max_dev']>=bin_edges[4])&(stocks['max_dev']<=bin_edges[5]))
 
-stocks['bin'] = stocks['bin']*(X.sum(axis=0)!=0)
+stocks['bin'] = stocks['bin']*(X.sum(axis=1)!=0)
 
 updated_count = 0 
 not_updated_count = 0 
