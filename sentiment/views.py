@@ -64,9 +64,13 @@ def stock_sentiment_universe(request):
     stocks       = Stock.objects.all()
 
     if not statuses:
-        statuses  = Stock_status.objects.filter(sentiment_bin=1)
+        if increment <= 0:
+            statuses  = Stock_status.objects.filter(sentiment_bin=1,created_at__lte=end_date)
+        else: 
+            statuses  = Stock_status.objects.filter(sentiment_bin=1,created_at__gte=end_date+timedelta(1))
+
         last_date = statuses[len(statuses)-1].created_at
-        end_date  = get_date_from(request.GET,last_date-timedelta(minutes=1400))
+        end_date  = get_date_from(request.GET,last_date-timedelta(1))
         end_date  = datetime(end_date.year,end_date.month,end_date.day)
         statuses  = Stock_status.objects.filter(created_at__gte=end_date, created_at__lt=end_date+timedelta(minutes=interval))
 

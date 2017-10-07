@@ -122,10 +122,12 @@ for i,row in stocks.iterrows():
         continue
 
     stock_status = stock_status[0]
+    # if int(stock_status.status_id)!=int(row['status_id']):
+    #     print stock_status.status_id,row['status_id'], row['status_text'],stock_status.status_text 
     stock_status.status_sentiment = 2*(max(-0.5,min(0.5,row['max_dev']-score_baseline)))
     stock_status.sentiment_bin = row['bin']
     stock_status.save()
     updated_count += 1 
     updated_ids.append(row['id'])
 
-print updated_count,not_updated_count,not_found_count
+print updated_count,not_updated_count
