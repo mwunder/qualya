@@ -5,10 +5,12 @@ from twitter_refs import *
 from sentiment.models import *
 from twitter_data_interface import *
 
-symbols = ['$AAPL', '$GOOG','$AMZN', '$MSFT', '$FB','$NFLX' ,'$TSLA','$GOOGL','$TWTR','$GDX','$QQQ','$SPY','$SNAP','$BTC','$NVDA']
-symbol_dict = {'$AAPL':'apple', '$GOOGL':'google','$AMZN':'amazon', '$QQQ':'qqq','$SPY':'spy',
+symbols = ['$AAPL', '$GOOG','$AMZN', '$MSFT', '$FB','$NFLX' ,'$TSLA','$GOOGL','$TWTR','$GDX','$SPY','$SNAP','$BTC','$ETH','$NVDA']
+symbol_dict = {'$AAPL':'apple', '$GOOGL':'google','$AMZN':'amazon', #'$QQQ':'qqq',
+'$SPY':'spy',
 '$MSFT':'microsoft', '$FB':'facebook','$NFLX':'netflix' ,'$TSLA':'tesla',
-'$XOM':'exxon','$TWTR':'twitter','$GDX':'gdx','$SNAP':'snapchat','$BTC':'bitcoin','$NVDA':'nvidia'}
+'$XOM':'exxon','$TWTR':'twitter','$GDX':'gdx','$SNAP':'snapchat',
+'$ETH':'ethereum','$BTC':'bitcoin','$NVDA':'nvidia'}
 symbol_index = dict((v,k) for k,v in symbol_dict.items())
 replace_strings = ['\n','amp;','&gt;']
 def rep_str(p): return lambda s: s.replace(p,'')
