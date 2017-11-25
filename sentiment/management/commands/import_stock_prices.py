@@ -9,4 +9,5 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         import pandas_stock_reader 
+        import crypto_reader
 

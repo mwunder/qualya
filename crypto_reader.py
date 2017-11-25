@@ -22,7 +22,7 @@ for coin in ['BTC', 'ETH']:
 
         df_dict[coin] = df_histo
 
-    for i, row in df_dict[coin].tail().iterrows():
+    for i, row in df_dict[coin].tail(num_days).iterrows():
         day = row.time.to_datetime()
         stock = Stock.objects.filter(symbol=coin)
         if not stock: continue
