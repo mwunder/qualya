@@ -8,6 +8,6 @@ class Command(BaseCommand):
         parser.add_argument('poll_id', nargs='+', type=int)
 
     def handle(self, *args, **options):
-        import pandas_stock_reader 
         import crypto_reader
+        import pandas_stock_reader 
 
