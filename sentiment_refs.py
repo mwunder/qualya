@@ -12,7 +12,12 @@ st = SnowballStemmer("english")
 symbol_dict = {'$AAPL':'apple', '$GOOGL':'google', '$GOOG':'google','$AMZN':'amazon', 
 '$MSFT':'microsoft', '$FB':'facebook','$NFLX':'netflix' ,'$TSLA':'tesla','$QQQ':'qqq',
 '$GS':'goldman','$TWTR':'twitter','$XOM':'exxon','$SPY':'spy','$GDX':'gdx','$WMT':'walmart',
-'$BTC':'bitcoin', '$SNAP':'snapchat','$NVDA':'nvidia'}
+'$BTC':'bitcoin', '$SNAP':'snapchat','$NVDA':'nvidia',
+'$LTC':'litecoin', '$XRP':'ripple','$ADA':'cardano',
+'$XLM':'stellar','$TRX':'tron','$EMR':'monero'}
+
+cryptos = ['BTC', 'ETH', 'XRP', 'LTC', 'EMR', 'ADA', 'XLM', 'TRX']
+
 symbols = [k[1:].lower() for k in symbol_dict.keys()]
 symbol_index = dict((v,k) for k,v in symbol_dict.items())
 replace_strings = dict(zip(['\n','amp;','&gt;', '$'],[' ']*100))
@@ -89,6 +94,13 @@ def rsquared(prediction,target):
 def sign (t,x): return 1*(x>t) - 1*(x<-t)
 def logistic (x) : return 1/(1+np.exp(-x))
 
+def is_num(x):
+    try: 
+        float(x)
+        return True
+    except:
+        return False
+    return False
 
 def stems(words): 
     return [st.stem(w) for w in words]

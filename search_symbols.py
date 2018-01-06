@@ -5,12 +5,14 @@ from twitter_refs import *
 from sentiment.models import *
 from twitter_data_interface import *
 
-symbols = ['$AAPL', '$GOOG','$AMZN', '$MSFT', '$FB','$NFLX' ,'$TSLA','$GOOGL','$TWTR','$GDX','$SPY','$SNAP','$BTC','$ETH','$NVDA']
+symbols = ['$AAPL', '$GOOG','$AMZN', '$MSFT', '$FB','$NFLX' ,'$TSLA','$GOOGL','$TWTR','$SPY','$BTC','$ETH','$NVDA','$LTC', '$XRP','$ADA','$XLM','$TRX','$EMR'] #'$SNAP','$GDX',
 symbol_dict = {'$AAPL':'apple', '$GOOGL':'google','$AMZN':'amazon', #'$QQQ':'qqq',
 '$SPY':'spy',
 '$MSFT':'microsoft', '$FB':'facebook','$NFLX':'netflix' ,'$TSLA':'tesla',
 '$XOM':'exxon','$TWTR':'twitter','$GDX':'gdx','$SNAP':'snapchat',
-'$ETH':'ethereum','$BTC':'bitcoin','$NVDA':'nvidia'}
+'$ETH':'ethereum','$BTC':'bitcoin','$NVDA':'nvidia',
+'$LTC':'litecoin', '$XRP':'ripple','$ADA':'cardano',
+'$XLM':'stellar','$TRX':'tron','$EMR':'monero'}
 symbol_index = dict((v,k) for k,v in symbol_dict.items())
 replace_strings = ['\n','amp;','&gt;']
 def rep_str(p): return lambda s: s.replace(p,'')
