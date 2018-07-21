@@ -34,18 +34,18 @@ def construct_stock_sentiment(results):
 def record_statuses(results):
     stocks = {}
     stock_count = 1
-    min_length = 30 
+    min_length = 30
     for result in results:
-        try: 
+        try:
             if len(result['entities']['symbols'])>1 or len(result['text'])<min_length: continue
             for sym  in result['entities']['symbols']:
                 symbol = sym['text']
-                if symbol not in (symbols + map(rep_str('$'),symbols)): continue            
+                if symbol not in (symbols + map(rep_str('$'),symbols)): continue
                 if symbol in stocks:
                     stock = stocks[symbol]
-                else: 
+                else:
                     stock = Stock.objects.filter(symbol=symbol)
-                    if stock: 
+                    if stock:
                         stock = stock[0]
                         stocks[symbol] = stock
                     else:
@@ -59,13 +59,13 @@ def record_statuses(results):
                     text.find('#stocks #stockmarket #investing')>0 or \
                     text.find('nlock Rate')>0 or text.find('nlocking')>0 or \
                     text.find('Video Analysis')>0:
-                    continue  
+                    continue
                 current_analyst_tweets= Stock_status.objects.filter(analyst_id=result['user']['id'],
                     created_at=date_record_to_hour(result['created_at']),
                     stock=stock)
                 if current_analyst_tweets and any(t.status_text[:50] == text[:50] for t in  current_analyst_tweets):
-                    continue  
-                
+                    continue
+
                 if text[:2] == 'RT':
                     if Stock_status.objects.filter(status_text=text,stock=stock,
                         tracked_at__gte=datetime.now()-timedelta(minutes=360)):
@@ -74,7 +74,7 @@ def record_statuses(results):
                 for rep in replace_strings:
                     text = text.replace(rep,' ')
                 stock_status = Stock_status(stock=stock,
-                    symbol=symbol, 
+                    symbol=symbol,
                     status_id=result['id'],
                     analyst_id = result['user']['id'],
                     created_at = date_record_to_hour(result['created_at']),
@@ -84,17 +84,20 @@ def record_statuses(results):
                     favorite_count = result['favorite_count'])
                 stock_status.save()
                 stock_count += 1
-        except: 
+        except:
             continue
     return stock_count
- 
+
 
 twitter_api = oauth_login()
 
+qry = ' OR '.join([s for i,s in enumerate(symbols[datetime.now().hour%len(symbols):]+symbols[:datetime.now().hour%len(symbols)]) if i <10 ])
+
 if 'results' not in locals():
     results = twitter_search(twitter_api,
-                q= ' OR '.join([s for i,s in enumerate(symbols[datetime.now().hour%len(symbols):]+symbols[:datetime.now().hour%len(symbols)]) if i <10 ]),max_results=1000) #if (i%len(symbols))!=(datetime.now().hour%len(symbols)) and (i%len(symbols))!=(datetime.now().hour%len(symbols)) and ]), 
-                    
+                q=qry, max_results=1000) #if (i%len(symbols))!=(datetime.now().hour%len(symbols)) and (i%len(symbols))!=(datetime.now().hour%len(symbols)) and ]),
+    if not results:
+        results = twitter_search.search.tweets(q=qry).get('statuses')
 
 record_statuses(results)
 
