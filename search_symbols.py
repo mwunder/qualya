@@ -97,7 +97,7 @@ if 'results' not in locals():
     results = twitter_search(twitter_api,
                 q=qry, max_results=1000) #if (i%len(symbols))!=(datetime.now().hour%len(symbols)) and (i%len(symbols))!=(datetime.now().hour%len(symbols)) and ]),
     if not results:
-        results = twitter_search.search.tweets(q=qry).get('statuses')
+        results = twitter_api.search.tweets(q=qry).get('statuses')
 
 record_statuses(results)
 
