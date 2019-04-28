@@ -5,7 +5,7 @@ from twitter_refs import *
 from sentiment.models import *
 from twitter_data_interface import *
 
-symbols = ['$AAPL', '$GOOG','$AMZN', '$MSFT', '$FB','$NFLX' ,'$TSLA','$GOOGL','$TWTR','$SPY','$BTC','$ETH','$NVDA','$LTC', '$XRP','$ADA','$XLM','$TRX','$EMR'] #'$SNAP','$GDX',
+symbols = ['$AAPL', '$GOOG','$AMZN', '$MSFT', '$FB','$NFLX' ,'$TSLA','$GOOGL','$TWTR','$BTC','$ETH','$NVDA', '$XRP'] #'$SNAP','$GDX',
 symbol_dict = {'$AAPL':'apple', '$GOOGL':'google','$AMZN':'amazon', #'$QQQ':'qqq',
 '$SPY':'spy',
 '$MSFT':'microsoft', '$FB':'facebook','$NFLX':'netflix' ,'$TSLA':'tesla',
